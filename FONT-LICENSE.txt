@@ -1,0 +1,4 @@
+The Mikhak font embedded in index.html:
+Copyright (c) Amin Abedi. Licensed under the SIL Open Font License, Version 1.1.
+Project: https://github.com/aminabedi68/Mikhak
+License text: https://openfontlicense.org/open-font-license-official-text/

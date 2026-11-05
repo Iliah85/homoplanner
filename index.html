@@ -1256,6 +1256,68 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
   .note-view{font-size:15.5px;line-height:1.95}
 }
 
+/* Goals board (round 8): a photomontage. Cork in a wooden frame, torn lined paper, pins, red string.
+   Everything here is a physical object, so its colours stay put in dark mode too. */
+.gboard{position:relative;padding:15px;border-radius:9px;background-color:#6d3f1d;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='240'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .28' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .14 0 0 0 0 .07 0 0 0 0 .02 0 0 0 1.5 -.45'/%3E%3C/filter%3E%3Crect width='600' height='240' filter='url(%23w)'/%3E%3C/svg%3E");box-shadow:inset 0 1px 0 rgba(255,225,185,.45),inset 0 -2px 3px rgba(0,0,0,.45),0 4px 8px rgba(6,24,52,.35),0 18px 40px rgba(6,24,52,.42)}
+.gb-cork{position:relative;padding:30px 26px 44px;display:flex;flex-direction:column;gap:36px;border-radius:3px;background-color:#bf9160;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .24 0 0 0 0 .13 0 0 0 0 .04 0 0 0 1.5 -.6'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23c)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.38' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .82 0 0 0 0 .58 0 0 0 1.5 -.74'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23d)'/%3E%3C/svg%3E");box-shadow:inset 0 3px 12px rgba(30,14,2,.72),inset 0 0 44px rgba(50,24,4,.34)}
+.gb-string{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.gb-str{fill:none;stroke:#b90f1f;stroke-width:2.3;stroke-linecap:round}
+.gb-str-sh{fill:none;stroke:rgba(30,12,0,.42);stroke-width:2.6;stroke-linecap:round;transform:translate(1.5px,4px)}
+.gb-sec{position:relative;display:flex;flex-direction:column;gap:30px}
+.gb-label{align-self:flex-start;margin:0;padding:3px 26px 7px;font-family:var(--f-display);font-weight:400;font-size:27px;line-height:1.35;color:#fff;background:#17171b;transform:rotate(-1.4deg);box-shadow:0 4px 7px rgba(30,14,2,.55);clip-path:polygon(0 4%,2% 0,98% 3%,100% 0,99% 30%,100% 58%,98.5% 100%,2% 97%,0 100%,1% 62%,0 34%)}
+.gb-label small{font-family:var(--f-body);font-size:15px;font-weight:800;color:#ffd84d;margin-inline-start:5px}
+.gb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:46px 30px;align-items:start}
+.gcard{position:relative;min-width:0;transform:rotate(var(--ct,-.9deg));transition:transform .18s}
+.gcard:nth-child(3n+2){--ct:.8deg}
+.gcard:nth-child(3n){--ct:-.4deg}
+.gcard:hover{transform:rotate(0) translateY(-3px)}
+.gc-pin{position:absolute;top:-22px;left:-9px;z-index:5;width:30px;height:46px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 42'%3E%3Cellipse cx='12' cy='38' rx='6' ry='2.4' fill='%23150a02' opacity='.42'/%3E%3Cpath d='M13.5 22 12 38' stroke='%23a8acb4' stroke-width='2'/%3E%3Cpath d='M8 3h11l-1.4 7 4.4 6.5c.8 1.4-.2 3-1.8 3H6.800c-1.600 0-2.600-1.600-1.800-3L9.400 10z' fill='%23d7131f'/%3E%3Cpath d='M8 3h11l-.7 3.300H8.700z' fill='%23f25560'/%3E%3Cellipse cx='10' cy='14' rx='1.500' ry='3.500' fill='%23ff9aa1' opacity='.8'/%3E%3C/svg%3E") center/contain no-repeat}
+.gc-head{position:relative;z-index:4;display:flex;align-items:flex-end;gap:6px;min-height:58px;margin-bottom:-22px;padding-inline:8px 4px}
+.gc-title{flex:1;min-width:0;margin:0;font-family:var(--f-display);font-weight:400;font-size:39px;line-height:1.36;color:var(--gc);-webkit-text-stroke:9px #fff;paint-order:stroke fill;overflow-wrap:anywhere;transform:rotate(-1.3deg);transform-origin:100% 100%;filter:drop-shadow(0 2px 0 rgba(36,18,4,.62)) drop-shadow(0 6px 6px rgba(36,18,4,.48))}
+.gc-emoji{flex:none;font-size:47px;line-height:1;transform:rotate(-9deg) translateY(4px);filter:drop-shadow(2.5px 0 0 #fff) drop-shadow(-2.5px 0 0 #fff) drop-shadow(0 2.5px 0 #fff) drop-shadow(0 -2.5px 0 #fff) drop-shadow(0 5px 5px rgba(36,18,4,.55))}
+.gc-sheet{position:relative;filter:drop-shadow(0 2px 1px rgba(30,14,2,.46)) drop-shadow(0 9px 10px rgba(30,14,2,.5))}
+.gc-back{position:absolute;inset:8px -7px -8px 7px;background:color-mix(in srgb,var(--gc) 78%,#fff);transform:rotate(1.7deg);clip-path:polygon(0 3px,8% 9px,15% 1px,24% 7px,33% 2px,41% 9px,50% 0,59% 6px,67% 1px,76% 8px,84% 2px,92% 8px,100% 0,100% calc(100% - 3px),91% calc(100% - 10px),83% calc(100% - 2px),74% calc(100% - 8px),66% calc(100% - 1px),57% calc(100% - 11px),47% calc(100% - 3px),39% calc(100% - 9px),30% calc(100% - 1px),21% calc(100% - 7px),12% calc(100% - 2px),5% calc(100% - 10px),0 calc(100% - 3px))}
+.gc-paper{--t-ink:#1b2c6e;--ink-2:#39415d;--ink:#1b2c6e;--hover:rgba(27,44,110,.1);position:relative;display:flex;flex-direction:column;gap:6px;padding:40px 22px 18px 36px;color:var(--t-ink);background-color:#f6f3ea;background-image:linear-gradient(90deg,transparent 0,transparent 23px,rgba(46,29,12,.0) 23px),radial-gradient(circle at 12px 16px,#3f2a15 0 5.5px,rgba(0,0,0,.35) 6px,transparent 7px),repeating-linear-gradient(transparent 0 29px,rgba(58,102,186,.3) 29px 30px),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='p' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.016' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='2.1' diffuseConstant='1.05'%3E%3CfeDistantLight azimuth='50' elevation='66'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23p)'/%3E%3C/svg%3E");background-size:auto,24px 34px,auto,420px 420px;background-repeat:no-repeat,repeat-y,repeat,repeat;background-position:0 0,left 0 top 0,0 0,0 0;background-blend-mode:normal,normal,normal,multiply;clip-path:polygon(0 7px,5% 2px,11% 8px,18% 1px,27% 6px,34% 0,43% 7px,52% 2px,60% 8px,69% 1px,78% 6px,86% 0,93% 7px,100% 2px,100% calc(100% - 7px),94% calc(100% - 1px),85% calc(100% - 9px),77% calc(100% - 3px),68% calc(100% - 11px),58% calc(100% - 2px),49% calc(100% - 8px),41% calc(100% - 1px),31% calc(100% - 10px),22% calc(100% - 3px),13% calc(100% - 9px),6% calc(100% - 2px),0 calc(100% - 8px))}
+.gc-v1 .gc-paper{clip-path:polygon(0 3px,8% 9px,15% 1px,24% 7px,33% 2px,41% 9px,50% 0,59% 6px,67% 1px,76% 8px,84% 2px,92% 8px,100% 0,100% calc(100% - 3px),91% calc(100% - 10px),83% calc(100% - 2px),74% calc(100% - 8px),66% calc(100% - 1px),57% calc(100% - 11px),47% calc(100% - 3px),39% calc(100% - 9px),30% calc(100% - 1px),21% calc(100% - 7px),12% calc(100% - 2px),5% calc(100% - 10px),0 calc(100% - 3px))}
+.gc-v2 .gc-paper{clip-path:polygon(2% 0,10% 6px,20% 1px,29% 8px,38% 2px,47% 7px,56% 0,66% 8px,75% 2px,83% 7px,92% 1px,100% 6px,99% 50%,100% calc(100% - 4px),93% calc(100% - 11px),84% calc(100% - 3px),75% calc(100% - 8px),64% calc(100% - 1px),54% calc(100% - 10px),44% calc(100% - 2px),35% calc(100% - 8px),25% calc(100% - 1px),15% calc(100% - 9px),7% calc(100% - 3px),0 calc(100% - 9px),1% 50%)}
+.gc-v1 .gc-back{clip-path:polygon(2% 0,10% 6px,20% 1px,29% 8px,38% 2px,47% 7px,56% 0,66% 8px,75% 2px,83% 7px,92% 1px,100% 6px,99% 50%,100% calc(100% - 4px),93% calc(100% - 11px),84% calc(100% - 3px),75% calc(100% - 8px),64% calc(100% - 1px),54% calc(100% - 10px),44% calc(100% - 2px),35% calc(100% - 8px),25% calc(100% - 1px),15% calc(100% - 9px),7% calc(100% - 3px),0 calc(100% - 9px),1% 50%);transform:rotate(-1.5deg);inset:7px 8px -9px -6px}
+.gc-sub{margin:0;align-self:flex-end;font-family:var(--f-body);font-weight:800;font-size:13.5px;color:color-mix(in srgb,var(--gc) 78%,#000);letter-spacing:.3px}
+.gc-desc{margin:0;font-family:var(--f-display);font-size:18.5px;line-height:30px;color:var(--t-ink);overflow-wrap:anywhere}
+.gc-skills{margin:0;font-size:13.5px;font-weight:800;line-height:30px;color:var(--t-ink)}
+.gc-skills mark{background:linear-gradient(transparent 12%,#faf05e 12%,#faf05e 88%,transparent 88%);color:inherit;padding:0 5px;margin-inline-end:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.gc-stamp{padding:0 8px 1px;font-size:12.5px;font-weight:900;line-height:1.5;color:#c1121f;border:2px solid currentColor;border-radius:6px;transform:rotate(-3deg);opacity:.85;mix-blend-mode:multiply}
+.gc-stamp.p2{color:#c2570c}
+.gc-stamp.p3{color:#16733f}
+.gc-stamp.p4{color:#475569}
+.gc-prog{display:flex;align-items:center;gap:9px;margin-top:4px}
+.gc-prog b{flex:none;font-family:var(--f-display);font-weight:400;font-size:23px;line-height:1;color:var(--gc)}
+.gc-bar{flex:1;height:13px;padding:2px;background:rgba(27,44,110,.1);border:2px solid var(--t-ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;transform:rotate(-.4deg);overflow:hidden}
+.gc-bar i{display:block;height:100%;min-width:0;background:var(--gc);border-radius:9px}
+.gc-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:36px}
+.gc-tags{display:flex;flex-wrap:wrap;gap:4px 6px;min-width:0}
+.gc-due{padding:1px 9px;font-size:12.5px;font-weight:800;color:#2d2a1e;background:#ecdfa9;box-shadow:0 1px 2px rgba(30,14,2,.35);transform:rotate(-.8deg)}
+.gc-due.over{color:#fff;background:#c1121f}
+.gc-acts{display:flex;flex:none;opacity:0;transition:opacity .12s}
+.gcard:hover .gc-acts,.gcard:focus-within .gc-acts{opacity:1}
+@media (hover:none){.gc-acts{opacity:1}}
+.gc-inks{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.gc-ink{position:relative;cursor:pointer}
+.gc-ink input{position:absolute;opacity:0;inset:0;margin:0}
+.gc-ink span{display:block;width:28px;height:28px;border-radius:50%;box-shadow:0 0 0 2px var(--card),0 0 0 3px var(--line-2)}
+.gc-ink.auto span{width:auto;height:28px;padding:0 10px;border-radius:99px;font-size:12.5px;font-weight:800;line-height:28px;background:var(--paper-2)}
+.gc-ink input:checked+span{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--blue)}
+.gc-ink input:focus-visible+span{outline:2px solid var(--blue);outline-offset:3px}
+@media (max-width:860px){
+  .gboard{margin-inline:-13px;padding:9px;border-radius:0}
+  .gb-cork{padding:22px 12px 34px;gap:30px}
+  .gb-grid{gap:40px 0}
+  .gc-title{font-size:32px;-webkit-text-stroke-width:8px}
+  .gc-emoji{font-size:39px}
+  .gc-head{min-height:50px;margin-bottom:-18px}
+  .gc-paper{padding:36px 15px 14px 31px}
+  .gb-label{font-size:24px}
+}
+
 /* Mind map board */
 #mapHost{position:relative;z-index:1;height:calc(100vh - 225px);min-height:460px;border-radius:var(--r-m);overflow:hidden;background:#fff;color:#1b1b1f;box-shadow:var(--soft-2)}
 #mapHost[hidden]{display:none}
@@ -3441,30 +3503,70 @@ function openNoteEditor(o = {}) {
   setTimeout(() => ed.focus(), 40);
 }
 
-/* ========== Goals ========== */
+/* ========== Goals: a detective's cork board. The titles are the show, each with its own colour and emoji ========== */
+const GOAL_INKS = ['#d3142a', '#1248d6', '#0c8a4a', '#8a1fc7', '#e2560a', '#c9107a', '#0a7d96', '#a87400'];
+const EMOJI_G = /\p{Extended_Pictographic}(?:️|\p{Emoji_Modifier}|‍\p{Extended_Pictographic})*/gu;
+const GOAL_GUESS = [[/پورتفولیو|portfolio|porto/i, '🗂️'], [/فتوشاپ|تدریس|photoshop/i, '🎨'], [/موسیقی|آهنگ|میکس|fl studio|music/i, '🎧'], [/گیت|دوره|course/i, '🎬'], [/دانشگاه|درس|university/i, '🎓'], [/باشگاه|بدنسازی|gym/i, '🏋️'], [/زبان|انگلیسی|english/i, '🗣️'], [/کتاب|book/i, '📚'], [/کار|شغل|job/i, '💼'], [/پول|درآمد|money/i, '💰']];
+const GOAL_SPARE = ['🚀', '🔥', '🎯', '⭐', '💡', '🧠', '🏆', '⚡'];
+/* The title in the data is never changed: the emoji and the "| English" part are only pulled apart for display */
+function goalFace(g, i) {
+  const raw = String(g.title || ''), found = raw.match(EMOJI_G) || [];
+  const clean = raw.replace(EMOJI_G, '').replace(/\s+/g, ' ').trim(), parts = clean.split('|').map(s => s.trim()).filter(Boolean);
+  const guess = GOAL_GUESS.find(([re]) => re.test(clean));
+  const sk = (g.skillIds || []).map(skillById).filter(Boolean)[0];
+  return {
+    main: parts[0] || clean || raw, sub: parts.slice(1).join(' · '),
+    emoji: g.emoji || found[0] || (guess && guess[1]) || (sk && sk.domain.icon) || GOAL_SPARE[i % GOAL_SPARE.length],
+    ink: g.titleColor || GOAL_INKS[i % GOAL_INKS.length]
+  };
+}
 function goalCard(g) {
-  const prog = goalProgress(g), linked = (g.skillIds || []).map(skillById).filter(Boolean), today = todayStr();
+  const i = D.goals.indexOf(g), f = goalFace(g, i), prog = goalProgress(g), linked = (g.skillIds || []).map(skillById).filter(Boolean), today = todayStr();
   const left = g.deadline ? daysBetween(today, g.deadline) : null, over = left != null && left < 0 && prog < 100;
   const tasks = D.dailyTasks.filter(t => t.goalId === g.id), tdone = tasks.filter(t => t.done).length;
-  return `<article class="index-card"><span class="tape" style="left:auto;right:22px;width:56px;margin:0;top:-9px"></span>
-    <div class="row between" style="align-items:flex-start"><h4 class="grow p${g.importance}">${prioBadge(g.importance)}${esc(g.title)}</h4><div class="row" style="gap:0"><button type="button" class="icon-btn sm" data-a="goal.edit" data-id="${g.id}" aria-label="ویرایش">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="goal.del" data-id="${g.id}" aria-label="حذف">${icon('trash')}</button></div></div>
-    ${g.desc ? `<p class="small" style="color:var(--ink-2)">${esc(g.desc)}</p>` : ''}
-    <div class="row wrap" style="gap:5px">${g.deadline ? `<span class="chip ${over ? 'warn' : ''}">${icon('calendar')} ${jMid(g.deadline)}${left != null ? (over ? ` · ${fa(-left)} روز گذشته` : left === 0 ? ' · امروز' : ` · ${fa(left)} روز مونده`) : ''}</span>` : ''}${linked.map(s => `<span class="chip hl" style="${dcStyle(s.domain)}">${esc(s.title)}</span>`).join('')}${tasks.length ? `<span class="chip">${icon('check')} ${fa(tdone)} از ${fa(tasks.length)} تسک</span>` : ''}</div>
-    <div class="row" style="gap:8px"><div class="pencil-bar grow"><i style="width:${prog}%;--bc:var(--blue)"></i></div><b class="tnum small">${fa(prog)}٪</b></div>
-    ${linked.length ? `<p class="hint">پیشرفت از میانگین تسلط مهارت‌های وصل‌شده میاد.</p>` : ''}</article>`;
+  return `<article class="gcard gc-v${i % 3}" style="--gc:${esc(f.ink)}" data-id="${g.id}">
+    <header class="gc-head"><span class="gc-emoji" aria-hidden="true">${esc(f.emoji)}</span><h3 class="gc-title">${esc(f.main)}</h3></header>
+    <div class="gc-sheet"><span class="gc-back" aria-hidden="true"></span><span class="gc-pin" aria-hidden="true"></span><div class="gc-paper">
+      ${f.sub ? `<p class="gc-sub ltr">${esc(f.sub)}</p>` : ''}
+      ${g.desc ? `<p class="gc-desc">${esc(g.desc)}</p>` : ''}
+      ${linked.length ? `<p class="gc-skills">${linked.map(s => `<mark>${esc(s.title)}</mark>`).join(' ')}</p>` : ''}
+      <div class="gc-prog" ${linked.length ? 'title="پیشرفت از میانگین تسلط مهارت‌های وصل‌شده میاد."' : ''}><div class="gc-bar"><i style="width:${prog}%"></i></div><b class="tnum">${fa(prog)}٪</b></div>
+      <div class="gc-foot"><div class="gc-tags"><span class="gc-stamp p${g.importance}">${PRIO_FA[g.importance]}</span>${g.deadline ? `<span class="gc-due ${over ? 'over' : ''}">${jMid(g.deadline)}${over ? ` · ${fa(-left)} روز گذشته` : left === 0 ? ' · امروز' : ` · ${fa(left)} روز مونده`}</span>` : ''}${tasks.length ? `<span class="gc-due">${fa(tdone)} از ${fa(tasks.length)} تسک</span>` : ''}</div>
+        <div class="gc-acts"><button type="button" class="icon-btn sm" data-a="goal.edit" data-id="${g.id}" aria-label="ویرایش ${esc(f.main)}" title="ویرایش">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="goal.del" data-id="${g.id}" aria-label="حذف ${esc(f.main)}" title="حذف">${icon('trash')}</button></div></div>
+    </div></div></article>`;
 }
 PAGES.goals = () => {
   const by = t => D.goals.filter(g => (t === 'long') === (g.type === 'long')).sort((a, b) => (a.importance || 2) - (b.importance || 2) || String(a.deadline || '9999').localeCompare(String(b.deadline || '9999')));
-  const col = (t, title, ic) => `<section class="stack" style="gap:18px"><h2 class="h-sec">${icon(ic)} ${title} (${fa(by(t).length)})</h2>${by(t).map(goalCard).join('') || `<p class="hint">هنوز چیزی اینجا نیست.</p>`}</section>`;
+  const sec = (t, title) => by(t).length ? `<section class="gb-sec"><h2 class="gb-label">${title} <small class="tnum">${fa(by(t).length)}</small></h2><div class="gb-grid">${by(t).map(goalCard).join('')}</div></section>` : '';
   return `<div class="page-head"><div><h1 class="page-title">اهداف من</h1><p class="muted small">کوتاه‌مدت و بلندمدت، با یه نگاه.</p></div><button type="button" class="btn pri" data-a="goal.new">${icon('plus')} هدف جدید</button></div>
-  ${D.goals.length ? `<div class="goal-cols">${col('short', 'کوتاه‌مدت', 'flash')}${col('long', 'بلندمدت', 'mountain')}</div>` : emptyBox('target', 'هنوز هدفی نداری. اولین هدفت رو بنویس تا بالای میز کارت نشون داده بشه.', `<button type="button" class="btn pri" data-a="goal.new">${icon('plus')} اولین هدف</button>`)}`;
+  ${D.goals.length ? `<div class="gboard"><div class="gb-cork" id="gbCork"><svg class="gb-string" id="gbString" aria-hidden="true"></svg>${sec('short', 'کوتاه‌مدت')}${sec('long', 'بلندمدت')}</div></div>` : emptyBox('target', 'هنوز هدفی نداری. اولین هدفت رو بنویس تا بالای میز کارت نشون داده بشه.', `<button type="button" class="btn pri" data-a="goal.new">${icon('plus')} اولین هدف</button>`)}`;
+};
+/* Red string from pin to pin. It runs behind the papers, so it never crosses a title */
+let goalStringWatch = null;
+AFTER.goals = () => {
+  if (goalStringWatch) { goalStringWatch.disconnect(); goalStringWatch = null; }
+  const cork = $('#gbCork'), svg = $('#gbString'); if (!cork || !svg) return;
+  const draw = () => {
+    const c = cork.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${Math.round(c.width)} ${Math.round(c.height)}`);
+    const pts = $$('.gc-pin', cork).map(p => { const r = p.getBoundingClientRect(); return [r.left + r.width / 2 - c.left, r.top + r.height * .3 - c.top]; });
+    let d = '';
+    pts.forEach((p, i) => { if (!i) return; const a = pts[i - 1]; d += `M${a[0].toFixed(1)} ${a[1].toFixed(1)}Q${((a[0] + p[0]) / 2).toFixed(1)} ${(Math.max(a[1], p[1]) + 34).toFixed(1)} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`; });
+    svg.innerHTML = d ? `<path class="gb-str-sh" d="${d}"/><path class="gb-str" d="${d}"/>` : '';
+  };
+  draw();
+  if (window.ResizeObserver) { goalStringWatch = new ResizeObserver(draw); goalStringWatch.observe(cork); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (cork.isConnected) draw(); });
 };
 function openGoalForm(id) {
   const g = id ? D.goals.find(x => x.id === id) : null;
   const v = g || { title: '', desc: '', type: 'short', deadline: '', importance: 2, progress: 0, skillIds: [] };
+  const pick = g ? g.titleColor || '' : '';
   sheet({
     title: g ? 'ویرایش هدف' : 'هدف جدید',
     body: `<div class="field"><label for="gfT">عنوان</label><input id="gfT" value="${esc(v.title)}" placeholder="مثلاً: تسلط کامل بر FL Studio"></div><div class="field"><label for="gfD">چرا مهمه؟</label><textarea id="gfD" rows="2">${esc(v.desc)}</textarea></div>
+    <div class="grid2"><div class="field"><label for="gfE">ایموجی تیتر (خالی یعنی خودکار)</label><input id="gfE" value="${esc(v.emoji || '')}" placeholder="مثلاً 🎯" autocomplete="off"></div>
+      <div class="field"><span class="lbl">رنگ تیتر</span><div class="gc-inks" role="radiogroup" aria-label="رنگ تیتر"><label class="gc-ink auto" title="خودکار"><input type="radio" name="gfC" value="" ${pick ? '' : 'checked'}><span>خودکار</span></label>${GOAL_INKS.map(c => `<label class="gc-ink" title="رنگ تیتر"><input type="radio" name="gfC" value="${c}" ${pick === c ? 'checked' : ''} aria-label="رنگ تیتر"><span style="background:${c}"></span></label>`).join('')}</div></div></div>
     <div class="grid2"><div class="field"><label for="gfK">نوع</label><select id="gfK"><option value="short" ${v.type !== 'long' ? 'selected' : ''}>کوتاه‌مدت</option><option value="long" ${v.type === 'long' ? 'selected' : ''}>بلندمدت</option></select></div><div class="field"><label>سررسید</label>${dateField('gfDl', v.deadline, { empty: true })}</div></div>
     <div class="field"><span class="lbl">اهمیت</span><div class="prio-opts">${[1, 2, 3, 4].map(p => `<label class="p${p}"><input type="radio" name="gfI" value="${p}" ${+v.importance === p ? 'checked' : ''}><span>${fa(p)} · ${PRIO_FA[p]}</span></label>`).join('')}</div></div>
     <div class="field"><label for="gfP">پیشرفت: <span id="gfPL" class="tnum">${fa(v.progress)}٪</span></label><input type="range" id="gfP" min="0" max="100" value="${v.progress}" data-in="goal.prog"></div>
@@ -3478,7 +3580,13 @@ A['goal.edit'] = el => openGoalForm(el.dataset.id);
 A['goal.save'] = el => {
   const d = el.closest('dialog'), title = $('#gfT', d).value.trim(); if (!title) { toast('عنوان هدف رو بنویس.', 'err'); return; }
   const f = { title, desc: $('#gfD', d).value.trim(), type: $('#gfK', d).value, deadline: $('#gfDl', d).value || null, importance: +$('input[name="gfI"]:checked', d).value, progress: +$('#gfP', d).value, skillIds: $$('input[name="gfS"]:checked', d).map(x => x.value) };
-  if (el.dataset.id) Object.assign(D.goals.find(x => x.id === el.dataset.id), f); else D.goals.push(Object.assign({ id: uid(), createdAt: new Date(nowMs()).toISOString() }, f));
+  const row = el.dataset.id ? D.goals.find(x => x.id === el.dataset.id) : { id: uid(), createdAt: new Date(nowMs()).toISOString() };
+  Object.assign(row, f);
+  /* only a real choice is stored, so untouched goals stay byte-identical */
+  const emoji = $('#gfE', d).value.trim(), ink = ($('input[name="gfC"]:checked', d) || {}).value;
+  if (emoji) row.emoji = emoji; else delete row.emoji;
+  if (ink) row.titleColor = ink; else delete row.titleColor;
+  if (!el.dataset.id) D.goals.push(row);
   d.close(); commit(true); toast('هدف ذخیره شد.');
 };
 A['goal.del'] = el => { const before = D.goals.slice(); D.goals = D.goals.filter(g => g.id !== el.dataset.id); commit(true); undoToast('هدف پاک شد.', () => { D.goals = before; }); };

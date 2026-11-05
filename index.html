@@ -1318,6 +1318,67 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
   .gb-label{font-size:24px}
 }
 
+/* Skills (round 9): paper, but calmer than the goals board. One tinted sheet per domain, tape for each
+   branch, an index card for each skill. Colour always comes from the domain, so each part reads apart at a glance. */
+.sk-sheets{display:flex;flex-direction:column;gap:42px;padding-top:14px}
+.sk-sheet .paper{background-color:color-mix(in srgb,var(--dc) 15%,var(--card));padding:52px 20px 26px}
+.sk-sheet .sheet-label{font-size:25px;padding:0;max-width:calc(100% - 130px)}
+.sk-link{display:inline-flex;align-items:center;gap:8px;max-width:100%;padding:3px 18px 6px;border:0;background:none;color:inherit;font:inherit;cursor:pointer;white-space:nowrap;overflow:hidden}
+.sk-link small{font-family:var(--f-body);font-size:13.5px;font-weight:700;color:var(--s-ink-3)}
+.sk-ico{font-size:24px;line-height:1}
+.sk-stats{position:absolute;top:9px;inset-inline-end:48px;display:flex;align-items:baseline;gap:8px;padding:1px 11px 2px;background:rgba(255,255,255,.72);border-radius:2px;box-shadow:0 1px 2px rgba(25,35,65,.2);transform:rotate(1deg);font-size:12.5px;color:var(--t-meta)}
+:root[data-theme="dark"] .sk-stats{background:rgba(0,0,0,.25)}
+.sk-stats b{font-weight:900;font-size:14px;color:var(--t-strong)}
+.sk-groups{display:flex;flex-direction:column;gap:22px}
+.sk-group{display:flex;flex-direction:column;gap:13px}
+.sk-branch{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;margin:0;padding:3px 16px 4px;font-family:var(--f-display);font-weight:400;font-size:18px;line-height:1.4;color:var(--t-strong);background:color-mix(in srgb,var(--dc) 38%,#fff6dd);transform:rotate(-.7deg);box-shadow:0 1px 2px rgba(25,35,65,.22);clip-path:polygon(0 8%,1.5% 0,99% 5%,100% 0,99% 34%,100% 66%,98.5% 100%,1% 96%,0 100%,1.2% 58%)}
+.sk-branch .ic{width:16px;height:16px;color:inherit;opacity:.7}
+.sk-branch small{font-family:var(--f-body);font-size:12.5px;font-weight:700;opacity:.65}
+.sk-sheet .card-grid{grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:16px 14px}
+/* A skill: an index card with a red rule under its title and faint lines below */
+.skill-card,.skill-card:hover{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;border:0;border-radius:2px;overflow:visible;text-align:right;cursor:pointer;background-color:var(--card);background-image:repeating-linear-gradient(transparent 0 23px,color-mix(in srgb,var(--s-ink) 8%,transparent) 23px 24px);box-shadow:0 1px 2px rgba(25,35,65,.22),0 4px 9px rgba(25,35,65,.16);transition:transform .14s,box-shadow .14s}
+.sk-sheet .card-grid>.skill-card:nth-child(4n+1){transform:rotate(-.55deg)}
+.sk-sheet .card-grid>.skill-card:nth-child(4n+2){transform:rotate(.4deg)}
+.sk-sheet .card-grid>.skill-card:nth-child(4n+3){transform:rotate(-.25deg)}
+.sk-sheet .card-grid>.skill-card:nth-child(4n){transform:rotate(.6deg)}
+.sk-sheet .card-grid>.skill-card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(25,35,65,.24),0 10px 18px rgba(25,35,65,.22)}
+.skill-card::before{content:"";position:absolute;top:-7px;left:50%;width:58px;height:15px;margin-left:-29px;background:color-mix(in srgb,var(--dc) 38%,rgba(255,255,255,.62));box-shadow:0 1px 1px rgba(25,35,65,.16);transform:rotate(-1.6deg);pointer-events:none}
+.sc-head{display:flex;flex-direction:column;gap:0;padding:13px 13px 7px;border-bottom:1.5px solid rgba(200,36,50,.5);background:var(--card)}
+.sc-title{font-weight:900;font-size:16px;line-height:1.45;color:var(--t-strong);overflow-wrap:anywhere}
+.sc-sub{direction:ltr;text-align:right;font-size:12.5px;font-weight:700;line-height:1.4;color:color-mix(in srgb,var(--dc) 62%,var(--t-meta))}
+.sc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;padding:7px 13px 2px;font-size:13px;font-weight:500;line-height:1.6;color:var(--t-meta)}
+.sc-meta>span{display:inline-flex;align-items:center;gap:4px}
+.sc-meta .ic{width:13px;height:13px}
+.sc-works{font-weight:800;color:var(--t-body)}
+.sc-works .ic{color:#d99a00}
+.sc-prog{display:flex;align-items:center;gap:8px;margin-top:auto;padding:5px 13px 11px}
+.sc-prog .pencil-bar{flex:1;min-width:0}
+.sc-prog b{flex:none;font-size:12.5px;font-weight:800;color:var(--t-body)}
+/* The tree: a stack of paper tabs */
+.tree-d{border-radius:3px;background-image:linear-gradient(90deg,transparent calc(100% - 13px),rgba(200,36,50,.3) calc(100% - 13px),rgba(200,36,50,.3) calc(100% - 12px),transparent calc(100% - 12px))}
+.tree-d>.tree-row-w:first-child{background:color-mix(in srgb,var(--dc) 30%,var(--card));padding-bottom:5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),91% calc(100% - 8px),83% calc(100% - 2px),74% calc(100% - 6px),66% calc(100% - 1px),57% calc(100% - 7px),47% calc(100% - 3px),39% calc(100% - 7px),30% calc(100% - 1px),21% calc(100% - 6px),12% calc(100% - 2px),5% calc(100% - 7px),0 calc(100% - 3px))}
+.tree-h,.tree-h:hover,.tree-h.on{background:transparent}
+.tree-h b{font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.35}
+.tree-ico{font-size:21px}
+.tree-r.sub,.tree-r.sub:hover{margin:8px 12px 3px;padding:1px 10px;min-height:27px;width:auto;font-family:var(--f-display);font-size:15px;font-weight:400;color:var(--t-strong);background:color-mix(in srgb,var(--dc) 22%,#fff6dd);transform:rotate(-.5deg)}
+:root[data-theme="dark"] .tree-r.sub,:root[data-theme="dark"] .tree-r.sub:hover{background:color-mix(in srgb,var(--dc) 30%,var(--card))}
+.tree-r{transition:background .1s}
+.tree-r:not(.sub):hover{background:color-mix(in srgb,var(--dc) 14%,transparent)}
+.tree-r.on{box-shadow:inset -4px 0 0 var(--dc)}
+@media (max-width:860px){
+  .sk-sheets{gap:34px}
+  .sk-sheet .paper{padding:56px 11px 22px}
+  .sk-sheet .sheet-label{font-size:22px;max-width:calc(100% - 118px)}
+  .sk-link small{display:none}
+  .sk-stats{top:7px;inset-inline-end:36px;flex-direction:column;align-items:flex-end;gap:0;line-height:1.3}
+  .sk-sheet .card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px 9px}
+  .sc-head{padding:12px 10px 6px}
+  .sc-title{font-size:15px}
+  .sc-meta{padding:6px 10px 2px;font-size:12.5px}
+  .sc-prog{padding:5px 10px 10px}
+  .tree-r.sub,.tree-r.sub:hover{margin:8px 10px 3px}
+}
+
 /* Mind map board */
 #mapHost{position:relative;z-index:1;height:calc(100vh - 225px);min-height:460px;border-radius:var(--r-m);overflow:hidden;background:#fff;color:#1b1b1f;box-shadow:var(--soft-2)}
 #mapHost[hidden]{display:none}
@@ -2823,7 +2884,7 @@ const TORN = ['torn-a', 'torn-b', 'torn-c'];
 const TILTS = ['-1.4deg', '.9deg', '-.7deg', '1.3deg', '-1deg'];
 const stkInk = d => d ? `color-mix(in srgb,${domColor(d)} 60%,var(--ink))` : 'var(--ink)';
 function pastedSheet(i, label, inner, opts = {}) {
-  return `<section class="sheetw ${opts.cls || ''}"><span class="pushpin"></span>${label ? `<h3 class="stk sheet-label" style="--tilt:${TILTS[i % TILTS.length]};--stk:${opts.ink || 'var(--ink)'}">${label}</h3>` : ''}<div class="paper ${TORN[i % TORN.length]} ${label ? 'sheet-body' : ''}">${inner}</div></section>`;
+  return `<section class="sheetw ${opts.cls || ''}" style="${opts.style || ''}"><span class="pushpin"></span>${label ? `<h3 class="stk sheet-label" style="--tilt:${TILTS[i % TILTS.length]};--stk:${opts.ink || 'var(--ink)'}">${label}</h3>` : ''}<div class="paper ${TORN[i % TORN.length]} ${label ? 'sheet-body' : ''}">${inner}</div></section>`;
 }
 function deskTasks(today) {
   const tasks = tasksOn(today), pending = sortTasks(tasks.filter(t => !t.done)), done = tasks.filter(t => t.done);
@@ -3025,28 +3086,46 @@ A['tree.more'] = el => {
 };
 function skillTree(r) {
   if (!D.domains.length) return emptyBox('tree', 'هنوز حوزه‌ای نساختی. حوزه‌ها ستون‌های اصلی زندگیتن؛ مثل طراحی یا موسیقی.', `<button type="button" class="btn pri" data-a="domain.new">${icon('plus')} اولین حوزه</button>`);
-  const skRow = (p, d, sc, inner) => `<div class="tree-row-w"><button type="button" class="tree-r grow ${inner ? 'in' : ''} ${r.a === 's' && r.b === p.id ? 'on' : ''}" style="${dcStyle(d)}" data-a="go" data-to="skills/s/${p.id}"><span class="truncate grow">${esc(p.title)}</span><span class="small muted tnum">${fmtHours(totalMin(p))}</span></button>${treeMore()}<span class="tree-acts"><button type="button" class="icon-btn sm" data-a="node.edit" data-type="project" data-d="${d.id}" data-sc="${sc || ''}" data-id="${p.id}" aria-label="ویرایش ${esc(p.title)}">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="node.del" data-type="project" data-d="${d.id}" data-sc="${sc || ''}" data-id="${p.id}" aria-label="حذف ${esc(p.title)}">${icon('trash')}</button></span></div>`;
+  const skRow = (p, d, sc, inner) => `<div class="tree-row-w"><button type="button" class="tree-r grow ${inner ? 'in' : ''} ${r.a === 's' && r.b === p.id ? 'on' : ''}" style="${dcStyle(d)}" data-a="go" data-to="skills/s/${p.id}"><span class="truncate grow" title="${esc(p.title)}">${esc(skillName(p.title).main)}</span><span class="small muted tnum">${fmtHours(totalMin(p))}</span></button>${treeMore()}<span class="tree-acts"><button type="button" class="icon-btn sm" data-a="node.edit" data-type="project" data-d="${d.id}" data-sc="${sc || ''}" data-id="${p.id}" aria-label="ویرایش ${esc(p.title)}">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="node.del" data-type="project" data-d="${d.id}" data-sc="${sc || ''}" data-id="${p.id}" aria-label="حذف ${esc(p.title)}">${icon('trash')}</button></span></div>`;
   return D.domains.map(d => `<div class="tree-d" style="${dcStyle(d)}">
-    <div class="tree-row-w"><button type="button" class="tree-h grow ${r.a === 'd' && r.b === d.id ? 'on' : ''}" data-a="go" data-to="skills/d/${d.id}"><span class="tree-ico">${esc(d.icon)}</span><span class="grow" style="min-width:0"><b class="truncate" style="display:block">${esc(d.title)}</b><span class="small muted">${fmtMin(domainMin(d))}</span></span></button>${treeMore()}<span class="tree-acts"><button type="button" class="icon-btn sm" data-a="domain.edit" data-id="${d.id}" aria-label="ویرایش حوزه">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="node.del" data-type="domain" data-d="${d.id}" aria-label="حذف حوزه">${icon('trash')}</button></span></div>
+    <div class="tree-row-w"><button type="button" class="tree-h grow ${r.a === 'd' && r.b === d.id ? 'on' : ''}" data-a="go" data-to="skills/d/${d.id}"><span class="tree-ico">${esc(d.icon)}</span><span class="grow" style="min-width:0"><b class="truncate" style="display:block" title="${esc(d.title)}">${esc(skillName(d.title).main)}</b><span class="small muted">${fmtMin(domainMin(d))}</span></span></button>${treeMore()}<span class="tree-acts"><button type="button" class="icon-btn sm" data-a="domain.edit" data-id="${d.id}" aria-label="ویرایش حوزه">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="node.del" data-type="domain" data-d="${d.id}" aria-label="حذف حوزه">${icon('trash')}</button></span></div>
     ${d.projects.map(p => skRow(p, d, null, false)).join('')}
-    ${d.subcats.map(s => `<div class="tree-row-w"><div class="tree-r sub grow">${icon('folder')}<span class="truncate">${esc(s.title)}</span></div>${treeMore()}<span class="tree-acts"><button type="button" class="icon-btn sm" data-a="node.add" data-type="project" data-d="${d.id}" data-sc="${s.id}" aria-label="مهارت جدید در ${esc(s.title)}">${icon('plus')}</button><button type="button" class="icon-btn sm" data-a="node.edit" data-type="subcat" data-d="${d.id}" data-id="${s.id}" aria-label="ویرایش شاخه">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="node.del" data-type="subcat" data-d="${d.id}" data-id="${s.id}" aria-label="حذف شاخه">${icon('trash')}</button></span></div>${s.projects.map(p => skRow(p, d, s.id, true)).join('')}`).join('')}
+    ${d.subcats.map(s => `<div class="tree-row-w"><div class="tree-r sub grow">${icon('folder')}<span class="truncate" title="${esc(s.title)}">${esc(skillName(s.title).main)}</span></div>${treeMore()}<span class="tree-acts"><button type="button" class="icon-btn sm" data-a="node.add" data-type="project" data-d="${d.id}" data-sc="${s.id}" aria-label="مهارت جدید در ${esc(s.title)}">${icon('plus')}</button><button type="button" class="icon-btn sm" data-a="node.edit" data-type="subcat" data-d="${d.id}" data-id="${s.id}" aria-label="ویرایش شاخه">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="node.del" data-type="subcat" data-d="${d.id}" data-id="${s.id}" aria-label="حذف شاخه">${icon('trash')}</button></span></div>${s.projects.map(p => skRow(p, d, s.id, true)).join('')}`).join('')}
     <div class="tree-foot"><button type="button" class="btn ghost sm" data-a="node.add" data-type="project" data-d="${d.id}">${icon('plus')} مهارت</button><button type="button" class="btn ghost sm" data-a="node.add" data-type="subcat" data-d="${d.id}">${icon('plus')} شاخه</button></div>
   </div>`).join('') + `<button type="button" class="btn ghost" data-a="domain.new">${icon('plus')} حوزه‌ی جدید</button>`;
 }
-function skillOverview() {
-  if (!D.domains.length) return emptyBox('tree', 'بعد از ساختن یه حوزه، کارت مهارت‌هاش اینجا میان.');
-  return `<div class="page-head"><h1 class="page-title">مهارت‌ها</h1><p class="muted small">مجموع ${fmtMin(allSkills().reduce((a, s) => a + totalMin(s.p), 0))} کار ثبت شده</p></div><div class="stack" style="gap:22px">${D.domains.map(d => `<section class="stack" style="gap:9px"><h2 class="h-sec" style="cursor:pointer" data-a="go" data-to="skills/d/${d.id}"><span class="mark" style="--mk:color-mix(in srgb,${domColor(d)} 42%,transparent)">${esc(d.icon)} ${esc(d.title)}</span></h2>${skillCards(d)}</section>`).join('')}</div>`;
+/* "Persian | English" titles show the Persian large and the English small. The stored title doesn't change */
+function skillName(t) { const p = String(t || '').split('|').map(x => x.trim()).filter(Boolean); return { main: p[0] || String(t || ''), sub: p.slice(1).join(' · ') }; }
+function skillCard(p, d) {
+  const works = (p.artifacts || []).filter(a => a.starred).length, n = skillName(p.title), min = totalMin(p), m = p.mastery || 0;
+  return `<button type="button" class="skill-card" style="${dcStyle(d)}" data-a="go" data-to="skills/s/${p.id}">
+    <span class="sc-head"><b class="sc-title">${esc(n.main)}</b>${n.sub ? `<span class="sc-sub">${esc(n.sub)}</span>` : ''}</span>
+    <span class="sc-meta"><span>${icon('clock')} ${min ? fmtMin(min) : 'هنوز شروع نشده'}</span>${works ? `<span class="sc-works">${icon('star')} ${fa(works)} نمونه‌کار</span>` : ''}</span>
+    <span class="sc-prog"><span class="pencil-bar"><i style="width:${m}%;--bc:${domColor(d)}"></i></span><b class="tnum">${fa(m)}٪</b></span></button>`;
 }
 function skillCards(d) {
-  const list = domainSkills(d);
-  if (!list.length) return `<p class="hint">این حوزه هنوز مهارتی نداره.</p>`;
-  return `<div class="card-grid">${list.map(p => { const works = (p.artifacts || []).filter(a => a.starred).length; return `<button type="button" class="skill-card" style="${dcStyle(d)}" data-a="go" data-to="skills/s/${p.id}"><b>${esc(p.title)}</b><span class="small muted">${fmtMin(totalMin(p))}${works ? ` · ${fa(works)} نمونه‌کار` : ''}</span><span class="row" style="gap:7px"><span class="pencil-bar grow"><i style="width:${p.mastery || 0}%;--bc:${domColor(d)}"></i></span><span class="small tnum">${fa(p.mastery || 0)}٪</span></span></button>`; }).join('')}</div>`;
+  if (!domainSkills(d).length) return `<p class="hint">این حوزه هنوز مهارتی نداره.</p>`;
+  const grid = list => `<div class="card-grid">${list.map(p => skillCard(p, d)).join('')}</div>`;
+  const direct = d.projects.length ? grid(d.projects) : '';
+  const groups = d.subcats.filter(s => s.projects.length).map(s => { const n = skillName(s.title); return `<div class="sk-group"><h4 class="sk-branch">${icon('folder')} ${esc(n.main)}${n.sub ? ` <small>${esc(n.sub)}</small>` : ''}</h4>${grid(s.projects)}</div>`; }).join('');
+  return `<div class="sk-groups">${direct}${groups}</div>`;
+}
+/* One pasted sheet per domain, in that domain's colour: the same pieces as the desk, so the two pages match */
+function domainSheet(d, i, labelled = true) {
+  const n = skillName(d.title), count = domainSkills(d).length;
+  const label = labelled ? `<button type="button" class="sk-link" data-a="go" data-to="skills/d/${d.id}"><span class="sk-ico" aria-hidden="true">${esc(d.icon)}</span> ${esc(n.main)}${n.sub ? ` <small>${esc(n.sub)}</small>` : ''}</button>` : '';
+  const stats = `<div class="sk-stats"><b class="tnum">${fmtMin(domainMin(d))}</b><span>${fa(count)} مهارت</span></div>`;
+  return pastedSheet(i, label, `${stats}${skillCards(d)}`, { cls: 'sk-sheet', style: dcStyle(d), ink: stkInk(d) });
+}
+function skillOverview() {
+  if (!D.domains.length) return emptyBox('tree', 'بعد از ساختن یه حوزه، کارت مهارت‌هاش اینجا میان.');
+  return `<div class="page-head"><h1 class="page-title">مهارت‌ها</h1><p class="muted small">مجموع ${fmtMin(allSkills().reduce((a, s) => a + totalMin(s.p), 0))} کار ثبت شده</p></div><div class="sk-sheets">${D.domains.map((d, i) => domainSheet(d, i)).join('')}</div>`;
 }
 PAGES.skills = r => {
   let main;
   if (r.a === 'd') {
     const d = domainById(r.b);
-    main = d ? `<div class="page-head"><div><h1 class="page-title"><span class="mark" style="--mk:color-mix(in srgb,${domColor(d)} 42%,transparent)">${esc(d.icon)} ${esc(d.title)}</span></h1>${d.description ? `<p class="muted">${esc(d.description)}</p>` : ''}<p class="small muted">مجموع زمان: ${fmtMin(domainMin(d))}</p></div><button type="button" class="btn ghost sm" data-a="domain.edit" data-id="${d.id}">${icon('edit')} ویرایش</button></div>${skillCards(d)}` : skillOverview();
+    main = d ? `<div class="page-head"><div><h1 class="page-title"><span class="mark" style="--mk:color-mix(in srgb,${domColor(d)} 42%,transparent)">${esc(d.icon)} ${esc(d.title)}</span></h1>${d.description ? `<p class="muted">${esc(d.description)}</p>` : ''}<p class="small muted">مجموع زمان: ${fmtMin(domainMin(d))}</p></div><button type="button" class="btn ghost sm" data-a="domain.edit" data-id="${d.id}">${icon('edit')} ویرایش</button></div>${domainSheet(d, D.domains.indexOf(d), false)}` : skillOverview();
   } else if (r.a === 's') {
     const s = skillById(r.b);
     main = s ? skillDetail(s, r.c || ui.skillTab) : skillOverview();

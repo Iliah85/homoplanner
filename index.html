@@ -1002,15 +1002,30 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 .nc-gallery.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
 .nc-gallery.g4 .nc-shot{aspect-ratio:4/3}
 .nc-plus{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(9,20,42,.55);color:#fff;font-size:22px;font-weight:900;pointer-events:none}
-/* Stuck on the desk: same card, yellow paper, a slight tilt */
-.note-card.nc-sticky,.note-card.nc-sticky:hover{--card:var(--n-y);--paper-2:rgba(255,255,255,.55);--t-strong:#26252a;--t-body:#3b3a30;--t-meta:#5d5630;color:#26252a;border-inline-start:0;border-radius:6px}
-.stickies .note-card:nth-child(odd){transform:rotate(-1deg)}
-.stickies .note-card:nth-child(even){transform:rotate(.8deg)}
-.stickies .note-card:hover{transform:none}
-.nc-sticky .nc-text{font-size:14px}
-.nc-sticky .nc-text.is-long{max-height:7.2em}
-.nc-sticky .nc-title{background:rgba(255,255,255,.5);font-size:15px}
-.nc-sticky .nc-foot{padding-inline:12px;min-height:34px}
+/* A real sticky note: square paper, glue along the top, and a free bottom edge that lifts off the page.
+   Hand lettering on it, nothing else: no chips, no buttons, no rounded card corners */
+.stickies{gap:26px 18px;padding:8px 6px 16px}
+.postit{--t-strong:#2a2718;--t-body:#3a3625;--t-meta:#6f6538;--r:-2deg;position:relative;aspect-ratio:1;min-width:0;color:var(--t-body);cursor:pointer;transform:rotate(var(--r));transform-origin:50% 0;transition:transform .16s}
+.postit:nth-child(2){--r:1.6deg}
+.postit:nth-child(3){--r:1deg}
+.postit:nth-child(4){--r:-1.3deg}
+.postit:hover{transform:rotate(0) translateY(-2px)}
+.postit::before,.postit::after{content:"";position:absolute;z-index:-1;bottom:9px;width:47%;height:24%;box-shadow:0 14px 12px rgba(4,18,44,.72)}
+.postit::before{left:4px;transform:rotate(-4.5deg)}
+.postit::after{right:4px;transform:rotate(4.5deg)}
+.pi-paper{position:relative;display:flex;flex-direction:column;gap:5px;height:100%;padding:21px 11px 7px;overflow:hidden;border-radius:0 0 50% 50%/0 0 5px 5px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--n-y) 84%,#9c7c05) 0,color-mix(in srgb,var(--n-y) 92%,#9c7c05) 13%,var(--n-y) 19%,color-mix(in srgb,var(--n-y) 84%,#fff) 100%);
+  box-shadow:0 1px 2px rgba(6,24,52,.28)}
+.pi-body{flex:1;min-height:0;overflow:hidden;font-family:var(--f-display);font-size:17px;line-height:1.5}
+.pi-body .note-rich b,.pi-body .note-rich strong,.pi-body .note-rich [style*="font-weight"]{font-weight:400;color:var(--t-strong)}
+.pi-body .note-rich h1,.pi-body .note-rich h2,.pi-body .note-rich h3{font-family:inherit;font-weight:400;font-size:1.08em}
+.pi-body.is-long{-webkit-mask-image:linear-gradient(#000 68%,transparent);mask-image:linear-gradient(#000 68%,transparent)}
+.pi-title{margin:0 0 2px;font-family:inherit;font-weight:400;font-size:21px;line-height:1.35;color:var(--t-strong)}
+.pi-date{flex:none;align-self:flex-end;font-size:12px;font-weight:700;line-height:1.3;color:var(--t-meta)}
+.pi-photo{flex:none;display:block;align-self:center;width:88%;height:48%;padding:3px;background:#fff;box-shadow:0 1px 4px rgba(40,30,0,.35);transform:rotate(1.3deg)}
+.pi-photo img{display:block;width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+.has-photo .pi-paper{padding-top:16px}
+.has-photo .pi-body{font-size:15.5px}
 /* The same reading style in the card, the reader and the editor, so what you format is what you see */
 .note-rich{white-space:pre-wrap;overflow-wrap:anywhere}
 .note-rich h1,.note-rich h2,.note-rich h3{margin:.45em 0 .15em;font-family:var(--f-body);font-weight:900;font-size:1.2em;line-height:1.5;color:var(--t-strong)}
@@ -2798,7 +2813,7 @@ A['cal.shift'] = el => { const tj = jOf(todayStr()); const m = ui.calMonth || { 
 function stickyBoard() {
   const pinned = D.dailyNotes.filter(n => n.pinned).slice(0, 4);
   return `<section class="stack" style="gap:12px" aria-label="برگه‌های چسبان"><div class="row between"><h3 class="stk side-title">برگه‌های چسبان</h3>${pinned.length < 4 ? `<button type="button" class="btn ghost sm" data-a="note.newPinned">${icon('plus')} برگه</button>` : ''}</div>
-  ${pinned.length ? `<div class="stickies">${pinned.map(n => noteCard(n, { sticky: true })).join('')}</div>` : `<p class="quiet">تا چهار تا یادداشت رو می‌تونی اینجا بچسبونی.</p>`}</section>`;
+  ${pinned.length ? `<div class="stickies">${pinned.map(noteSticky).join('')}</div>` : `<p class="quiet">تا چهار تا یادداشت رو می‌تونی اینجا بچسبونی.</p>`}</section>`;
 }
 function todayTimeCard(today) {
   const t = dayMinutes(today);
@@ -3208,13 +3223,22 @@ function noteChips(n, close) {
 }
 function noteCard(n, o = {}) {
   const sk = skillById(n.skillId), { html, plain } = noteParts(n);
-  const long = plain.length > (o.sticky ? 120 : 260) || plain.split('\n').length > (o.sticky ? 4 : 7);
-  return `<article class="note-card ${o.sticky ? 'nc-sticky' : ''} ${n.pinned ? 'is-pinned' : ''}" style="${sk ? dcStyle(sk.domain) : ''}" data-a="note.view" data-id="${n.id}">
+  const long = plain.length > 260 || plain.split('\n').length > 7;
+  return `<article class="note-card ${n.pinned ? 'is-pinned' : ''}" style="${sk ? dcStyle(sk.domain) : ''}" data-a="note.view" data-id="${n.id}">
     ${noteGallery(n)}
     ${n.title || html ? `<div class="nc-body">${n.title ? `<h3 class="nc-title">${esc(n.title)}</h3>` : ''}${html ? `<div class="nc-text note-rich ${long ? 'is-long' : ''}">${html}</div>` : ''}</div>` : ''}
     <footer class="nc-foot"><div class="nc-meta">${noteChips(n)}</div>
-      ${o.sticky ? '' : `<div class="nc-acts"><button type="button" class="icon-btn sm ${n.pinned ? 'on' : ''}" data-a="note.pin" data-id="${n.id}" aria-label="${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}" title="${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}">${icon('pin')}</button><button type="button" class="icon-btn sm" data-a="note.edit" data-id="${n.id}" aria-label="ویرایش" title="ویرایش">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="note.del" data-id="${n.id}" aria-label="حذف" title="حذف">${icon('trash')}</button></div>`}
+      <div class="nc-acts"><button type="button" class="icon-btn sm ${n.pinned ? 'on' : ''}" data-a="note.pin" data-id="${n.id}" aria-label="${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}" title="${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}">${icon('pin')}</button><button type="button" class="icon-btn sm" data-a="note.edit" data-id="${n.id}" aria-label="ویرایش" title="ویرایش">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="note.del" data-id="${n.id}" aria-label="حذف" title="حذف">${icon('trash')}</button></div>
     </footer></article>`;
+}
+/* Stuck on the desk: same note and same reader, but dressed as a real sticky note, so no chips or buttons on it */
+function noteSticky(n) {
+  const { html, plain } = noteParts(n), img = noteImages(n)[0];
+  const long = plain.length > (img ? 36 : 85) || plain.split('\n').length > (img ? 2 : 5);
+  return `<article class="postit ${img ? 'has-photo' : ''}" data-a="note.view" data-id="${n.id}"><div class="pi-paper">
+    ${img ? `<span class="pi-photo" data-note-gal="${n.id}"><img src="${img}" alt="" data-zoom="1" data-i="0"></span>` : ''}
+    <div class="pi-body ${long ? 'is-long' : ''}">${n.title ? `<h3 class="pi-title">${esc(n.title)}</h3>` : ''}${html ? `<div class="note-rich">${html}</div>` : ''}</div>
+    <span class="pi-date">${jShort(n.date)}</span></div></article>`;
 }
 function noteList(list, o = {}) {
   if (!list.length) return o.empty !== undefined ? o.empty : `<p class="hint">یادداشتی نیست.</p>`;

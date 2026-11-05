@@ -1,0 +1,26 @@
+{
+ "name": "هموپلنر",
+ "short_name": "هموپلنر",
+ "description": "دفتر رشد شخصی و پورتفولیو",
+ "start_url": "index.html",
+ "scope": "./",
+ "display": "standalone",
+ "lang": "fa",
+ "dir": "rtl",
+ "background_color": "#fbf6e8",
+ "theme_color": "#b79c74",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

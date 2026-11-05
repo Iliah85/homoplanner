@@ -1256,6 +1256,20 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
   .note-view{font-size:15.5px;line-height:1.95}
 }
 
+/* Mind map board */
+#mapHost{position:relative;z-index:1;height:calc(100vh - 225px);min-height:460px;border-radius:var(--r-m);overflow:hidden;background:#fff;color:#1b1b1f;box-shadow:var(--soft-2)}
+#mapHost[hidden]{display:none}
+.map-wait{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;height:100%;padding:24px;text-align:center;font-weight:700;color:#414c66}
+.map-head{margin-bottom:12px}
+@media (max-width:860px){
+  .on-map #page{display:none}
+  .on-map .book{padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+  .on-map .sheet{min-height:0;padding-bottom:0}
+  .on-map .sheet>.mast{margin-bottom:0}
+  #mapHost{height:calc(100vh - 118px);height:calc(100dvh - 118px - env(safe-area-inset-bottom,0px));min-height:320px;margin-inline:-13px;border-radius:0;box-shadow:none}
+}
+@media print{#mapHost{display:none!important}}
+
 /* Image viewer: edge to edge, nothing but the picture */
 dialog.lb,dialog.lb[open]{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;overflow:hidden;background:rgba(7,10,16,.96);color:#fff;animation:lb-in .16s ease-out}
 dialog.lb::backdrop{background:#070a10}
@@ -1332,6 +1346,7 @@ dialog.lb::backdrop{background:#070a10}
       <button type="button" class="icon-btn" data-a="backup.export" aria-label="گرفتن پشتیبان" title="گرفتن پشتیبان"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg></button>
     </header>
     <main id="page"></main>
+    <div id="mapHost" hidden></div>
   </div>
   <nav class="tabs" id="tabs" aria-label="بخش‌های دفتر"></nav>
 </div>
@@ -1563,6 +1578,7 @@ function sanitizeData(raw) {
   }));
   out.finance.monthlyBudget = f.monthlyBudget != null && f.monthlyBudget !== '' && !isNaN(Number(f.monthlyBudget)) ? Number(f.monthlyBudget) : null;
   if (typeof raw.whiteboardData === 'string' && /^data:image\//.test(raw.whiteboardData)) out.whiteboardData = raw.whiteboardData;
+  if (obj(raw.mapDoc) && Array.isArray(raw.mapDoc.elements)) out.mapDoc = { elements: raw.mapDoc.elements.filter(obj), files: obj(raw.mapDoc.files) ? raw.mapDoc.files : {}, bg: raw.mapDoc.bg || '#ffffff' };
   if (obj(raw.resume)) {
     const r = raw.resume, df = defaultResume();
     out.resume = Object.assign(df, r);
@@ -2143,6 +2159,7 @@ document.addEventListener('input', e => { const el = e.target.closest('[data-in]
 document.addEventListener('change', e => { const el = e.target.closest('[data-ch]'); if (el && CH[el.dataset.ch]) CH[el.dataset.ch](el, e); });
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.matches('[data-enter]') && !e.isComposing) { e.preventDefault(); const f = A[e.target.dataset.enter]; if (f) f(e.target, e); return; }
+  if (ui.route.page === 'map' && !$('dialog[open]')) return; /* the board has its own shortcuts, such as 1-9 for tools */
   const typing = e.target.closest('input,textarea,select,[contenteditable="true"]');
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); A['search.open'](); return; }
   if (typing || e.ctrlKey || e.metaKey || e.altKey || $('dialog[open]')) return;
@@ -2200,6 +2217,7 @@ function paintTabs() {
   $('#tabs').innerHTML = TABS.map((t, i) => `<button type="button" class="tab ${PHONE_MAIN.includes(t.id) ? '' : 'tab-x'}" style="--c:var(--tab-${(i % 9) + 1})" data-a="go" data-to="${t.id}" ${page === t.id ? 'aria-current="page"' : ''}>${icon(t.ic)}<span>${t.label}</span></button>`).join('')
     + `<button type="button" class="tab tab-more" data-a="more.open" ${inMore ? 'aria-current="page"' : ''}>${icon('grid')}<span>بیشتر</span></button>`;
   paintFab();
+  mapShow();
 }
 function paintFab() {
   const fab = $('#fab'), r = ui.route, seg = ui.deskSeg || 'tasks';
@@ -3543,97 +3561,132 @@ A['money.edit'] = el => {
   $('#feS', d).onclick = () => { const a = parseAmount($('#feA', d).value); if (!a) { toast('مبلغ رو بنویس.', 'err'); return; } Object.assign(t, { type: $('#feT', d).value, amount: a, date: $('#feD', d).value, tags: parseTags($('#feG', d).value), desc: $('#feN', d).value.trim() }); d.close(); commit(true); };
 };
 
-/* ========== Mind map: a sketch pad with undo, inline text and PNG export ========== */
-const MAP = { W: 1600, H: 1000, tool: 'pen', color: '#23252b', size: 4, font: 30, fill: false, undo: [], redo: [], ctx: null, cv: null, draw: null };
-const MAP_TOOLS = [['pen', 'قلم', 'pen'], ['text', 'متن', 'text'], ['rect', 'مستطیل', 'rect'], ['pill', 'کپسول', 'pill'], ['ellipse', 'بیضی', 'ellipse'], ['diamond', 'لوزی', 'diamond'], ['line', 'خط', 'line'], ['arrow', 'فلش', 'arrow'], ['eraser', 'پاک‌کن', 'eraser']];
-const MAP_COLORS = ['#23252b', '#c5321f', '#1d4fb4', '#2a7648', '#c26a10', '#7c3aad'];
-const MAP_HINT = { pen: 'بکش تا خط بکشی.', text: 'روی صفحه بزن و بنویس؛ بیرون که بزنی ثبت می‌شه.', rect: 'از یه گوشه تا گوشه‌ی مقابل بکش.', pill: 'برای گره‌های مایندمپ خوبه.', ellipse: 'بکش تا اندازه بگیره.', diamond: 'برای تصمیم‌ها و شاخه‌های میانی.', line: 'برای وصل کردن ایده‌ها.', arrow: 'مسیر فکرت رو نشون بده.', eraser: 'روی هر جا بکشی پاک می‌شه.' };
-PAGES.map = () => `<div class="page-head"><div><h1 class="page-title">مایندمپ</h1><p class="muted small" id="mapHint">${MAP_HINT[MAP.tool]}</p></div><div class="row wrap"><button type="button" class="btn ghost sm" data-a="map.export">${icon('download')} خروجی عکس</button><button type="button" class="btn ghost sm" data-a="map.clear">${icon('trash')} پاک کردن صفحه</button></div></div>
-  <div class="map-bar" role="toolbar" aria-label="ابزارها">${MAP_TOOLS.map(([k, l, ic]) => `<button type="button" class="tool ${MAP.tool === k ? 'on' : ''}" data-a="map.tool" data-t="${k}" aria-label="${l}" aria-pressed="${MAP.tool === k}" title="${l}">${icon(ic)}</button>`).join('')}
-    <span style="width:6px"></span><button type="button" class="tool" id="mapUndo" data-a="map.undo" aria-label="برگشت" title="برگشت (Ctrl+Z)" ${MAP.undo.length ? '' : 'disabled'}>${icon('undo')}</button><button type="button" class="tool" id="mapRedo" data-a="map.redo" aria-label="دوباره" title="دوباره" ${MAP.redo.length ? '' : 'disabled'}>${icon('redo')}</button>
-    <span style="width:6px"></span>${MAP_COLORS.map(c => `<button type="button" class="swatch ${MAP.color === c ? 'on' : ''}" style="--s:${c}" data-a="map.color" data-c="${c}" aria-label="رنگ"></button>`).join('')}
-    <span style="width:6px"></span><label class="tog small"><input type="checkbox" id="mapFill" data-nokeep data-ch="map.fill" ${MAP.fill ? 'checked' : ''}> پر کردن</label>
-    <label class="small row" style="gap:5px">ضخامت <input type="range" id="mapSize" data-nokeep min="2" max="34" value="${MAP.size}" data-in="map.size" style="width:90px"></label>
-    <label class="small row" style="gap:5px">اندازه‌ی متن <input type="range" id="mapFont" data-nokeep min="16" max="72" value="${MAP.font}" data-in="map.font" style="width:90px"></label></div>
-  <div class="canvas-wrap" id="mapWrap"><canvas id="mapC" width="${MAP.W}" height="${MAP.H}" aria-label="صفحه‌ی مایندمپ"></canvas></div><p class="map-rotate">برای جای بیشتر، گوشی رو افقی کن.</p>`;
-AFTER.map = () => {
-  const cv = $('#mapC'); MAP.cv = cv; const ctx = MAP.ctx = cv.getContext('2d', { willReadFrequently: true });
-  if (D.whiteboardData) { const im = new Image(); im.onload = () => { if (MAP.cv === cv) ctx.drawImage(im, 0, 0, MAP.W, MAP.H); }; im.src = D.whiteboardData; }
-  const pos = e => { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) * MAP.W / r.width, y: (e.clientY - r.top) * MAP.H / r.height }; };
-  cv.addEventListener('pointerdown', e => {
-    e.preventDefault();
-    if (MAP.tool === 'text') { mapTextAt(e, pos(e)); return; }
-    cv.setPointerCapture(e.pointerId);
-    mapPushUndo();
-    const p = pos(e);
-    MAP.draw = { sx: p.x, sy: p.y, lx: p.x, ly: p.y, snap: ctx.getImageData(0, 0, MAP.W, MAP.H) };
-    if (MAP.tool === 'pen' || MAP.tool === 'eraser') mapStroke(p);
-  });
-  cv.addEventListener('pointermove', e => {
-    if (!MAP.draw) return;
-    const p = pos(e);
-    if (MAP.tool === 'pen' || MAP.tool === 'eraser') mapStroke(p);
-    else { ctx.putImageData(MAP.draw.snap, 0, 0); mapShape(MAP.draw.sx, MAP.draw.sy, p.x, p.y); }
-  });
-  const end = () => { if (!MAP.draw) return; MAP.draw = null; ctx.globalCompositeOperation = 'source-over'; mapSave(); };
-  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
-};
-function mapStroke(p) {
-  const c = MAP.ctx, d = MAP.draw;
-  c.save(); c.lineCap = c.lineJoin = 'round';
-  if (MAP.tool === 'eraser') { c.globalCompositeOperation = 'destination-out'; c.lineWidth = Math.max(26, MAP.size * 3); c.strokeStyle = '#000'; } else { c.strokeStyle = MAP.color; c.lineWidth = MAP.size; }
-  c.beginPath(); c.moveTo(d.lx, d.ly); c.lineTo(p.x + .01, p.y); c.stroke(); c.restore();
-  d.lx = p.x; d.ly = p.y;
+/* ========== Mind map: Excalidraw (MIT), self-hosted in vendor/ and loaded only when this page is first opened ==========
+   It lives in #mapHost, outside #page, so re-rendering the planner never destroys a drawing in progress.
+   The scene is stored as D.mapDoc and synced as its own file, map.json. The old PNG in D.whiteboardData is never
+   changed: it comes in as one locked image the first time the board opens. */
+const MAP = { api: null, root: null, mounting: false, loading: null, failed: false, doc: undefined, ids: new Set(), ver: null, filesN: 0, bg: null, timer: 0, visible: false };
+const MAP_SCRIPTS = ['vendor/react.production.min.js', 'vendor/react-dom.production.min.js', 'vendor/excalidraw/excalidraw.production.min.js'];
+function mapLoadScript(src) {
+  return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error(src)); document.head.append(s); });
 }
-function mapShape(x1, y1, x2, y2) {
-  const c = MAP.ctx, l = Math.min(x1, x2), t = Math.min(y1, y2), w = Math.abs(x2 - x1), h = Math.abs(y2 - y1);
-  c.save(); c.strokeStyle = MAP.color; c.fillStyle = MAP.color + '33'; c.lineWidth = MAP.size; c.lineCap = c.lineJoin = 'round'; c.beginPath();
-  const T = MAP.tool;
-  if (T === 'rect') c.rect(l, t, w, h);
-  else if (T === 'pill') { const r = Math.min(h / 2, w / 2); c.moveTo(l + r, t); c.arcTo(l + w, t, l + w, t + h, r); c.arcTo(l + w, t + h, l, t + h, r); c.arcTo(l, t + h, l, t, r); c.arcTo(l, t, l + w, t, r); c.closePath(); }
-  else if (T === 'ellipse') c.ellipse(l + w / 2, t + h / 2, Math.max(1, w / 2), Math.max(1, h / 2), 0, 0, Math.PI * 2);
-  else if (T === 'diamond') { c.moveTo(l + w / 2, t); c.lineTo(l + w, t + h / 2); c.lineTo(l + w / 2, t + h); c.lineTo(l, t + h / 2); c.closePath(); }
-  else if (T === 'line' || T === 'arrow') { c.moveTo(x1, y1); c.lineTo(x2, y2); }
-  if (MAP.fill && T !== 'line' && T !== 'arrow') c.fill();
-  c.stroke();
-  if (T === 'arrow') {
-    const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len, hd = Math.max(16, MAP.size * 4);
-    c.beginPath(); c.moveTo(x2, y2); c.lineTo(x2 - ux * hd - uy * hd * .55, y2 - uy * hd + ux * hd * .55); c.lineTo(x2 - ux * hd + uy * hd * .55, y2 - uy * hd - ux * hd * .55); c.closePath(); c.fillStyle = MAP.color; c.fill();
+function mapLoadLib() {
+  if (window.ExcalidrawLib) return Promise.resolve();
+  if (!MAP.loading) {
+    window.EXCALIDRAW_ASSET_PATH = new URL('vendor/excalidraw/', location.href).href;
+    MAP.loading = MAP_SCRIPTS.reduce((p, f) => p.then(() => mapLoadScript(f)), Promise.resolve()).catch(e => { MAP.loading = null; throw e; });
   }
-  c.restore();
+  return MAP.loading;
 }
-function mapTextAt(e, p) {
-  const wrap = $('#mapWrap'), r = wrap.getBoundingClientRect(), scale = r.width / MAP.W;
-  const ta = document.createElement('textarea'); ta.className = 'canvas-text'; ta.rows = 2; ta.dir = 'rtl';
-  const fs = MAP.font;
-  ta.style.fontSize = (fs * scale) + 'px'; ta.style.color = MAP.color; ta.style.fontFamily = 'Mikhak,Tahoma,sans-serif';
-  ta.style.right = Math.max(0, r.right - e.clientX) + 'px'; ta.style.top = Math.max(0, e.clientY - r.top - fs * scale * .7) + 'px';
-  wrap.append(ta); setTimeout(() => ta.focus(), 0);
-  const commitText = () => {
-    const txt = ta.value.trim(); ta.remove(); if (!txt) return;
-    mapPushUndo();
-    const c = MAP.ctx; c.save(); c.direction = 'rtl'; c.textAlign = 'right'; c.textBaseline = 'middle'; c.font = `700 ${fs}px Mikhak,Tahoma,sans-serif`;
-    const lines = txt.split('\n');
-    if (MAP.fill) { const tw = Math.max(...lines.map(l => c.measureText(l).width)) + 24, th = lines.length * fs * 1.4 + 12; c.fillStyle = '#fffdf6'; c.strokeStyle = MAP.color; c.lineWidth = 3; c.beginPath(); c.rect(p.x - tw + 12, p.y - fs * .7 - 6, tw, th); c.fill(); c.stroke(); }
-    c.fillStyle = MAP.color; lines.forEach((l, i) => c.fillText(l, p.x, p.y + i * fs * 1.4)); c.restore();
-    mapSave();
-  };
-  ta.addEventListener('blur', commitText, { once: true });
-  ta.addEventListener('keydown', ev => { if (ev.key === 'Escape') { ev.stopPropagation(); ta.value = ''; ta.blur(); } if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) ta.blur(); });
+function mapOldBoard() {
+  return new Promise(res => {
+    const im = new Image();
+    im.onload = () => {
+      const fileId = 'legacy-whiteboard', w = im.naturalWidth || 1600, h = im.naturalHeight || 1000;
+      /* an empty old page is just a white rectangle in the way, so only a page with something on it comes in */
+      const c = document.createElement('canvas'); c.width = 320; c.height = 200; const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(im, 0, 0, 320, 200);
+      const p = x.getImageData(0, 0, 320, 200).data; let used = false;
+      for (let i = 0; i < p.length && !used; i += 4) used = p[i + 3] > 10 && p[i] + p[i + 1] + p[i + 2] < 735;
+      if (!used) { res({ elements: [], files: {} }); return; }
+      const elements = ExcalidrawLib.convertToExcalidrawElements([{ type: 'image', x: -w / 2, y: -h / 2, width: w, height: h, fileId, status: 'saved', locked: true }]);
+      res({ elements, files: { [fileId]: { id: fileId, dataURL: D.whiteboardData, mimeType: 'image/png', created: Date.now() } } });
+    };
+    im.onerror = () => res({ elements: [], files: {} });
+    im.src = D.whiteboardData;
+  });
 }
-function mapPushUndo() { MAP.undo.push(MAP.ctx.getImageData(0, 0, MAP.W, MAP.H)); if (MAP.undo.length > 12) MAP.undo.shift(); MAP.redo = []; mapPaintUndo(); }
-function mapPaintUndo() { const u = $('#mapUndo'), r = $('#mapRedo'); if (u) u.disabled = !MAP.undo.length; if (r) r.disabled = !MAP.redo.length; }
-function mapSave() { try { D.whiteboardData = MAP.cv.toDataURL('image/png'); commit(false); } catch (e) { toast('مایندمپ ذخیره نشد.', 'err'); } mapPaintUndo(); }
-A['map.tool'] = el => { MAP.tool = el.dataset.t; $$('.tool[data-t]').forEach(b => { const on = b === el; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }); $('#mapHint').textContent = MAP_HINT[MAP.tool]; MAP.cv.style.cursor = MAP.tool === 'text' ? 'text' : 'crosshair'; };
-A['map.color'] = el => { MAP.color = el.dataset.c; if (MAP.tool === 'eraser') A['map.tool']($('.tool[data-t="pen"]')); $$('.swatch[data-c]').forEach(b => b.classList.toggle('on', b === el)); };
-CH['map.fill'] = el => { MAP.fill = el.checked; };
-IN['map.size'] = el => { MAP.size = +el.value; };
-IN['map.font'] = el => { MAP.font = +el.value; };
-A['map.undo'] = () => { if (!MAP.undo.length) return; MAP.redo.push(MAP.ctx.getImageData(0, 0, MAP.W, MAP.H)); MAP.ctx.putImageData(MAP.undo.pop(), 0, 0); mapSave(); };
-A['map.redo'] = () => { if (!MAP.redo.length) return; MAP.undo.push(MAP.ctx.getImageData(0, 0, MAP.W, MAP.H)); MAP.ctx.putImageData(MAP.redo.pop(), 0, 0); mapSave(); };
-A['map.clear'] = async () => { if (!await confirmBox('کل صفحه پاک بشه؟', 'با دکمه‌ی برگشت می‌تونی برش گردونی.', 'پاک کن')) return; mapPushUndo(); MAP.ctx.clearRect(0, 0, MAP.W, MAP.H); mapSave(); };
-A['map.export'] = () => { const c = document.createElement('canvas'); c.width = MAP.W; c.height = MAP.H; const x = c.getContext('2d'); x.fillStyle = '#fdfbf4'; x.fillRect(0, 0, MAP.W, MAP.H); x.drawImage(MAP.cv, 0, 0); c.toBlob(b => downloadBlob(b, `mindmap-${todayStr()}.png`)); };
-document.addEventListener('keydown', e => { if (ui.route.page === 'map' && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.target.closest('textarea,input') && !$('dialog[open]')) { e.preventDefault(); A[e.shiftKey ? 'map.redo' : 'map.undo'](); } });
+async function mapInitial() {
+  if (D.mapDoc) return { elements: D.mapDoc.elements, files: D.mapDoc.files || {}, bg: D.mapDoc.bg };
+  if (D.whiteboardData) return mapOldBoard();
+  return { elements: [], files: {} };
+}
+function mapView(init) {
+  const h = React.createElement, L = ExcalidrawLib, I = L.MainMenu.DefaultItems;
+  const menu = h(L.MainMenu, null, h(I.SaveAsImage), h(I.Help), h(I.ClearCanvas), h(L.MainMenu.Separator), h(I.ChangeCanvasBackground));
+  return h('div', { dir: 'ltr', style: { height: '100%' } }, h(L.Excalidraw, {
+    langCode: 'fa-IR', theme: D.settings.theme === 'dark' ? 'dark' : 'light', autoFocus: true,
+    excalidrawAPI: a => { if (a && !MAP.api) { MAP.api = a; setTimeout(() => { a.setActiveTool({ type: 'freedraw' }); }, 0); } },
+    initialData: init ? { elements: init.elements, files: init.files, scrollToContent: !!init.elements.length, appState: { viewBackgroundColor: init.bg || '#ffffff', currentItemStrokeWidth: 1, currentItemFontFamily: 2, currentItemRoughness: 0 } } : undefined,
+    onChange: mapChanged,
+    UIOptions: { canvasActions: { loadScene: false, saveToActiveFile: false, toggleTheme: false, export: false } }
+  }, menu));
+}
+/* Excalidraw's fonts have no Persian letters: under the same family names, Persian falls to the planner's Mikhak */
+function mapPersianFont() {
+  if (MAP.fonts) return; MAP.fonts = true;
+  try {
+    let src = null;
+    for (const sheet of document.styleSheets) for (const r of sheet.cssRules) if (r.type === CSSRule.FONT_FACE_RULE && /Mikhak/.test(r.style.getPropertyValue('font-family')) && /100/.test(r.style.getPropertyValue('font-weight'))) src = r.style.getPropertyValue('src');
+    if (!src) return;
+    ['Helvetica', 'Virgil', 'Cascadia'].forEach(f => { const face = new FontFace(f, src, { unicodeRange: 'U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F' }); document.fonts.add(face); face.load().catch(() => {}); });
+  } catch (e) { console.warn('map font', e); }
+}
+async function mapMount() {
+  if (MAP.root || MAP.mounting) return;
+  const host = $('#mapHost'); MAP.mounting = true; MAP.failed = false;
+  host.innerHTML = '<p class="map-wait">دارم مایندمپ رو آماده می‌کنم…</p>';
+  try {
+    await mapLoadLib();
+    mapPersianFont();
+    MAP.theme = D.settings.theme;
+    const init = await mapInitial();
+    MAP.doc = D.mapDoc; MAP.ids = new Set((D.mapDoc ? D.mapDoc.elements : []).map(e => e.id)); MAP.ver = null;
+    host.innerHTML = '';
+    MAP.root = ReactDOM.createRoot(host);
+    MAP.root.render(mapView(init));
+  } catch (e) {
+    console.warn('map', e); MAP.failed = true;
+    host.innerHTML = `<div class="map-wait"><p>مایندمپ بار نشد. احتمالاً اینترنت قطعه؛ بعد از اولین باز شدن، بدون اینترنت هم کار می‌کنه.</p><button type="button" class="btn" data-a="map.retry">دوباره امتحان کن</button></div>`;
+  }
+  MAP.mounting = false;
+}
+A['map.retry'] = () => mapMount();
+/* onChange fires on every pointer move: only a real change to the drawing schedules a save */
+function mapChanged(elements, appState, files) {
+  const v = ExcalidrawLib.getSceneVersion(elements), n = Object.keys(files || {}).length, bg = appState.viewBackgroundColor;
+  if (MAP.ver === null) { MAP.ver = v; MAP.filesN = n; MAP.bg = bg; return; } /* the first call is just the board loading */
+  if (v === MAP.ver && n === MAP.filesN && bg === MAP.bg) return;
+  MAP.ver = v; MAP.filesN = n; MAP.bg = bg;
+  clearTimeout(MAP.timer); MAP.timer = setTimeout(mapFlush, 700);
+}
+function mapFlush() {
+  clearTimeout(MAP.timer); MAP.timer = 0;
+  const a = MAP.api; if (!a) return;
+  const st = a.getAppState();
+  if (st.draggingElement || st.resizingElement) { MAP.timer = setTimeout(mapFlush, 500); return; }
+  const elements = a.getSceneElements(), all = a.getFiles(), files = {};
+  elements.forEach(e => { if (e.fileId && all[e.fileId]) { const f = all[e.fileId]; files[e.fileId] = { id: f.id, dataURL: f.dataURL, mimeType: f.mimeType, created: f.created }; } });
+  const doc = { elements: JSON.parse(JSON.stringify(elements)), files, bg: st.viewBackgroundColor };
+  D.mapDoc = doc; MAP.doc = doc; MAP.ids = new Set(elements.map(e => e.id));
+  commit(false);
+}
+/* Something else replaced the board (sync, restore, wipe). Anything drawn since the last save survives */
+function mapRefresh() {
+  const a = MAP.api; if (!a || D.mapDoc === MAP.doc) return;
+  const st = a.getAppState();
+  if (st.draggingElement || st.resizingElement || st.editingElement) { setTimeout(mapRefresh, 1500); return; }
+  const incoming = (D.mapDoc && D.mapDoc.elements) || [], ids = new Set(incoming.map(e => e.id));
+  const cur = new Map(a.getSceneElementsIncludingDeleted().map(e => [e.id, e]));
+  const merged = incoming.map(e => { const c = cur.get(e.id); return c && c.version > (e.version || 0) ? c : e; });
+  cur.forEach((c, id) => { if (!ids.has(id) && !MAP.ids.has(id) && !c.isDeleted) merged.push(c); });
+  if (D.mapDoc && D.mapDoc.files) a.addFiles(Object.values(D.mapDoc.files));
+  const elements = ExcalidrawLib.restoreElements(merged, null);
+  a.updateScene({ elements, commitToHistory: false });
+  MAP.doc = D.mapDoc; MAP.ids = ids; MAP.ver = ExcalidrawLib.getSceneVersion(elements);
+}
+/* Called on every paint: shows the board only on its own page, and writes any pending stroke when leaving */
+function mapShow() {
+  const host = $('#mapHost'); if (!host) return;
+  const on = ui.route.page === 'map' && !ui.welcome, was = MAP.visible;
+  MAP.visible = on; host.hidden = !on; document.body.classList.toggle('on-map', on);
+  if (!on) { if (was && MAP.timer) mapFlush(); return; }
+  if (!MAP.api) { mapMount(); return; }
+  mapRefresh();
+  if (!was) { MAP.api.refresh(); }
+  if (MAP.root && MAP.theme !== D.settings.theme) { MAP.theme = D.settings.theme; MAP.root.render(mapView()); }
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && MAP.timer) mapFlush(); });
+PAGES.map = () => `<div class="page-head map-head"><div><h1 class="page-title">مایندمپ</h1><p class="muted small">با قلم نوری که بکشی، خودش حالت قلم رو روشن می‌کنه و کف دستت چیزی نمی‌کشه.</p></div></div>`;
 
 /* ========== Portfolio: resume dossier + starred works. Prints as a clean light A4. ========== */
 const levelDots = n => { n = clamp(parseInt(n, 10) || 0, 0, 5); return `<span class="dots" aria-label="سطح ${fa(n)} از ۵">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`; };
@@ -3823,11 +3876,15 @@ function toDoc(data) {
     if (c === undefined) { c = extText(n.content); SYNC.noteMemo.set(k, c); }
     return Object.assign({}, n, { content: c, images: [] });
   });
-  const { dailyNotes, whiteboardData, resume, settings, domains, ...rest } = data;
+  const { dailyNotes, whiteboardData, resume, settings, domains, mapDoc, ...rest } = data;
   const doc = JSON.parse(JSON.stringify(rest));
   LOCAL_ONLY.forEach(k => delete doc[k]);
   doc.dailyNotes = JSON.parse(JSON.stringify(notes));
   doc.whiteboardData = whiteboardData ? extStr(whiteboardData) : null;
+  if (mapDoc) {
+    const files = {}; Object.keys(mapDoc.files || {}).forEach(k => { const f = mapDoc.files[k]; files[k] = Object.assign({}, f, { dataURL: f.dataURL ? extStr(f.dataURL) : null }); });
+    doc.mapDoc = JSON.parse(JSON.stringify({ elements: mapDoc.elements, files, bg: mapDoc.bg }));
+  }
   doc.settings = Object.assign({}, settings); delete doc.settings.theme;
   doc.resume = JSON.parse(JSON.stringify(Object.assign({}, resume, { photoDataUrl: null })));
   doc.resume.photoDataUrl = resume.photoDataUrl ? extStr(resume.photoDataUrl) : null;
@@ -3846,26 +3903,28 @@ const stable = v => JSON.stringify(canon(v));
 const byId = rows => rows.slice().sort((a, b) => String(a.id).localeCompare(String(b.id)));
 function toFiles(doc) {
   const f = {}, shard = (rows, dir) => { const m = {}; rows.forEach(x => { const k = String(x.date).slice(0, 7); (m[k] = m[k] || []).push(x); }); Object.keys(m).forEach(k => { f[`${dir}/${k}.json`] = stable(byId(m[k])); }); };
-  const { dailyTasks, schedules, dailyNotes, ...core } = doc;
+  const { dailyTasks, schedules, dailyNotes, mapDoc, ...core } = doc;
   shard(dailyTasks || [], 'tasks'); shard(schedules || [], 'blocks');
   f['notes.json'] = stable(byId(dailyNotes || []));
+  if (mapDoc) f['map.json'] = stable(mapDoc);
   f['core.json'] = stable(core);
   return f;
 }
-const DOC_PATH = /^(core\.json|notes\.json|tasks\/.+\.json|blocks\/.+\.json)$/;
+const DOC_PATH = /^(core\.json|notes\.json|map\.json|tasks\/.+\.json|blocks\/.+\.json)$/;
 function fromFiles(files) {
   const doc = {}; let tasks = [], blocks = [];
   Object.keys(files).forEach(p => {
     const v = JSON.parse(files[p]);
     if (p === 'core.json') Object.assign(doc, v);
     else if (p === 'notes.json') doc.dailyNotes = v;
+    else if (p === 'map.json') doc.mapDoc = v;
     else if (p.startsWith('tasks/')) tasks = tasks.concat(v);
     else if (p.startsWith('blocks/')) blocks = blocks.concat(v);
   });
   doc.dailyTasks = tasks; doc.schedules = blocks; doc.dailyNotes = doc.dailyNotes || [];
   return doc;
 }
-const docRefs = doc => { const s = new Set(); for (const m of stable({ n: doc.dailyNotes, w: doc.whiteboardData, r: doc.resume, d: doc.domains }).matchAll(REF_RE)) s.add(m[1]); return s; };
+const docRefs = doc => { const s = new Set(); for (const m of stable({ n: doc.dailyNotes, w: doc.whiteboardData, r: doc.resume, d: doc.domains, m: doc.mapDoc }).matchAll(REF_RE)) s.add(m[1]); return s; };
 const blobIndex = tree => { const m = new Map(); Object.keys(tree).forEach(p => { const x = p.match(/^blobs\/([0-9a-z]+)\.(.+)$/); if (x) m.set(x[1], { path: p, sha: tree[p], mime: x[2].replace('_', '/') }); }); return m; };
 async function docToData(doc, tree) {
   const idx = blobIndex(tree), need = [...docRefs(doc)].filter(h => !SYNC.images.has(h));
@@ -3880,6 +3939,7 @@ async function docToData(doc, tree) {
   const raw = JSON.parse(JSON.stringify(doc));
   raw.dailyNotes.forEach(x => { x.content = fill(x.content); });
   raw.whiteboardData = raw.whiteboardData ? fill(raw.whiteboardData) : null;
+  if (raw.mapDoc && raw.mapDoc.files) Object.values(raw.mapDoc.files).forEach(f => { if (f && f.dataURL) f.dataURL = fill(f.dataURL); });
   if (raw.resume && raw.resume.photoDataUrl) raw.resume.photoDataUrl = fill(raw.resume.photoDataUrl) || null;
   (raw.domains || []).forEach(d => (d.projects || []).concat(...(d.subcats || []).map(s => s.projects || [])).forEach(p => (p.artifacts || []).forEach(a => { if (a.dataUrl) a.dataUrl = fill(a.dataUrl); })));
   raw.meta = Object.assign({}, D.meta, { seriesRepaired: true });
@@ -4250,7 +4310,7 @@ A['book.reset'] = async () => {
   if (!await confirmBox('آخرین بار می‌پرسم', SYNC.cfg ? 'این کار برگشت نداره. اتصال ابر هم اول قطع می‌شه تا نسخه‌ی ابری پاک نشه.' : 'این کار برگشت نداره.', 'پاک کن همه رو')) return;
   await syncDisconnect();
   const keys = await fileKeys(); for (const k of keys) await fileDel(k);
-  const theme = D.settings.theme; D = emptyData(); D.settings.theme = theme; MAP.undo = []; MAP.redo = [];
+  const theme = D.settings.theme; D = emptyData(); D.settings.theme = theme; MAP.doc = null;
   S.dirty = true; await flushSave(); bootLogic(); ui.welcome = true; go('desk'); render();
 };
 CH['set.end'] = el => { D.settings.dayEndHour = +el.value; lastDay = todayStr(); D.meta.lastOpen = lastDay; commit(true); };

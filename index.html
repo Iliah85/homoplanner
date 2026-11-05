@@ -970,6 +970,79 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 }
 
 /* ==========================================================================
+   Notes (round 7). One card everywhere: images on top, real title on a ribbon, the body with its
+   formatting, then the facts. White paper always; colour only means the skill's domain, yellow only
+   means "stuck on the desk".
+   ========================================================================== */
+.note-list{column-width:290px;column-gap:14px}
+.note-list>.note-card{break-inside:avoid;margin-bottom:14px}
+.note-card,.note-card:hover{display:block;padding:0;overflow:hidden;background:var(--card);border-radius:var(--r-m);border-inline-start:5px solid var(--dc,var(--line-2));cursor:pointer}
+.nc-body{padding:12px 14px 4px;display:flex;flex-direction:column;gap:7px}
+.nc-title{margin:0;font-family:var(--f-body);font-weight:900;font-size:16.5px;line-height:1.5;color:var(--t-strong);background:color-mix(in srgb,var(--dc,var(--line-2)) 22%,var(--card));border-radius:var(--r-s);padding:5px 10px;overflow-wrap:anywhere}
+.nc-text{font-size:14.5px;line-height:1.8;color:var(--t-body)}
+.nc-text.is-long{max-height:10.8em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+.nc-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:42px;padding:4px 14px 6px 8px}
+.nc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 7px;min-width:0;font-size:13px;color:var(--t-meta)}
+.nc-meta button.chip{border:0;cursor:pointer;font:inherit;font-size:12.5px;font-weight:700;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nc-meta button.chip:not(.hl){background:var(--paper-2);color:var(--t-body)}
+.nc-pin{display:inline-flex;color:var(--red)}
+.nc-pin .ic{width:14px;height:14px}
+.nc-acts{display:flex;flex:none;opacity:0;transition:opacity .12s}
+.note-card:hover .nc-acts,.note-card:focus-within .nc-acts{opacity:1}
+@media (hover:none){.nc-acts{display:none}}
+.nc-gallery{display:grid;gap:2px;background:var(--paper-3)}
+.nc-shot{position:relative;display:block;overflow:hidden;min-width:0;background:var(--paper-2)}
+.nc-shot img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;cursor:zoom-in;transition:transform .25s}
+.nc-shot img:hover{transform:scale(1.04)}
+.nc-gallery.g1 .nc-shot{aspect-ratio:16/10}
+.nc-gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.nc-gallery.g2 .nc-shot{aspect-ratio:1}
+.nc-gallery.g3{grid-template-columns:2fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));aspect-ratio:16/10}
+.nc-gallery.g3 .nc-shot:first-child{grid-row:1/3}
+.nc-gallery.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.nc-gallery.g4 .nc-shot{aspect-ratio:4/3}
+.nc-plus{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(9,20,42,.55);color:#fff;font-size:22px;font-weight:900;pointer-events:none}
+/* Stuck on the desk: same card, yellow paper, a slight tilt */
+.note-card.nc-sticky,.note-card.nc-sticky:hover{--card:var(--n-y);--paper-2:rgba(255,255,255,.55);--t-strong:#26252a;--t-body:#3b3a30;--t-meta:#5d5630;color:#26252a;border-inline-start:0;border-radius:6px}
+.stickies .note-card:nth-child(odd){transform:rotate(-1deg)}
+.stickies .note-card:nth-child(even){transform:rotate(.8deg)}
+.stickies .note-card:hover{transform:none}
+.nc-sticky .nc-text{font-size:14px}
+.nc-sticky .nc-text.is-long{max-height:7.2em}
+.nc-sticky .nc-title{background:rgba(255,255,255,.5);font-size:15px}
+.nc-sticky .nc-foot{padding-inline:12px;min-height:34px}
+/* The same reading style in the card, the reader and the editor, so what you format is what you see */
+.note-rich{white-space:pre-wrap;overflow-wrap:anywhere}
+.note-rich h1,.note-rich h2,.note-rich h3{margin:.45em 0 .15em;font-family:var(--f-body);font-weight:900;font-size:1.2em;line-height:1.5;color:var(--t-strong)}
+.note-rich>:first-child{margin-top:0}
+.note-rich b,.note-rich strong{font-weight:900;color:var(--t-strong)}
+.note-rich ul,.note-rich ol{margin:.25em 0;padding-inline-start:1.5em;white-space:normal}
+.note-rich blockquote{margin:.4em 0;padding-inline-start:.8em;border-inline-start:3px solid var(--dc,var(--line-2));color:var(--t-meta)}
+.note-rich mark,.note-rich [style*="253, 240, 122"],.note-rich [style*="#fdf07a"],.note-rich mark *,.note-rich [style*="253, 240, 122"] *,.note-rich [style*="#fdf07a"] *{color:#26252a}
+.note-rich [style*="253, 240, 122"],.note-rich [style*="#fdf07a"],.note-rich mark{border-radius:3px;padding-inline:2px;background-color:#fdf07a}
+/* Reader */
+.dlg.note-read{--w:760px}
+.nr-meta{margin-bottom:2px}
+.note-view{background:transparent;color:var(--ink);padding:4px 2px 8px;min-height:0;font-size:16px;line-height:2}
+.rich img,.note-view img{max-height:62vh;border-radius:var(--r-s);box-shadow:var(--soft-1);margin:10px auto}
+.nr-del{margin-inline-end:auto;color:var(--red)}
+/* Editor */
+.note-ed .dlg-body{min-height:min(70vh,640px)}
+.ne-title{width:100%;flex:none;border:0;border-bottom:2px solid var(--line);background:transparent;color:var(--ink);font-family:var(--f-body);font-weight:900;font-size:21px;padding:4px 2px 7px;outline:none}
+.ne-title:focus{border-bottom-color:var(--blue)}
+.ne-title::placeholder{color:var(--ink-3);font-weight:700}
+.note-ed .rich{min-height:240px}
+/* Hub and quick box */
+.note-quick{display:flex;flex-direction:column;gap:8px;padding:12px 14px}
+.note-quick textarea{min-height:76px}
+.notes-link{align-self:flex-start}
+.notes-more{display:flex;margin:6px auto 0}
+.notes-crumb{gap:8px;margin-bottom:12px}
+.notes-back{display:inline-flex;align-items:center;gap:4px;min-height:38px;padding:2px 12px 2px 14px;border:0;border-radius:99px;background:rgba(255,255,255,.17);color:#fff;font:inherit;font-weight:800;font-size:14px;cursor:pointer}
+.notes-back .ic{width:17px;height:17px}
+.notes-tools .inp{width:210px}
+
+/* ==========================================================================
    Phone (round 6). The notebook stays, the shell becomes an app: one-line sticky header,
    a calm bottom bar, sheets that rise from the thumb, and lists without permanent buttons.
    ========================================================================== */
@@ -1153,6 +1226,48 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 @media (max-width:860px) and (prefers-reduced-motion:reduce){dialog[open]{animation:none}}
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{font-size:16px}}
 @keyframes sheet-up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@media (max-width:860px){
+  .nc-acts{display:none}
+  .nc-foot{min-height:38px;padding-inline-start:12px}
+  .note-ed .dlg-body{min-height:0}
+  .dlg.note-ed{height:92vh;height:92dvh}
+  .note-ed .fmt{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;flex:none}
+  .note-ed .fmt>*{flex:none}
+  .note-ed .rich{min-height:190px;flex:1 0 190px}
+  .ne-title{font-size:19px}
+  .notes-tools{width:100%;flex-wrap:nowrap}
+  .notes-tools .inp{flex:1;min-width:0;width:auto}
+  .notes-tools .btn{flex:none;padding-inline:13px}
+  .note-view{font-size:15.5px;line-height:1.95}
+}
+
+/* Image viewer: edge to edge, nothing but the picture */
+dialog.lb,dialog.lb[open]{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;overflow:hidden;background:rgba(7,10,16,.96);color:#fff;animation:lb-in .16s ease-out}
+dialog.lb::backdrop{background:#070a10}
+.lb-stage{position:absolute;inset:58px 18px 74px;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab;user-select:none}
+.lb.has-thumbs .lb-stage{bottom:136px}
+.lb-img{flex:none;max-width:none;user-select:none;-webkit-user-drag:none;box-shadow:0 12px 50px rgba(0,0,0,.55);transform-origin:center}
+.lb-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:42px;height:42px;padding:0 10px;border:0;border-radius:99px;background:rgba(255,255,255,.12);color:#fff;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.lb-btn:hover{background:rgba(255,255,255,.24)}
+.lb-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.lb-btn .ic{width:20px;height:20px}
+.lb-top{position:absolute;top:0;inset-inline:0;z-index:2;display:flex;align-items:center;gap:12px;padding:calc(8px + env(safe-area-inset-top,0px)) 14px 8px;pointer-events:none}
+.lb-top>*{pointer-events:auto}
+.lb-cap{flex:1;min-width:0;font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-count{font-size:13.5px;font-weight:700;opacity:.8}
+.lb-nav{position:absolute;top:50%;z-index:2;width:50px;height:50px;transform:translateY(-50%)}
+.lb-prev{right:14px}
+.lb-next{left:14px}
+.lb-bottom{position:absolute;bottom:0;inset-inline:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 14px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.lb-bottom>*{pointer-events:auto}
+.lb-tools{display:flex;gap:6px}
+.lb-thumbs{display:flex;gap:6px;max-width:100%;overflow-x:auto;scrollbar-width:none;padding:3px}
+.lb-thumbs::-webkit-scrollbar{display:none}
+.lb-thumbs button{flex:none;width:50px;height:50px;padding:0;border:0;border-radius:8px;overflow:hidden;background:none;opacity:.55;cursor:pointer}
+.lb-thumbs button.on{opacity:1;outline:2px solid #fff;outline-offset:1px}
+.lb-thumbs img{display:block;width:100%;height:100%;object-fit:cover}
+@media (max-width:860px){.lb-nav{display:none}.lb-stage{inset:56px 6px 66px}.lb-fit{display:none}}
+@keyframes lb-in{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* ---------- Print: resume only, clean A4 ---------- */
@@ -1188,7 +1303,7 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 </style>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-desk" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.7-8.95A6 6 0 0 1 17.8 8.1 5 5 0 0 1 17 18z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol><symbol id="i-week" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4M9 10v11M15 10v11"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol><symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 21v-7M12 14 7 10M12 14l5-4"/><circle cx="12" cy="6" r="3"/><circle cx="6" cy="9" r="2.2"/><circle cx="18" cy="9" r="2.2"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h6"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol><symbol id="i-money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1.5"/><circle cx="12" cy="12.5" r="2.6"/><path d="M6.5 9.5v.01M17.5 15.5v.01"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="m6.6 7.3 3.3 3M17.4 7.3l-3.3 3M6.6 16.7l3.3-3M17.4 16.7l-3.3-3"/></symbol><symbol id="i-clip" viewBox="0 0 24 24"><path d="m20 11-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v9l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v9"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 13 4.5 5L19.5 6"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8"/></symbol><symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h7V3M8 21v-7h8v7"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M8 5 3 10l5 5"/><path d="M3 10h11a6 6 0 0 1 0 12h-3"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 5 5 5-5 5"/><path d="M21 10H10a6 6 0 0 0 0 12h3"/></symbol><symbol id="i-chevR" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol><symbol id="i-chevL" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-starF" viewBox="0 0 24 24"><path fill="currentColor" d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.1"/><circle cx="12" cy="12" r="1.1"/><circle cx="19" cy="12" r="1.1"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol><symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r=".9"/><circle cx="15" cy="6" r=".9"/><circle cx="9" cy="12" r=".9"/><circle cx="15" cy="12" r=".9"/><circle cx="9" cy="18" r=".9"/><circle cx="15" cy="18" r=".9"/></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 1-3 0-6 1-10z"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v5M12 17.8v.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 8l5-5 5 5M4 20h16"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></symbol><symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol><symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H4v-7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7h-3"/><rect x="7" y="14" width="10" height="7"/></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3 7 9 7 9-7"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol><symbol id="i-pinMap" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></symbol><symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></symbol><symbol id="i-mountain" viewBox="0 0 24 24"><path d="m2 20 7-12 4 6 2-3 7 9z"/></symbol><symbol id="i-bold" viewBox="0 0 24 24"><path d="M7 4h6a4 4 0 0 1 0 8H7zM7 12h7a4 4 0 0 1 0 8H7z"/></symbol><symbol id="i-marker" viewBox="0 0 24 24"><path d="m14 4 6 6-9 9H6l-1-1v-5z"/><path d="M4 21h9"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6v.01M4.5 12v.01M4.5 18v.01"/></symbol><symbol id="i-alignR" viewBox="0 0 24 24"><path d="M4 6h16M9 12h11M6 18h14"/></symbol><symbol id="i-alignC" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M5 18h14"/></symbol><symbol id="i-alignL" viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h14"/></symbol><symbol id="i-eraser" viewBox="0 0 24 24"><path d="m8 20-5-5L14 4l7 7-9 9z"/><path d="M8 20h13M9 9l7 7"/></symbol><symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20c2-1 4-1 6-3L20 7l-3-3L7 14c-2 2-2 4-3 6z"/></symbol><symbol id="i-text" viewBox="0 0 24 24"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></symbol><symbol id="i-rect" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12"/></symbol><symbol id="i-pill" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/></symbol><symbol id="i-ellipse" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6.5"/></symbol><symbol id="i-diamond" viewBox="0 0 24 24"><path d="M12 3 21 12 12 21 3 12z"/></symbol><symbol id="i-line" viewBox="0 0 24 24"><path d="M5 19 19 5"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M10 5h9v9"/></symbol></svg>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-desk" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.7-8.95A6 6 0 0 1 17.8 8.1 5 5 0 0 1 17 18z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol><symbol id="i-week" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4M9 10v11M15 10v11"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol><symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 21v-7M12 14 7 10M12 14l5-4"/><circle cx="12" cy="6" r="3"/><circle cx="6" cy="9" r="2.2"/><circle cx="18" cy="9" r="2.2"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h6"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol><symbol id="i-money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1.5"/><circle cx="12" cy="12.5" r="2.6"/><path d="M6.5 9.5v.01M17.5 15.5v.01"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="m6.6 7.3 3.3 3M17.4 7.3l-3.3 3M6.6 16.7l3.3-3M17.4 16.7l-3.3-3"/></symbol><symbol id="i-clip" viewBox="0 0 24 24"><path d="m20 11-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v9l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v9"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 13 4.5 5L19.5 6"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8"/></symbol><symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h7V3M8 21v-7h8v7"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M8 5 3 10l5 5"/><path d="M3 10h11a6 6 0 0 1 0 12h-3"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 5 5 5-5 5"/><path d="M21 10H10a6 6 0 0 0 0 12h3"/></symbol><symbol id="i-chevR" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol><symbol id="i-chevL" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-starF" viewBox="0 0 24 24"><path fill="currentColor" d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-heading" viewBox="0 0 24 24"><path d="M6 5v14M18 5v14M6 12h12"/></symbol><symbol id="i-quote" viewBox="0 0 24 24"><path d="M10 7H6a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3M20 7h-4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3"/></symbol><symbol id="i-listNum" viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10M4 5l1.5-1v5M3.5 14.5c.5-1 2.5-1 2.5.5 0 1.2-2.5 2-2.5 3.5h2.8"/></symbol><symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.1"/><circle cx="12" cy="12" r="1.1"/><circle cx="19" cy="12" r="1.1"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol><symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r=".9"/><circle cx="15" cy="6" r=".9"/><circle cx="9" cy="12" r=".9"/><circle cx="15" cy="12" r=".9"/><circle cx="9" cy="18" r=".9"/><circle cx="15" cy="18" r=".9"/></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 1-3 0-6 1-10z"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v5M12 17.8v.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 8l5-5 5 5M4 20h16"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></symbol><symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol><symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H4v-7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7h-3"/><rect x="7" y="14" width="10" height="7"/></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3 7 9 7 9-7"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol><symbol id="i-pinMap" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></symbol><symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></symbol><symbol id="i-mountain" viewBox="0 0 24 24"><path d="m2 20 7-12 4 6 2-3 7 9z"/></symbol><symbol id="i-bold" viewBox="0 0 24 24"><path d="M7 4h6a4 4 0 0 1 0 8H7zM7 12h7a4 4 0 0 1 0 8H7z"/></symbol><symbol id="i-marker" viewBox="0 0 24 24"><path d="m14 4 6 6-9 9H6l-1-1v-5z"/><path d="M4 21h9"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6v.01M4.5 12v.01M4.5 18v.01"/></symbol><symbol id="i-alignR" viewBox="0 0 24 24"><path d="M4 6h16M9 12h11M6 18h14"/></symbol><symbol id="i-alignC" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M5 18h14"/></symbol><symbol id="i-alignL" viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h14"/></symbol><symbol id="i-eraser" viewBox="0 0 24 24"><path d="m8 20-5-5L14 4l7 7-9 9z"/><path d="M8 20h13M9 9l7 7"/></symbol><symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20c2-1 4-1 6-3L20 7l-3-3L7 14c-2 2-2 4-3 6z"/></symbol><symbol id="i-text" viewBox="0 0 24 24"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></symbol><symbol id="i-rect" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12"/></symbol><symbol id="i-pill" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/></symbol><symbol id="i-ellipse" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6.5"/></symbol><symbol id="i-diamond" viewBox="0 0 24 24"><path d="M12 3 21 12 12 21 3 12z"/></symbol><symbol id="i-line" viewBox="0 0 24 24"><path d="M5 19 19 5"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M10 5h9v9"/></symbol></svg>
 <div class="book">
   <div class="sheet">
     <div class="rings" aria-hidden="true"></div>
@@ -2442,26 +2557,108 @@ A['log.delToday'] = el => {
   commit(true); undoToast(`زمان‌های این روزِ «${s.title}» پاک شد.`, () => { s.p.timeLogs = before; });
 };
 
-/* ========== Image zoom ========== */
-function openZoom(src) {
-  if (!src) return;
-  const d = sheet({ title: 'نمایش تصویر', size: 'xl', body: `<div class="zoom-wrap" id="zw"><img id="zi" alt="" draggable="false" src="${esc(src)}"></div>`, foot: `<span class="hint" style="margin-inline-end:auto">چرخ موس یا دکمه‌ها برای زوم، کشیدن برای جابه‌جایی</span><button type="button" class="btn ghost sm" data-z="0.8" aria-label="کوچک‌تر">${icon('minus')}</button><button type="button" class="btn ghost sm" data-z="0">اندازه‌ی صفحه</button><button type="button" class="btn ghost sm" data-z="1.25" aria-label="بزرگ‌تر">${icon('plus')}</button>` });
-  const img = $('#zi', d), wrap = $('#zw', d); $('.dlg-body', d).style.padding = '0';
-  let sc = 1, x = 0, y = 0, fit = 1, drag = null;
+/* ========== Image viewer: full screen, the image fills the space, and every image of a note is one swipe away ========== */
+function openLightbox(srcs, start = 0, caption = '') {
+  srcs = (srcs || []).filter(Boolean); if (!srcs.length) return;
+  const many = srcs.length > 1;
+  let i = clamp(start, 0, srcs.length - 1), sc = 1, x = 0, y = 0, fit = 1, press = null, pinch = null, lastTap = 0;
+  const pts = new Map();
+  const d = document.createElement('dialog');
+  d.className = 'lb' + (many ? ' has-thumbs' : '');
+  d.setAttribute('aria-label', 'نمایش تصویر');
+  d.innerHTML = `<div class="lb-stage"><img class="lb-img" alt="" draggable="false"></div>
+    <div class="lb-top"><span class="lb-cap">${esc(caption)}</span><span class="lb-count tnum"></span><button type="button" class="lb-btn" data-lb="close" aria-label="بستن">${icon('x')}</button></div>
+    ${many ? `<button type="button" class="lb-btn lb-nav lb-prev" data-lb="prev" aria-label="تصویر قبلی">${icon('chevR')}</button><button type="button" class="lb-btn lb-nav lb-next" data-lb="next" aria-label="تصویر بعدی">${icon('chevL')}</button>` : ''}
+    <div class="lb-bottom">${many ? `<div class="lb-thumbs">${srcs.map((s, k) => `<button type="button" data-lb="go" data-k="${k}" aria-label="تصویر ${fa(k + 1)}"><img src="${s}" alt=""></button>`).join('')}</div>` : ''}
+      <div class="lb-tools"><button type="button" class="lb-btn" data-lb="out" aria-label="کوچک‌تر">${icon('minus')}</button><button type="button" class="lb-btn lb-fit" data-lb="fit">اندازه‌ی صفحه</button><button type="button" class="lb-btn" data-lb="in" aria-label="بزرگ‌تر">${icon('plus')}</button></div></div>`;
+  document.body.append(d);
+  const img = $('.lb-img', d), stage = $('.lb-stage', d);
   const ap = () => { img.style.transform = `translate(${x}px,${y}px) scale(${sc})`; };
-  const doFit = () => { fit = Math.min(wrap.clientWidth / (img.naturalWidth || 1), wrap.clientHeight / (img.naturalHeight || 1), 1); sc = fit; x = y = 0; ap(); };
-  img.onload = doFit; if (img.complete) doFit();
-  d.addEventListener('click', e => { const b = e.target.closest('[data-z]'); if (!b) return; if (+b.dataset.z === 0) doFit(); else { sc = clamp(sc * +b.dataset.z, .1, 8); ap(); } });
-  wrap.addEventListener('wheel', e => { e.preventDefault(); sc = clamp(sc * (e.deltaY < 0 ? 1.12 : .9), .1, 8); ap(); }, { passive: false });
-  /* one finger pans, two fingers pinch */
-  const pts = new Map(); let pinch = null;
+  const zoomed = () => sc > fit * 1.01;
+  const doFit = () => {
+    const w = img.naturalWidth || 1, h = img.naturalHeight || 1;
+    /* small images are enlarged to fill the screen, up to 3x, so nothing sits as a tiny square in the dark */
+    fit = Math.min(stage.clientWidth / w, stage.clientHeight / h, 3); sc = fit; x = y = 0; ap();
+  };
+  const zoomAt = (k, cx, cy) => {
+    const r = stage.getBoundingClientRect(), px = cx - (r.left + r.width / 2), py = cy - (r.top + r.height / 2);
+    const ns = clamp(sc * k, fit, Math.max(8, fit * 4));
+    x = px - (px - x) * ns / sc; y = py - (py - y) * ns / sc; sc = ns;
+    if (sc <= fit * 1.01) { sc = fit; x = y = 0; }
+    ap();
+  };
+  const zoomMid = k => { const r = stage.getBoundingClientRect(); zoomAt(k, r.left + r.width / 2, r.top + r.height / 2); };
+  const show = k => {
+    i = (k + srcs.length) % srcs.length;
+    img.onload = doFit; img.src = srcs[i]; if (img.complete && img.naturalWidth) doFit();
+    if (many) {
+      $('.lb-count', d).textContent = `${fa(i + 1)} از ${fa(srcs.length)}`;
+      $$('.lb-thumbs button', d).forEach((b, n) => { b.classList.toggle('on', n === i); if (n === i) b.scrollIntoView({ block: 'nearest', inline: 'center' }); });
+    }
+  };
+  d.addEventListener('click', e => {
+    const b = e.target.closest('[data-lb]'); if (!b) return;
+    const a = b.dataset.lb;
+    if (a === 'close') d.close(); else if (a === 'prev') show(i - 1); else if (a === 'next') show(i + 1);
+    else if (a === 'go') show(+b.dataset.k); else if (a === 'fit') doFit(); else if (a === 'in') zoomMid(1.35); else if (a === 'out') zoomMid(1 / 1.35);
+  });
+  d.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' && many) show(i + 1); else if (e.key === 'ArrowRight' && many) show(i - 1);
+    else if (e.key === '+' || e.key === '=') zoomMid(1.25); else if (e.key === '-') zoomMid(.8); else if (e.key === '0') doFit();
+  });
+  stage.addEventListener('wheel', e => { e.preventDefault(); zoomAt(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX, e.clientY); }, { passive: false });
   const gap = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.x - b.x, a.y - b.y) || 1; };
-  wrap.addEventListener('pointerdown', e => { pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); wrap.setPointerCapture(e.pointerId); if (pts.size === 2) { pinch = { d: gap(), sc }; drag = null; } else drag = { x: e.clientX - x, y: e.clientY - y }; });
-  wrap.addEventListener('pointermove', e => { if (pts.has(e.pointerId)) pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); if (pinch && pts.size === 2) { sc = clamp(pinch.sc * gap() / pinch.d, .1, 8); ap(); } else if (drag) { x = e.clientX - drag.x; y = e.clientY - drag.y; ap(); } });
-  const lift = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; drag = null; if (pts.size === 1) { const p = [...pts.values()][0]; drag = { x: p.x - x, y: p.y - y }; } };
-  wrap.addEventListener('pointerup', lift); wrap.addEventListener('pointercancel', lift);
+  const mid = () => { const [a, b] = [...pts.values()]; return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }; };
+  stage.addEventListener('pointerdown', e => {
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); stage.setPointerCapture(e.pointerId);
+    if (pts.size === 2) { pinch = { d: gap() }; press = null; }
+    else press = { sx: e.clientX, sy: e.clientY, x, y, onImg: e.target === img, moved: false };
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pinch && pts.size === 2) { const g = gap(), m = mid(); zoomAt(g / pinch.d, m.x, m.y); pinch.d = g; return; }
+    if (!press) return;
+    const dx = e.clientX - press.sx, dy = e.clientY - press.sy;
+    if (Math.hypot(dx, dy) > 6) press.moved = true;
+    if (zoomed()) { x = press.x + dx; y = press.y + dy; ap(); }
+    else if (many) { x = dx; ap(); }
+  });
+  const lift = e => {
+    if (!pts.has(e.pointerId)) return;
+    const end = pts.get(e.pointerId); pts.delete(e.pointerId);
+    if (pts.size < 2) pinch = null;
+    if (!press) { if (pts.size === 1) { const p = [...pts.values()][0]; press = { sx: p.x, sy: p.y, x, y, onImg: true, moved: true }; } return; }
+    const p = press; press = null;
+    if (!p.moved) {
+      if (e.type === 'pointercancel') return;
+      const now = Date.now();
+      if (p.onImg) { if (now - lastTap < 320) { if (zoomed()) doFit(); else zoomAt(Math.max(2.2, 1.6 / fit), end.x, end.y); lastTap = 0; } else lastTap = now; }
+      else d.close(); /* a tap on the dark area closes */
+      return;
+    }
+    if (!zoomed()) {
+      const dx = end.x - p.sx;
+      x = y = 0; ap();
+      /* same direction as turning a page in a right-to-left book */
+      if (many && Math.abs(dx) > 60) show(i + (dx > 0 ? 1 : -1));
+    }
+  };
+  stage.addEventListener('pointerup', lift); stage.addEventListener('pointercancel', lift);
+  d.addEventListener('close', () => d.remove());
+  d.showModal();
+  show(i);
+  return d;
 }
-document.addEventListener('click', e => { const i = e.target.closest('img[data-zoom],.note-view img,.rich-view img'); if (i) { e.stopPropagation(); openZoom(i.currentSrc || i.src); } }, true);
+const openZoom = src => openLightbox([src]);
+document.addEventListener('click', e => {
+  const i = e.target.closest('img[data-zoom],.note-view img,.rich-view img'); if (!i) return;
+  e.stopPropagation();
+  const gal = i.closest('[data-note-gal]'), view = i.closest('.note-view');
+  if (gal) { const n = noteById(gal.dataset.noteGal); if (n) openLightbox(noteImages(n), +i.dataset.i || 0, n.title || ''); return; }
+  if (view) { const all = Array.from(view.querySelectorAll('img')); openLightbox(all.map(x => x.currentSrc || x.src), all.indexOf(i)); return; }
+  openZoom(i.currentSrc || i.src);
+}, true);
 
 /* ========== Media previews (blobs live in IndexedDB) ========== */
 async function hydrateMedia(root) {
@@ -2490,7 +2687,7 @@ A['search.open'] = () => {
     allSkills().forEach(s => { if (has(s.title)) o.push({ ic: 'tree', t: s.title, sub: 'مهارت · ' + s.domain.title, go: `skills/s/${s.id}` }); });
     D.domains.forEach(x => { if (has(x.title)) o.push({ ic: 'tree', t: x.title, sub: 'حوزه', go: `skills/d/${x.id}` }); });
     D.goals.forEach(g => { if (has(g.title) || has(g.desc)) o.push({ ic: 'target', t: g.title, sub: 'هدف', go: 'goals' }); });
-    D.dailyNotes.forEach(n => { const p = notePlain(n); if (has(p) || has(n.category)) o.push({ ic: 'note', t: p.slice(0, 70) || 'یادداشت تصویری', sub: 'یادداشت · ' + jShort(n.date), note: n.id }); });
+    D.dailyNotes.forEach(n => { const p = noteParts(n).plain; if (has(n.title) || has(p) || has(n.category)) o.push({ ic: 'note', t: n.title || p.slice(0, 70) || 'یادداشت تصویری', sub: 'یادداشت · ' + jShort(n.date), note: n.id }); });
     const seen = new Set();
     D.dailyTasks.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach(t => { const k = t.seriesId || t.id; if ((has(t.title) || has(t.desc)) && !seen.has(k)) { seen.add(k); o.push({ ic: 'check', t: t.title, sub: 'تسک · ' + jShort(t.date), go: `day/${t.date}` }); } });
     D.finance.transactions.forEach(t => { if (has(t.desc) || t.tags.some(has)) o.push({ ic: 'money', t: t.desc || t.tags.join(' '), sub: fmtMoney(t.amount) + ' · ' + jShort(t.date), go: 'money' }); });
@@ -2598,42 +2795,14 @@ function calendarCard() {
     </details></div></section>`;
 }
 A['cal.shift'] = el => { const tj = jOf(todayStr()); const m = ui.calMonth || { jy: tj.jy, jm: tj.jm }; let jm = m.jm + +el.dataset.n, jy = m.jy; if (jm > 12) { jm = 1; jy++; } if (jm < 1) { jm = 12; jy--; } ui.calMonth = { jy, jm }; render(); };
-function stickyHtml(n) {
-  const imgs = noteImages(n), p = notePlain(n);
-  return `<button type="button" class="sticky nc-${n.color}" data-a="note.view" data-id="${n.id}">${n.category ? `<span class="cat">${esc(n.category)}</span>` : ''}${imgs[0] ? `<img src="${imgs[0]}" alt="">` : ''}${esc(p.slice(0, 120))}${p.length > 120 ? '…' : ''}</button>`;
-}
 function stickyBoard() {
   const pinned = D.dailyNotes.filter(n => n.pinned).slice(0, 4);
   return `<section class="stack" style="gap:12px" aria-label="برگه‌های چسبان"><div class="row between"><h3 class="stk side-title">برگه‌های چسبان</h3>${pinned.length < 4 ? `<button type="button" class="btn ghost sm" data-a="note.newPinned">${icon('plus')} برگه</button>` : ''}</div>
-  ${pinned.length ? `<div class="stickies">${pinned.map(stickyHtml).join('')}</div>` : `<p class="quiet">تا چهار تا یادداشت رو می‌تونی اینجا بچسبونی.</p>`}</section>`;
+  ${pinned.length ? `<div class="stickies">${pinned.map(n => noteCard(n, { sticky: true })).join('')}</div>` : `<p class="quiet">تا چهار تا یادداشت رو می‌تونی اینجا بچسبونی.</p>`}</section>`;
 }
 function todayTimeCard(today) {
   const t = dayMinutes(today);
   return pastedSheet(2, `زمان امروز: ${fmtMin(t.minutes)}`, t.bySkill.length ? t.bySkill.map(s => `<div class="log-row"><span class="grow truncate">${esc(s.title)}</span><b class="tnum">${fmtMin(s.minutes)}</b><button type="button" class="icon-btn sm danger" data-a="log.delToday" data-skill="${s.skillId}" aria-label="پاک کردن زمان امروز ${esc(s.title)}">${icon('trash')}</button></div>`).join('') : `<p class="quiet">هنوز زمانی ثبت نشده.</p>`);
-}
-function noteComposer(prefix, opts = {}) {
-  const today = todayStr();
-  return `<div class="scrap stack" style="gap:8px">
-    <div class="grid3"><div class="field"><label>تاریخ</label>${dateField(prefix + 'Date', today)}</div>
-    ${opts.skillId ? `<input type="hidden" id="${prefix}Skill" value="${opts.skillId}">` : `<div class="field"><label for="${prefix}Skill">مهارت</label><select id="${prefix}Skill">${skillOptions(null, 'عمومی')}</select></div>`}
-    <div class="field"><label for="${prefix}Cat">پوشه</label><input id="${prefix}Cat" list="noteCats" placeholder="اختیاری"><datalist id="noteCats">${noteCategories().map(c => `<option value="${esc(c)}"></option>`).join('')}</datalist></div></div>
-    <textarea id="${prefix}Text" class="ruled-input" data-in="count.words" data-count="${prefix}Count" placeholder="${opts.ph || 'پیش‌نویس کوتاه… برای نوشتن مفصل برو اتاق نوشتن.'}"></textarea>
-    <div class="row between wrap"><div class="row"><button type="button" class="btn pri" data-a="note.quick" data-p="${prefix}">ثبت یادداشت</button><button type="button" class="btn ghost" data-a="note.room" data-p="${prefix}">${icon('expand')} اتاق نوشتن</button></div><span id="${prefix}Count" class="small muted tnum">۰ کلمه</span></div></div>`;
-}
-IN['count.words'] = el => { const c = $('#' + el.dataset.count); if (c) c.textContent = `${fa(words(el.value))} کلمه · ${fa(el.value.length)} حرف`; };
-function noteCard(n, opts = {}) {
-  const sk = skillById(n.skillId), imgs = noteImages(n), p = notePlain(n);
-  const max = opts.max || 170;
-  /* the first short line reads as the note's title; anything else is body */
-  const cut = p.indexOf('\n'), first = cut > 0 ? p.slice(0, cut).trim() : p;
-  const hasLead = first.length > 0 && first.length <= 80;
-  const lead = hasLead ? first : '', rest = hasLead ? (cut > 0 ? p.slice(cut + 1).trim() : '') : p;
-  return `<article class="note-card" style="${sk ? dcStyle(sk.domain) : ''}" data-a="note.view" data-id="${n.id}">
-    <div class="row between wrap" style="gap:4px"><div class="row wrap" style="gap:5px">${n.category ? `<span class="chip">${icon('folder')} ${esc(n.category)}</span>` : ''}${sk ? `<span class="chip hl" style="${dcStyle(sk.domain)}">${esc(sk.title)}</span>` : ''}<span class="small muted">${jShort(n.date)}</span></div>
-    <div class="row" style="gap:0"><button type="button" class="icon-btn sm ${n.pinned ? 'on' : ''}" data-a="note.pin" data-id="${n.id}" aria-label="پین">${icon('pin')}</button><button type="button" class="icon-btn sm" data-a="note.edit" data-id="${n.id}" aria-label="ویرایش">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="note.del" data-id="${n.id}" aria-label="حذف">${icon('trash')}</button></div></div>
-    ${lead ? `<div class="note-lead">${esc(lead)}</div>` : ''}${rest ? `<div class="note-text">${esc(rest.slice(0, max))}${rest.length > max ? '…' : ''}</div>` : ''}
-    ${imgs.length ? `<div class="note-imgs">${imgs.slice(0, 5).map(s => `<img src="${s}" alt="" data-zoom="1">`).join('')}</div>` : ''}
-  </article>`;
 }
 A['desk.seg'] = el => {
   ui.deskSeg = el.dataset.s;
@@ -2659,7 +2828,7 @@ PAGES.desk = () => {
         ${deskTasks(today)}
       </section>
       <section class="stack" aria-label="یادداشت روزانه" style="gap:14px"><h2 class="stk side-title" style="align-self:flex-start">یادداشت روزانه</h2>${noteComposer('dn')}
-        ${recent.length ? `<div class="stack" style="gap:10px">${recent.map(n => noteCard(n)).join('')}</div>` : ''}</section>
+        ${noteList(noteSort(recent), { empty: '' })}${notesLink('notes/all', `همه‌ی یادداشت‌ها (${fa(D.dailyNotes.length)})`)}</section>
     </div>
     <aside class="col-side" style="gap:28px">${timerCard()}${boardPad()}${calendarCard()}${stickyBoard()}${todayTimeCard(today)}<button type="button" class="btn ghost sm" style="align-self:flex-start" data-a="time.new">${icon('plus')} ثبت دستی زمان</button></aside>
   </div>`;
@@ -2705,7 +2874,7 @@ PAGES.day = r => {
     <section class="panel" style="gap:6px"><div class="row between"><h3 class="h-sec">${icon('clock')} زمان: ${fmtMin(time.minutes)}</h3><button type="button" class="icon-btn sm" data-a="time.new" aria-label="ثبت زمان">${icon('plus')}</button></div>
       ${time.bySkill.map(s => `<div class="log-row"><span class="grow truncate">${esc(s.title)}</span><b class="tnum">${fmtMin(s.minutes)}</b><button type="button" class="icon-btn sm danger" data-a="log.delToday" data-day="${day}" data-skill="${s.skillId}" aria-label="پاک کردن">${icon('trash')}</button></div>`).join('') || `<p class="hint">این روز زمانی ثبت نشده.</p>`}</section>
     ${log ? `<section class="pad"><p style="white-space:pre-wrap;font-weight:600;line-height:28px;overflow-wrap:anywhere">${esc(log)}</p><p class="pad-foot">تخته‌ی این روز</p></section>` : ''}
-    <section class="panel" style="gap:10px"><h3 class="h-sec">${icon('note')} یادداشت‌های این روز</h3>${notes.length ? notes.map(n => noteCard(n, { max: 100 })).join('') : `<p class="hint">یادداشتی نیست.</p>`}<button type="button" class="btn ghost sm" style="align-self:flex-start" data-a="note.new" data-date="${day}">${icon('plus')} یادداشت این روز</button></section>
+    <section class="panel" style="gap:10px"><h3 class="h-sec">${icon('note')} یادداشت‌های این روز</h3>${noteList(noteSort(notes))}<div class="row wrap" style="gap:6px"><button type="button" class="btn ghost sm" data-a="note.new" data-date="${day}">${icon('plus')} یادداشت این روز</button>${notes.length ? notesLink(`notes/d/${day}`, 'تو یادداشت‌ها ببین') : ''}</div></section>
   </aside></div>`;
 };
 A['day.unlock'] = el => { const d = el.dataset.day; delete D.dayArchives[d]; D.dayUnlocks[d] = todayStr(); commit(true); toast('تا آخر امروز می‌تونی این روز رو اصلاح کنی.'); };
@@ -2845,8 +3014,8 @@ function skStats(s) {
 IN['mastery.label'] = el => { $('#masteryL').textContent = fa(el.value) + '٪'; };
 CH['mastery.save'] = el => { const s = skillById(el.dataset.id); if (s) { s.p.mastery = +el.value; commit(false); toast('میزان تسلط ذخیره شد.'); } };
 function skJournal(s) {
-  const list = D.dailyNotes.filter(n => n.skillId === s.id).sort((a, b) => b.date.localeCompare(a.date));
-  return `<div class="two"><section>${noteComposer('jr', { skillId: s.id, ph: 'امروز چی یاد گرفتی؟' })}</section><section class="stack" style="gap:9px">${list.length ? list.map(n => noteCard(n)).join('') : `<p class="hint">هنوز چیزی ننوشتی. یادداشت‌هایی که به این مهارت وصل کنی اینجا میان.</p>`}</section></div>`;
+  const list = noteSort(D.dailyNotes.filter(n => n.skillId === s.id));
+  return `<div class="stack" style="gap:16px">${noteComposer('jr', { skillId: s.id, ph: 'امروز چی یاد گرفتی؟' })}${noteList(list, { empty: `<p class="hint">هنوز چیزی ننوشتی. یادداشت‌هایی که به این مهارت وصل کنی اینجا میان.</p>` })}${list.length ? notesLink(`notes/s/${s.id}`, 'تو یادداشت‌ها ببین') : ''}</div>`;
 }
 function workMedia(a) {
   if (a.hasMedia) return `<div class="media-slot" data-file="${a.id}" data-mime="${esc(a.mimeType || '')}"><span class="small muted">در حال بارگذاری…</span></div>`;
@@ -2991,43 +3160,153 @@ A['node.del'] = async el => {
   undoToast('پاک شد.', () => { D.domains = JSON.parse(snap); }, () => gone.forEach(g => fileDel(g).catch(() => { })));
 };
 
-/* ========== Notes: one store, folders by category, skill journals are a filtered view ========== */
+/* ========== Notes: one store, one card, one reader, one editor. ==========
+   Every other page (desk, day, skill journal, stickies) only filters this module and opens the same pieces.
+   A note is: optional title, rich body, date, folder, skill, pinned. A title is never guessed from the text.
+   Colour has one meaning: the skill's domain. Yellow means "stuck on the desk". The old per-note `color` stays
+   in the data untouched, so old backups and other devices keep working, but nothing reads it. */
 function noteCategories() { return Array.from(new Set(D.dailyNotes.map(n => n.category.trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'fa')); }
-PAGES.notes = r => {
-  const q = ui.notesQ.trim().toLowerCase(), folder = ui.notesFolder;
-  const sorted = D.dailyNotes.slice().sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || b.date.localeCompare(a.date) || String(b.updatedAt).localeCompare(String(a.updatedAt)));
-  let body;
-  if (q) {
-    const found = sorted.filter(n => notePlain(n).toLowerCase().includes(q) || n.category.toLowerCase().includes(q));
-    body = found.length ? `<div class="card-grid" style="grid-template-columns:repeat(auto-fill,minmax(290px,1fr))">${found.map(n => noteCard(n)).join('')}</div>` : emptyBox('search', 'یادداشتی با این کلمه پیدا نشد.');
-  } else if (folder === null) {
-    const map = new Map(); D.dailyNotes.forEach(n => { const k = n.category.trim(); map.set(k, (map.get(k) || 0) + 1); });
-    const names = Array.from(map.keys()).sort((a, b) => !a ? 1 : !b ? -1 : a.localeCompare(b, 'fa'));
-    body = names.length ? `<div class="folders" style="margin-top:12px">${names.map(n => `<button type="button" class="folder ${n ? '' : 'inbox'}" data-a="notes.open" data-f="${esc(n)}"><b>${n ? esc(n) : 'بدون پوشه'}</b><span>${fa(map.get(n))} یادداشت</span></button>`).join('')}</div>` : emptyBox('note', 'هنوز یادداشتی نداری. هر دسته‌ای بنویسی، خودش یه پوشه می‌شه.', `<button type="button" class="btn pri" data-a="note.new">${icon('plus')} اولین یادداشت</button>`);
-  } else {
-    const inF = sorted.filter(n => n.category.trim() === folder);
-    body = `<button type="button" class="btn ghost sm" data-a="notes.open" data-root="1" style="margin-bottom:12px">${icon('chevR')} همه‌ی پوشه‌ها</button>${inF.length ? `<div class="card-grid" style="grid-template-columns:repeat(auto-fill,minmax(290px,1fr))">${inF.map(n => noteCard(n)).join('')}</div>` : emptyBox('note', 'این پوشه خالیه.')}`;
+const noteById = id => D.dailyNotes.find(n => n.id === id);
+const noteSort = list => list.slice().sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || b.date.localeCompare(a.date) || String(b.updatedAt).localeCompare(String(a.updatedAt)));
+const folderRoute = name => `notes/f/${encodeURIComponent(name)}`;
+
+/* Text without the images, cached: parsing a note that holds a large image on every render is slow */
+const NOTE_MEMO = new Map();
+function trimBlocks(html) {
+  if (!html) return '';
+  const t = document.createElement('template'); t.innerHTML = html;
+  const c = t.content, empty = x => !x.textContent.trim();
+  while (c.firstChild && empty(c.firstChild)) c.firstChild.remove();
+  while (c.lastChild && empty(c.lastChild)) c.lastChild.remove();
+  const d = document.createElement('div'); d.append(c);
+  return d.innerHTML;
+}
+function noteParts(n) {
+  const key = `${n.id}|${n.updatedAt}|${String(n.content).length}`;
+  let m = NOTE_MEMO.get(key);
+  if (!m) {
+    const text = String(n.content || '').replace(/<img\b[^>]*>/gi, '');
+    m = { html: trimBlocks(noteHtml({ content: text })), plain: notePlain({ content: text }) };
+    if (NOTE_MEMO.size > 500) NOTE_MEMO.clear();
+    NOTE_MEMO.set(key, m);
   }
-  return `<div class="page-head"><div><h1 class="page-title">${folder === null || q ? 'یادداشت‌ها' : folder ? esc(folder) : 'بدون پوشه'}</h1><p class="muted small">${fa(D.dailyNotes.length)} یادداشت</p></div><div class="row wrap"><input class="inp" style="width:210px" id="notesQ" data-in="notes.q" value="${esc(ui.notesQ)}" placeholder="جستجو تو یادداشت‌ها" aria-label="جستجو تو یادداشت‌ها"><button type="button" class="btn pri" data-a="note.new" data-cat="${esc(folder || '')}">${icon('plus')} یادداشت جدید</button></div></div>${body}`;
+  return m;
+}
+const noteSearchText = n => `${n.title || ''} ${noteParts(n).plain} ${n.category}`.toLowerCase();
+
+/* ---------- the card: the only way a note is ever shown in a list ---------- */
+function noteGallery(n) {
+  const imgs = noteImages(n); if (!imgs.length) return '';
+  const shown = imgs.slice(0, 4), more = imgs.length - shown.length;
+  return `<div class="nc-gallery g${shown.length}" data-note-gal="${n.id}">${shown.map((s, i) => `<span class="nc-shot"><img src="${s}" alt="" loading="lazy" decoding="async" data-zoom="1" data-i="${i}">${i === 3 && more > 0 ? `<b class="nc-plus">+${fa(more)}</b>` : ''}</span>`).join('')}</div>`;
+}
+function noteChips(n, close) {
+  const sk = skillById(n.skillId), x = close ? 'data-close' : '';
+  return `${n.pinned ? `<span class="nc-pin" title="روی میز">${icon('pin')}</span>` : ''}<span class="nc-date">${jShort(n.date)}</span>
+    ${n.category ? `<button type="button" class="chip" data-a="go" data-to="${esc(folderRoute(n.category))}" ${x}>${icon('folder')} ${esc(n.category)}</button>` : ''}
+    ${sk ? `<button type="button" class="chip hl" style="${dcStyle(sk.domain)}" data-a="go" data-to="notes/s/${sk.id}" ${x}>${esc(sk.title)}</button>` : ''}`;
+}
+function noteCard(n, o = {}) {
+  const sk = skillById(n.skillId), { html, plain } = noteParts(n);
+  const long = plain.length > (o.sticky ? 120 : 260) || plain.split('\n').length > (o.sticky ? 4 : 7);
+  return `<article class="note-card ${o.sticky ? 'nc-sticky' : ''} ${n.pinned ? 'is-pinned' : ''}" style="${sk ? dcStyle(sk.domain) : ''}" data-a="note.view" data-id="${n.id}">
+    ${noteGallery(n)}
+    ${n.title || html ? `<div class="nc-body">${n.title ? `<h3 class="nc-title">${esc(n.title)}</h3>` : ''}${html ? `<div class="nc-text note-rich ${long ? 'is-long' : ''}">${html}</div>` : ''}</div>` : ''}
+    <footer class="nc-foot"><div class="nc-meta">${noteChips(n)}</div>
+      ${o.sticky ? '' : `<div class="nc-acts"><button type="button" class="icon-btn sm ${n.pinned ? 'on' : ''}" data-a="note.pin" data-id="${n.id}" aria-label="${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}" title="${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}">${icon('pin')}</button><button type="button" class="icon-btn sm" data-a="note.edit" data-id="${n.id}" aria-label="ویرایش" title="ویرایش">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="note.del" data-id="${n.id}" aria-label="حذف" title="حذف">${icon('trash')}</button></div>`}
+    </footer></article>`;
+}
+function noteList(list, o = {}) {
+  if (!list.length) return o.empty !== undefined ? o.empty : `<p class="hint">یادداشتی نیست.</p>`;
+  return `<div class="note-list">${list.map(n => noteCard(n, o)).join('')}</div>`;
+}
+/* A link back to the hub, so a filtered view on any page is visibly part of the same notes */
+const notesLink = (to, label) => `<button type="button" class="btn ghost sm notes-link" data-a="go" data-to="${esc(to)}">${icon('note')} ${label}</button>`;
+
+/* ---------- quick capture: the same box on every page; anything more opens the same editor ---------- */
+function noteComposer(prefix, o = {}) {
+  const attrs = `data-p="${prefix}" data-date="${esc(o.date || '')}" data-skill="${esc(o.skillId || '')}" data-cat="${esc(o.category || '')}"`;
+  return `<div class="scrap note-quick"><textarea id="${prefix}Text" class="ruled-input" data-in="count.words" data-count="${prefix}Count" aria-label="یادداشت سریع" placeholder="${esc(o.ph || 'یه چیزی بنویس…')}"></textarea>
+    <div class="row between wrap"><div class="row"><button type="button" class="btn pri" data-a="note.quick" ${attrs}>ثبت یادداشت</button><button type="button" class="btn ghost" data-a="note.room" ${attrs}>${icon('expand')} اتاق نوشتن</button></div><span id="${prefix}Count" class="small muted tnum">۰ کلمه</span></div></div>`;
+}
+IN['count.words'] = el => { const c = $('#' + el.dataset.count); if (c) c.textContent = `${fa(words(el.value))} کلمه · ${fa(el.value.length)} حرف`; };
+A['note.quick'] = el => {
+  const p = el.dataset.p, box = $('#' + p + 'Text'), text = box.value.trim();
+  if (!text) { toast('متن یادداشت خالیه.', 'err'); return; }
+  const skillId = el.dataset.skill || null, sk = skillById(skillId), iso = new Date(nowMs()).toISOString();
+  D.dailyNotes.push({ id: uid(), content: text, date: el.dataset.date || todayStr(), skillId, domainId: sk ? sk.domainId : null, category: el.dataset.cat || '', color: 'y', pinned: false, images: [], createdAt: iso, updatedAt: iso });
+  box.value = '';
+  commit(true); toast('یادداشت ثبت شد.');
+};
+A['note.room'] = el => {
+  const p = el.dataset.p;
+  openNoteEditor({ draft: $('#' + p + 'Text').value, date: el.dataset.date || undefined, category: el.dataset.cat || '', skillId: el.dataset.skill || null, clear: p + 'Text' });
+};
+
+/* ---------- the hub: folders, everything, pinned, by skill, by day ---------- */
+const NOTES_PAGE = 30;
+function notesGroups(items) {
+  return items.length ? `<div class="folders" style="margin-top:12px">${items.map(x => `<button type="button" class="folder ${x.inbox ? 'inbox' : ''}" data-a="go" data-to="${esc(x.to)}"><b>${esc(x.name)}</b><span>${fa(x.count)} یادداشت</span></button>`).join('')}</div>` : emptyBox('note', 'هنوز یادداشتی نداری. هر پوشه‌ای بنویسی، خودش ساخته می‌شه.', `<button type="button" class="btn pri" data-a="note.new">${icon('plus')} اولین یادداشت</button>`);
+}
+function noteCtx() {
+  const r = ui.route; if (r.page !== 'notes') return {};
+  if (r.a === 'f') return { category: r.b || '' };
+  if (r.a === 's' && r.b !== 'none') return { skillId: r.b };
+  if (r.a === 'd') return { date: r.b };
+  return {};
+}
+PAGES.notes = r => {
+  const q = ui.notesQ.trim().toLowerCase(), all = noteSort(D.dailyNotes);
+  const view = r.a || 'folders';
+  const key = `${view}|${r.b || ''}|${q}`;
+  if (ui.notesKey !== key) { ui.notesKey = key; ui.notesLimit = NOTES_PAGE; }
+  let title = 'یادداشت‌ها', list = null, grid = '', back = '', side = '', tab = view;
+  const emptyMsg = t => emptyBox('note', t);
+  if (q) { list = all.filter(n => noteSearchText(n).includes(q)); tab = ''; }
+  else if (view === 'all') list = all;
+  else if (view === 'pinned') list = all.filter(n => n.pinned);
+  else if (view === 'f') {
+    const f = r.b || ''; title = f || 'بدون پوشه'; tab = 'folders';
+    list = all.filter(n => n.category.trim() === f); back = ['notes', 'همه‌ی پوشه‌ها'];
+  } else if (view === 's') {
+    const sk = r.b === 'none' ? null : skillById(r.b); title = sk ? sk.title : 'بدون مهارت'; tab = 'skills';
+    list = all.filter(n => (sk ? n.skillId === sk.id : !skillById(n.skillId))); back = ['notes/skills', 'همه‌ی مهارت‌ها'];
+    if (sk) side = `<button type="button" class="btn ghost sm" data-a="go" data-to="skills/s/${sk.id}/journal">${icon('tree')} رفتن به صفحه‌ی مهارت</button>`;
+  } else if (view === 'd') {
+    title = isDate(r.b) ? jMid(r.b) : 'این روز'; tab = 'all';
+    list = all.filter(n => n.date === r.b); back = ['notes/all', 'همه‌ی یادداشت‌ها'];
+    if (isDate(r.b)) side = `<button type="button" class="btn ghost sm" data-a="go" data-to="day/${r.b}">${icon('sun')} رفتن به صفحه‌ی روز</button>`;
+  } else if (view === 'skills') {
+    const m = new Map(); D.dailyNotes.forEach(n => { const k = skillById(n.skillId) ? n.skillId : ''; m.set(k, (m.get(k) || 0) + 1); });
+    grid = notesGroups(Array.from(m.keys()).map(k => { const sk = skillById(k); return { name: sk ? sk.title : 'بدون مهارت', to: `notes/s/${k || 'none'}`, count: m.get(k), inbox: !sk }; }).sort((a, b) => a.inbox - b.inbox || b.count - a.count));
+  } else {
+    const m = new Map(); D.dailyNotes.forEach(n => { const k = n.category.trim(); m.set(k, (m.get(k) || 0) + 1); });
+    grid = notesGroups(Array.from(m.keys()).sort((a, b) => !a ? 1 : !b ? -1 : a.localeCompare(b, 'fa')).map(k => ({ name: k || 'بدون پوشه', to: folderRoute(k), count: m.get(k), inbox: !k })));
+  }
+  const tabs = [['folders', 'پوشه‌ها', 'notes'], ['all', 'همه', 'notes/all'], ['pinned', 'روی میز', 'notes/pinned'], ['skills', 'مهارت‌ها', 'notes/skills']];
+  const body = grid || (list.length ? `${noteList(list.slice(0, ui.notesLimit))}${list.length > ui.notesLimit ? `<button type="button" class="btn notes-more" data-a="notes.more">${fa(list.length - ui.notesLimit)} یادداشت دیگه</button>` : ''}` : emptyMsg(q ? 'یادداشتی با این کلمه پیدا نشد.' : view === 'pinned' ? 'هنوز چیزی روی میز نچسبوندی.' : 'اینجا هنوز یادداشتی نیست.'));
+  return `<div class="page-head"><div><h1 class="page-title">${esc(title)}</h1><p class="muted small">${list && (view !== 'all' || q) ? `${fa(list.length)} از ${fa(D.dailyNotes.length)} یادداشت` : `${fa(D.dailyNotes.length)} یادداشت`}</p></div><div class="row wrap notes-tools"><input class="inp" id="notesQ" data-in="notes.q" value="${esc(ui.notesQ)}" placeholder="جستجو تو یادداشت‌ها" aria-label="جستجو تو یادداشت‌ها"><button type="button" class="btn pri" data-a="note.new">${icon('plus')} یادداشت جدید</button></div></div>
+  <div class="subtabs" role="tablist">${tabs.map(([k, l, to]) => `<button type="button" role="tab" aria-selected="${k === tab}" class="${k === tab ? 'on' : ''}" data-a="notes.tab" data-to="${to}">${l}</button>`).join('')}</div>
+  ${back || side ? `<div class="row wrap notes-crumb">${back ? `<button type="button" class="m-back notes-back" data-a="go" data-to="${back[0]}">${icon('chevR')} ${back[1]}</button>` : ''}${side}</div>` : ''}${body}`;
 };
 IN['notes.q'] = el => { ui.notesQ = el.value; render(); };
-A['notes.open'] = el => { ui.notesFolder = el.dataset.root ? null : el.dataset.f; ui.notesQ = ''; const q = $('#notesQ'); if (q) q.value = ''; render(); };
-const noteById = id => D.dailyNotes.find(n => n.id === id);
+A['notes.tab'] = el => { ui.notesQ = ''; go(el.dataset.to); };
+A['notes.more'] = () => { ui.notesLimit += NOTES_PAGE; render(); };
+
+/* ---------- the reader ---------- */
 function openNoteView(id) {
   const n = noteById(id); if (!n) return;
   const sk = skillById(n.skillId);
-  const meta = [jMid(n.date), n.category, sk && sk.title].filter(Boolean).map(esc).join(' · ');
-  const d = sheet({
-    title: 'یادداشت', size: 'l',
-    body: `<p class="small muted">${meta}</p><div class="note-view nc-${n.color}">${noteHtml(n) || '<span style="opacity:.6">خالی</span>'}</div>`,
-    foot: `<button type="button" class="btn ghost" data-a="note.pin" data-id="${n.id}">${icon('pin')} ${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}</button><button type="button" class="btn" data-a="note.editFromView" data-id="${n.id}">${icon('edit')} ویرایش</button><button type="button" class="btn pri" data-a="dlg.close">بستن</button>`
+  return sheet({
+    title: n.title ? esc(n.title) : 'یادداشت', size: 'l', cls: 'note-read',
+    body: `<div class="nc-meta nr-meta">${noteChips(n, true)}</div><article class="note-view note-rich" style="${sk ? dcStyle(sk.domain) : ''}">${noteHtml(n) || '<span class="muted">خالی</span>'}</article>`,
+    foot: `<button type="button" class="btn ghost nr-del" data-a="note.del" data-id="${n.id}" data-close aria-label="حذف" title="حذف">${icon('trash')}</button><button type="button" class="btn ghost" data-a="note.pin" data-id="${n.id}">${icon('pin')} ${n.pinned ? 'برداشتن از میز' : 'چسبوندن رو میز'}</button><button type="button" class="btn pri" data-a="note.editFromView" data-id="${n.id}">${icon('edit')} ویرایش</button>`
   });
-  return d;
 }
 A['note.view'] = el => openNoteView(el.dataset.id);
 A['note.editFromView'] = el => { const id = el.dataset.id; closeDlg(el); openNoteEditor({ id }); };
 A['note.edit'] = el => openNoteEditor({ id: el.dataset.id });
-A['note.new'] = el => openNoteEditor({ date: el.dataset.date, category: el.dataset.cat || (ui.route.page === 'notes' && ui.notesFolder) || '' });
+A['note.new'] = el => openNoteEditor(Object.assign({ date: el.dataset.date, category: el.dataset.cat || '', skillId: el.dataset.skill || null }, noteCtx()));
 A['note.newPinned'] = () => openNoteEditor({ pinned: true });
 A['note.pin'] = el => {
   const n = noteById(el.dataset.id); if (!n) return;
@@ -3041,18 +3320,8 @@ A['note.del'] = el => {
   D.dailyNotes = D.dailyNotes.filter(n => n.id !== el.dataset.id);
   commit(true); undoToast('یادداشت پاک شد.', () => { D.dailyNotes = before; });
 };
-A['note.quick'] = el => {
-  const p = el.dataset.p, text = $('#' + p + 'Text').value.trim();
-  if (!text) { toast('متن یادداشت خالیه.', 'err'); return; }
-  const skillId = $('#' + p + 'Skill').value || null, sk = skillById(skillId), iso = new Date(nowMs()).toISOString();
-  D.dailyNotes.push({ id: uid(), content: text, date: $('#' + p + 'Date').value || todayStr(), skillId, domainId: sk ? sk.domainId : null, category: $('#' + p + 'Cat').value.trim(), color: skillId ? 'l' : 'y', pinned: false, images: [], createdAt: iso, updatedAt: iso });
-  $('#' + p + 'Text').value = ''; $('#' + p + 'Cat').value = '';
-  commit(true); toast('یادداشت ثبت شد.');
-};
-A['note.room'] = el => {
-  const p = el.dataset.p;
-  openNoteEditor({ draft: $('#' + p + 'Text').value, date: $('#' + p + 'Date').value, category: $('#' + p + 'Cat').value, skillId: $('#' + p + 'Skill').value, clear: p + 'Text' });
-};
+
+/* ---------- the editor ---------- */
 const draftKey = id => 'hp-draft-' + (id || 'new');
 const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const lsSet = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* drafts are best-effort */ } };
@@ -3061,33 +3330,35 @@ function openNoteEditor(o = {}) {
   let content = n ? noteHtml(n) : o.draft ? esc(o.draft).replace(/\n/g, '<br>') : '';
   const stored = lsGet(draftKey(o.id)); let restored = false;
   if (stored && stored !== content && (!o.draft)) { content = sanitizeHtml(stored); restored = true; }
-  const color = n ? n.color : (o.color || 'y');
+  const titleKey = draftKey(o.id) + '-title', titleDraft = restored ? lsGet(titleKey) : null;
+  const tool = (fmt, ic, label) => `<button type="button" class="icon-btn" data-fmt="${fmt}" aria-label="${label}" title="${label}">${icon(ic)}</button>`;
   const d = sheet({
-    title: n ? 'ویرایش یادداشت' : 'اتاق نوشتن', size: 'xl',
-    body: `<div class="grid3"><div class="field"><label>تاریخ</label>${dateField('neDate', n ? n.date : (o.date || todayStr()))}</div><div class="field"><label for="neSkill">مهارت</label><select id="neSkill">${skillOptions(n ? n.skillId : o.skillId, 'عمومی')}</select></div><div class="field"><label for="neCat">پوشه</label><input id="neCat" list="neCats" value="${esc(n ? n.category : (o.category || ''))}" placeholder="مثلاً ایده، کار، شخصی"><datalist id="neCats">${noteCategories().map(c => `<option value="${esc(c)}"></option>`).join('')}</datalist></div></div>
+    title: n ? 'ویرایش یادداشت' : 'اتاق نوشتن', size: 'xl', cls: 'note-ed',
+    body: `<input id="neTitle" class="ne-title" value="${esc(titleDraft != null ? titleDraft : (n && n.title) || '')}" placeholder="عنوان (اختیاری)" aria-label="عنوان یادداشت" autocomplete="off">
     <div class="fmt" role="toolbar" aria-label="قالب‌بندی متن">
-      <button type="button" class="icon-btn" data-fmt="bold" aria-label="پررنگ" title="پررنگ">${icon('bold')}</button><button type="button" class="icon-btn" data-fmt="hl" aria-label="هایلایت" title="هایلایت">${icon('marker')}</button><button type="button" class="icon-btn" data-fmt="insertUnorderedList" aria-label="فهرست" title="فهرست">${icon('list')}</button><span class="sep"></span>
-      <button type="button" class="icon-btn" data-fmt="justifyRight" aria-label="راست‌چین" title="راست‌چین">${icon('alignR')}</button><button type="button" class="icon-btn" data-fmt="justifyCenter" aria-label="وسط‌چین" title="وسط‌چین">${icon('alignC')}</button><button type="button" class="icon-btn" data-fmt="justifyLeft" aria-label="چپ‌چین" title="چپ‌چین">${icon('alignL')}</button><span class="sep"></span>
-      <button type="button" class="icon-btn" data-fmt="removeFormat" aria-label="پاک کردن قالب" title="پاک کردن قالب">${icon('eraser')}</button><label class="icon-btn" title="درج تصویر" style="cursor:pointer">${icon('image')}<span class="sr">درج تصویر</span><input type="file" class="sr" id="neImg" accept="image/*" data-nokeep></label>
+      ${tool('h2', 'heading', 'سرتیتر')}${tool('bold', 'bold', 'پررنگ')}${tool('hl', 'marker', 'هایلایت')}${tool('insertUnorderedList', 'list', 'فهرست')}${tool('insertOrderedList', 'listNum', 'فهرست شماره‌دار')}${tool('blockquote', 'quote', 'نقل‌قول')}<span class="sep"></span>
+      ${tool('justifyRight', 'alignR', 'راست‌چین')}${tool('justifyCenter', 'alignC', 'وسط‌چین')}${tool('justifyLeft', 'alignL', 'چپ‌چین')}<span class="sep"></span>
+      ${tool('removeFormat', 'eraser', 'پاک کردن قالب')}<label class="icon-btn" title="درج تصویر" style="cursor:pointer">${icon('image')}<span class="sr">درج تصویر</span><input type="file" class="sr" id="neImg" accept="image/*" data-nokeep></label>
     </div>
-    <div id="neBody" class="rich" contenteditable="true" dir="rtl" role="textbox" aria-multiline="true" aria-label="متن یادداشت" data-ph="اینجا بنویس… هرچقدر می‌خوای طولانی. عکس رو هم می‌تونی بچسبونی یا بندازی اینجا.">${content}</div>
-    <div class="row between wrap"><div class="row wrap" style="gap:10px"><div class="color-dots" id="neColors" role="group" aria-label="رنگ برگه">${NOTE_COLORS.map(c => `<button type="button" class="nc-${c} ${c === color ? 'on' : ''}" data-c="${c}" aria-label="رنگ برگه"></button>`).join('')}</div><label class="tog"><input type="checkbox" id="nePin" ${(n ? n.pinned : o.pinned) ? 'checked' : ''}> ${icon('pin')} چسبوندن روی میز</label></div><span id="neCount" class="small muted tnum"></span></div>`,
+    <div id="neBody" class="rich note-rich" contenteditable="true" dir="rtl" role="textbox" aria-multiline="true" aria-label="متن یادداشت" data-ph="اینجا بنویس… هرچقدر می‌خوای طولانی. عکس رو هم می‌تونی بچسبونی یا بندازی اینجا.">${content}</div>
+    <div class="grid3 ne-props"><div class="field"><label>تاریخ</label>${dateField('neDate', n ? n.date : (o.date || todayStr()))}</div><div class="field"><label for="neSkill">مهارت</label><select id="neSkill">${skillOptions(n ? n.skillId : o.skillId, 'عمومی')}</select></div><div class="field"><label for="neCat">پوشه</label><input id="neCat" list="neCats" value="${esc(n ? n.category : (o.category || ''))}" placeholder="مثلاً ایده، کار، شخصی"><datalist id="neCats">${noteCategories().map(c => `<option value="${esc(c)}"></option>`).join('')}</datalist></div></div>
+    <div class="row between wrap"><label class="tog"><input type="checkbox" id="nePin" ${(n ? n.pinned : o.pinned) ? 'checked' : ''}> ${icon('pin')} چسبوندن روی میز</label><span id="neCount" class="small muted tnum"></span></div>`,
     foot: `<span class="hint" style="margin-inline-end:auto" id="neDraftHint">${restored ? 'پیش‌نویس قبلی برگشت.' : ''}</span><button type="button" class="btn ghost" data-a="dlg.close">بستن</button><button type="button" class="btn pri" id="neSave">ذخیره یادداشت</button>`
   });
-  $('.dlg-body', d).style.minHeight = 'min(70vh,640px)';
-  let pick = color;
-  const ed = $('#neBody', d);
+  const ed = $('#neBody', d), titleEl = $('#neTitle', d);
   try { document.execCommand('styleWithCSS', false, true); } catch (e) { /* older engines use tags, sanitizer handles both */ }
   const count = () => { const t = notePlain({ content: ed.innerHTML }); $('#neCount', d).textContent = `${fa(words(t))} کلمه · ${fa(t.length)} حرف`; };
   count();
   let tm = 0;
-  ed.addEventListener('input', () => { count(); clearTimeout(tm); tm = setTimeout(() => { lsSet(draftKey(o.id), ed.innerHTML); const h = $('#neDraftHint', d); if (h) h.textContent = 'پیش‌نویس نگه داشته شد.'; }, 700); });
-  $('#neColors', d).addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b) return; pick = b.dataset.c; $$('[data-c]', d).forEach(x => x.classList.toggle('on', x === b)); });
+  const keepDraft = () => { clearTimeout(tm); tm = setTimeout(() => { lsSet(draftKey(o.id), ed.innerHTML); lsSet(titleKey, titleEl.value); const h = $('#neDraftHint', d); if (h) h.textContent = 'پیش‌نویس نگه داشته شد.'; }, 700); };
+  ed.addEventListener('input', () => { count(); keepDraft(); });
+  titleEl.addEventListener('input', keepDraft);
   $('.fmt', d).addEventListener('mousedown', e => { if (e.target.closest('[data-fmt]')) e.preventDefault(); });
   $('.fmt', d).addEventListener('click', e => {
     const b = e.target.closest('[data-fmt]'); if (!b) return; ed.focus();
     const c = b.dataset.fmt;
     if (c === 'hl') { if (!document.execCommand('hiliteColor', false, '#fdf07a')) document.execCommand('backColor', false, '#fdf07a'); }
+    else if (c === 'h2' || c === 'blockquote') { const cur = String(document.queryCommandValue('formatBlock')).toLowerCase(); document.execCommand('formatBlock', false, cur === c ? 'div' : c); }
     else document.execCommand(c, false, null);
     ed.dispatchEvent(new Event('input'));
   });
@@ -3110,14 +3381,18 @@ function openNoteEditor(o = {}) {
   ed.addEventListener('dragover', e => e.preventDefault());
   ed.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) { e.preventDefault(); addImg(f); } });
   $('#neSave', d).onclick = () => {
-    const html = sanitizeHtml(ed.innerHTML), plain = notePlain({ content: html }), hasImg = /<img/i.test(html);
-    if (!plain && !hasImg) { toast('متن یا عکس لازمه.', 'err'); return; }
+    const html = sanitizeHtml(ed.innerHTML), plain = notePlain({ content: html }), hasImg = /<img/i.test(html), title = titleEl.value.trim();
+    if (!plain && !hasImg && !title) { toast('عنوان، متن یا عکس لازمه.', 'err'); return; }
     let pinned = $('#nePin', d).checked;
     if (pinned && D.dailyNotes.filter(x => x.pinned && (!n || x.id !== n.id)).length >= 4) { toast('حداکثر چهار برگه روی میز جا می‌شه؛ این یکی رو نچسبوندم.', 'err'); pinned = false; }
     const skillId = $('#neSkill', d).value || null, sk = skillById(skillId), iso = new Date(nowMs()).toISOString();
-    const f = { content: html, date: $('#neDate', d).value || todayStr(), skillId, domainId: sk ? sk.domainId : null, category: $('#neCat', d).value.trim(), color: pick, pinned, images: [], updatedAt: iso };
-    if (n) Object.assign(n, f); else D.dailyNotes.push(Object.assign({ id: uid(), createdAt: iso }, f));
-    clearTimeout(tm); lsSet(draftKey(o.id), null);
+    const f = { content: html, date: $('#neDate', d).value || todayStr(), skillId, domainId: sk ? sk.domainId : null, category: $('#neCat', d).value.trim(), pinned, images: [], updatedAt: iso };
+    const row = n || { id: uid(), color: 'y', createdAt: iso };
+    Object.assign(row, f);
+    /* untitled notes carry no title key at all, so old notes stay byte-identical when synced */
+    if (title) row.title = title; else delete row.title;
+    if (!n) D.dailyNotes.push(row);
+    clearTimeout(tm); lsSet(draftKey(o.id), null); lsSet(titleKey, null);
     if (o.clear) { const c = $('#' + o.clear); if (c) c.value = ''; }
     d.close(); commit(true); toast('یادداشت ذخیره شد.');
   };

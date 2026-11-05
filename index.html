@@ -1381,6 +1381,105 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
   .tree-r.sub,.tree-r.sub:hover{margin:8px 10px 3px}
 }
 
+/* Portfolio (round 10): three scenes, in the owner's own portfolio language. Physical objects keep their colours in dark mode */
+.mt{display:flex;flex-direction:column;border-radius:6px;overflow:hidden;box-shadow:0 4px 8px rgba(6,24,52,.35),0 18px 40px rgba(6,24,52,.42);background:#bf9160;color:#1b2c6e}
+.mt mark{background:linear-gradient(transparent 12%,#faf05e 12%,#faf05e 88%,transparent 88%);color:inherit;padding:0 5px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.mt-dd{position:absolute;z-index:6;width:58px;height:58px;pointer-events:none;filter:drop-shadow(0 3px 3px rgba(20,12,4,.35))}
+.mt-dd svg{display:block;width:100%;height:100%;overflow:visible}
+/* Scene 1: grid paper, torn along the bottom, lying on top of the cork */
+.mt-hero{position:relative;z-index:3;padding:34px 34px 46px;background-color:#eef1f5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='p' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.016' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='2.1' diffuseConstant='1.05'%3E%3CfeDistantLight azimuth='50' elevation='66'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23p)'/%3E%3C/svg%3E"),linear-gradient(rgba(44,96,190,.42) 1px,transparent 1px),linear-gradient(90deg,rgba(44,96,190,.42) 1px,transparent 1px);background-size:420px 420px,31px 31px,31px 31px;background-blend-mode:multiply,normal,normal;clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),95% calc(100% - 4px),90% calc(100% - 15px),84% calc(100% - 6px),78% calc(100% - 17px),71% calc(100% - 3px),64% calc(100% - 14px),57% calc(100% - 7px),49% calc(100% - 16px),42% calc(100% - 2px),35% calc(100% - 13px),28% calc(100% - 5px),21% calc(100% - 17px),14% calc(100% - 4px),7% calc(100% - 13px),0 calc(100% - 6px))}
+.mt-hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,33%) minmax(0,1fr);gap:34px;align-items:start}
+.mt-idcol{position:relative;display:flex;flex-direction:column;align-items:center}
+.mt-clipboard{position:relative;width:100%;max-width:290px;padding:30px 13px 15px;border-radius:12px;background-color:#94612f;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='240'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .28' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .14 0 0 0 0 .07 0 0 0 0 .02 0 0 0 1.5 -.45'/%3E%3C/filter%3E%3Crect width='600' height='240' filter='url(%23w)'/%3E%3C/svg%3E");box-shadow:inset 0 1px 0 rgba(255,225,185,.5),0 3px 5px rgba(20,12,4,.4),0 12px 24px rgba(20,12,4,.38);transform:rotate(1.5deg)}
+.mt-clip{position:absolute;top:-12px;left:50%;width:112px;height:44px;margin-left:-56px;z-index:2;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#f2f3f5 0,#b4b8bf 42%,#7d828b 58%,#dfe1e5 100%);box-shadow:0 3px 6px rgba(20,12,4,.5),inset 0 1px 0 #fff}
+.mt-clip::after{content:"";position:absolute;top:8px;left:50%;width:22px;height:11px;margin-left:-11px;border-radius:50%;background:#94612f;box-shadow:inset 0 2px 3px rgba(0,0,0,.6)}
+.mt-clip-sheet{background:#f8f7f3;padding:8px;box-shadow:0 1px 3px rgba(20,12,4,.4)}
+.mt-clip-sheet img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 22%}
+.mt-clip-sheet .ph{display:flex;align-items:center;justify-content:center;aspect-ratio:4/5;padding:16px;text-align:center;font-weight:700;color:#667085;background:#e8e6df}
+.mt-idtext{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:-26px;text-align:center;max-width:100%}
+.mt-name{margin:0;font-family:var(--f-display);font-weight:400;font-size:47px;line-height:1.25;color:#179a3c;-webkit-text-stroke:10px #fff;paint-order:stroke fill;transform:rotate(-2.5deg);overflow-wrap:anywhere;filter:drop-shadow(0 2px 0 rgba(20,12,4,.7)) drop-shadow(0 6px 6px rgba(20,12,4,.45))}
+.mt-nick{margin:0;padding:0 13px 3px;font-family:var(--f-display);font-size:25px;line-height:1.3;color:#14141a;background:#c9f23b;box-shadow:0 2px 3px rgba(20,12,4,.4);transform:rotate(-1.6deg)}
+.mt-headline{margin:3px 0 0;padding:1px 12px 3px;font-size:14px;font-weight:800;line-height:1.5;color:#fff;background:#17171b;transform:rotate(.8deg)}
+.mt-aboutcol{position:relative;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.mt-hi{margin:0 0 -8px;font-family:var(--f-display);font-size:66px;line-height:1.1;color:#1248d6;-webkit-text-stroke:11px #fff;paint-order:stroke fill;transform:rotate(-5deg);transform-origin:100% 100%;filter:drop-shadow(0 3px 0 rgba(20,12,4,.65)) drop-shadow(0 7px 7px rgba(20,12,4,.4))}
+.mt-bio-w,.mt-contact-w{position:relative;max-width:100%;filter:drop-shadow(0 2px 1px rgba(20,12,4,.4)) drop-shadow(0 8px 10px rgba(20,12,4,.4))}
+.mt-bio-w{--clip:polygon(1% 2%,9% 0,20% 2.500%,33% .5%,46% 2.800%,59% .4%,72% 2.300%,85% .6%,99% 2%,100% 22%,98.800% 47%,100% 71%,99% 98%,88% 99.500%,74% 97.300%,61% 100%,47% 97.500%,34% 99.700%,20% 97.600%,8% 100%,.8% 97.500%,0 72%,1.300% 46%,0 21%);width:100%;transform:rotate(-.7deg)}
+.mt-bio{margin:0;padding:26px 26px 30px;font-family:var(--f-display);font-size:19px;line-height:1.75;color:#fff;background-color:#2460e4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='p' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.016' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='2.1' diffuseConstant='1.05'%3E%3CfeDistantLight azimuth='50' elevation='66'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23p)'/%3E%3C/svg%3E");background-size:420px 420px;background-blend-mode:multiply;overflow-wrap:anywhere;white-space:pre-wrap;position:relative;clip-path:var(--clip)}
+.mt-contact-w{--clip:polygon(0 8%,6% 0,17% 7%,31% 1%,47% 8%,62% 0,78% 6%,93% 1%,100% 9%,99% 50%,100% 91%,91% 100%,76% 92%,60% 99%,44% 93%,28% 100%,12% 93%,2% 99%,1% 50%);align-self:flex-end;transform:rotate(1deg)}
+.mt-contact{display:flex;flex-wrap:wrap;gap:6px 20px;padding:15px 22px 17px;background:#fff;position:relative;clip-path:var(--clip)}
+.mt-contact a,.mt-contact>span{display:inline-flex;align-items:center;gap:7px;font-size:15.5px;font-weight:800;line-height:1.5;color:#14141a;text-decoration:none}
+.mt-contact .ic{width:20px;height:20px;color:#1248d6;stroke-width:2.3}
+.mt-dd-star1{top:18px;left:26px;width:54px;height:54px;transform:rotate(-14deg)}
+.mt-dd-smile{top:30px;left:84px;width:42px;height:42px;transform:rotate(9deg)}
+/* Scene 2: the cork board */
+.mt-board{position:relative;z-index:1;margin-top:-16px;padding:60px 30px 38px;display:flex;flex-direction:column;gap:42px;background-color:#bf9160;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .24 0 0 0 0 .13 0 0 0 0 .04 0 0 0 1.5 -.6'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23c)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.38' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .82 0 0 0 0 .58 0 0 0 1.5 -.74'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23d)'/%3E%3C/svg%3E");box-shadow:inset 0 -3px 12px rgba(30,14,2,.6)}
+.mt-cols{display:grid;grid-template-columns:minmax(0,1.32fr) minmax(0,1fr);gap:34px 30px;align-items:start}
+.mt-col{display:flex;flex-direction:column;gap:44px;min-width:0}
+.mt-col:empty{display:none}
+.mt .gc-head{min-height:0}
+.mt .gc-paper{gap:12px}
+.mt-row{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.mt-row .gc-due{margin-bottom:3px}
+.mt-row h4{margin:0;font-weight:900;font-size:16px;line-height:1.6;color:#14204f}
+.mt-place{margin:0;font-size:13.5px;font-weight:700;line-height:1.6;color:#52608c}
+.mt-lang{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:900;font-size:15.5px;line-height:1.9;color:#14204f}
+.mt-softs{margin:0;font-weight:800;font-size:15px;line-height:2.1;color:#14204f}
+.mt-softs mark{margin-inline-end:4px}
+.mt .dots{flex:none}
+.mt .dots i{background:rgba(27,44,110,.18);border-color:#1b2c6e}
+.mt .dots i.on{background:var(--gc,#1b2c6e)}
+.mt-skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:12px 22px}
+.mt-skill{display:flex;flex-direction:column;align-items:stretch;min-width:0}
+.mt-skill-top{display:flex;align-items:center;justify-content:space-between;gap:6px;font-weight:900;font-size:15px;line-height:1.7;color:#14204f}
+.mt-en{direction:ltr;text-align:right;font-size:12.5px;font-weight:700;line-height:1.4;color:#52608c}
+.mt-skill .gc-desc{font-size:16.5px;line-height:1.6}
+.mt-skill .mt-place{font-size:12.5px;font-weight:500}
+.mt-dd-arrow{top:42px;left:47%;width:72px;height:40px;filter:none;transform:rotate(8deg)}
+.mt-dd-star2{bottom:18px;left:24px;width:44px;height:44px;transform:rotate(16deg)}
+/* Scene 3: the cutting mat with prints taped on it */
+.mt-mat{position:relative;padding:34px 30px 44px;background-color:#176f55;background-image:linear-gradient(rgba(255,255,255,.62) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(255,255,255,.62) 1.5px,transparent 1.5px),linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .24 0 0 0 0 .13 0 0 0 0 .04 0 0 0 1.5 -.6'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23c)'/%3E%3C/svg%3E");background-size:90px 90px,90px 90px,18px 18px,18px 18px,320px 320px;box-shadow:inset 0 5px 12px rgba(0,0,0,.34)}
+.mt-mat-title{display:table;margin:0 auto 34px;filter:drop-shadow(0 2px 1px rgba(0,0,0,.45)) drop-shadow(0 8px 10px rgba(0,0,0,.4));transform:rotate(-1.6deg)}
+.mt-mat-title span{display:block;padding:14px 36px 18px;font-family:var(--f-display);font-weight:400;font-size:50px;line-height:1.2;color:#d3142a;background-color:#f6f5f1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='p' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.016' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='2.1' diffuseConstant='1.05'%3E%3CfeDistantLight azimuth='50' elevation='66'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23p)'/%3E%3C/svg%3E");background-size:420px 420px;background-blend-mode:multiply;clip-path:polygon(2% 9%,12% 0,29% 6%,47% 1%,66% 7%,84% 0,98% 8%,100% 44%,97% 92%,82% 100%,63% 93%,45% 100%,26% 92%,8% 98%,0 83%,2% 45%)}
+.mt-prints{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:30px 24px;align-items:start}
+.mt-print{position:relative;margin:0;padding:8px 8px 11px;background:#fbfaf6;box-shadow:0 2px 3px rgba(0,0,0,.4),0 9px 16px rgba(0,0,0,.34);transform:rotate(-1deg)}
+.mt-print:nth-child(3n+2){transform:rotate(.9deg)}
+.mt-print:nth-child(3n){transform:rotate(-.4deg)}
+.mt-print:nth-child(4n){transform:rotate(1.3deg)}
+.mt-print::before{content:"";position:absolute;top:-10px;left:50%;z-index:2;width:72px;height:20px;margin-left:-36px;background:rgba(246,226,150,.8);box-shadow:0 1px 2px rgba(0,0,0,.25);transform:rotate(-2deg)}
+.mt-print .media-slot,.mt-print .media-slot img{display:block;width:100%}
+.mt-print .media-slot img{max-height:none;aspect-ratio:4/3;object-fit:cover;border-radius:0;box-shadow:none}
+.mt-print video,.mt-print audio{display:block;width:100%}
+.mt-print figcaption{display:flex;flex-direction:column;padding:7px 4px 0;color:#14204f}
+.mt-print figcaption b{font-weight:900;font-size:14.5px;line-height:1.5;overflow-wrap:anywhere}
+.mt-print figcaption span{font-size:12.5px;line-height:1.5;color:#52608c;overflow-wrap:anywhere}
+.mt-none{margin:0;text-align:center;font-weight:700;color:#fff}
+.mt-dd-star3{top:26px;right:40px;transform:rotate(12deg)}
+.mt-dd-smile2{top:34px;left:44px;width:50px;height:50px;transform:rotate(-10deg)}
+@media screen and (max-width:860px){
+  .mt{margin-inline:-13px;border-radius:0}
+  .mt-hero{padding:24px 16px 44px}
+  .mt-hero-grid{grid-template-columns:minmax(0,1fr);gap:20px}
+  .mt-clipboard{max-width:235px}
+  .mt-name{font-size:41px;-webkit-text-stroke-width:9px}
+  .mt-hi{font-size:54px;-webkit-text-stroke-width:9px}
+  .mt-aboutcol{gap:12px}
+  .mt-bio{padding:22px 20px 26px;font-size:17.5px;line-height:1.7}
+  .mt-contact-w{align-self:stretch}
+  .mt-contact{flex-direction:column;align-items:flex-start;padding:16px 20px 18px}
+  .mt-board{padding:52px 12px 30px;gap:38px}
+  .mt-cols{grid-template-columns:minmax(0,1fr);gap:38px}
+  .mt-skills{grid-template-columns:minmax(0,1fr)}
+  .mt-mat{padding:26px 13px 34px}
+  .mt-mat-title span{font-size:40px;padding:12px 28px 15px}
+  .mt-prints{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 13px}
+  .mt-dd{width:40px;height:40px}
+  .mt-dd-arrow{display:none}
+  .mt-dd-star1{top:12px;left:12px}
+  .mt-dd-smile{top:230px;bottom:auto;left:18px}
+  .mt-dd-star3{top:14px;right:12px}
+  .mt-dd-smile2{top:20px;left:12px}
+}
+
 /* Mind map board */
 #mapHost{position:relative;z-index:1;height:calc(100vh - 225px);min-height:460px;border-radius:var(--r-m);overflow:hidden;background:#fff;color:#1b1b1f;box-shadow:var(--soft-2)}
 #mapHost[hidden]{display:none}
@@ -1452,6 +1551,58 @@ dialog.lb::backdrop{background:#070a10}
   .w-card img{height:118px}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   a{color:inherit;text-decoration:none}
+}
+
+/* Portfolio on paper: full-colour A4, edge to edge. The cork is on the page itself, so every page break still sits on cork.
+   Text stays live and selectable, and links stay clickable. Each card carries its own air, so nothing is cut at a page break. */
+@media print{
+  @page{size:A4;margin:0}
+  html:has(body.on-folio),body.on-folio{background-color:#bf9160!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .24 0 0 0 0 .13 0 0 0 0 .04 0 0 0 1.5 -.6'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23c)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.38' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .82 0 0 0 0 .58 0 0 0 1.5 -.74'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23d)'/%3E%3C/svg%3E")!important;background-size:320px 320px,260px 260px!important}
+  body.on-folio .book,body.on-folio .sheet,body.on-folio main{background:transparent!important;box-shadow:none!important;padding:0!important;margin:0!important;min-height:0!important;max-width:none;width:auto}
+  body.on-folio #mapHost,body.on-folio #fab{display:none!important}
+  .mt{width:210mm;display:block;margin:0;border-radius:0;box-shadow:none;overflow:visible;background:transparent;font-size:12px}
+  .mt-hero{padding:14px 26px 30px;break-inside:avoid}
+  .mt-hero-grid{grid-template-columns:minmax(0,27%) minmax(0,1fr);gap:22px}
+  .mt-clipboard{max-width:170px;padding:24px 10px 11px}
+  .mt-name{font-size:38px;-webkit-text-stroke-width:8px}
+  .mt-nick{font-size:20px}
+  .mt-hi{font-size:44px;-webkit-text-stroke-width:8px}
+  .mt-bio{padding:15px 20px 19px;font-size:14.5px;line-height:1.6}
+  .mt-aboutcol{gap:9px}
+  .mt-contact{padding:11px 18px 13px;gap:3px 16px}
+  .mt-contact a,.mt-contact>span{font-size:12.5px}
+  .mt-board{margin-top:0;padding:4px 24px 0;display:block;background:none!important;box-shadow:none}
+  .mt-cols{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:0 22px}
+  .mt-col{display:block}
+  .mt-card{padding-block:8px 10px;break-inside:avoid;transform:rotate(var(--ct,-.5deg))}
+  .mt .gc-title{font-size:29px;-webkit-text-stroke-width:7px}
+  .mt .gc-emoji{font-size:33px}
+  .mt .gc-paper{padding:28px 14px 13px 26px;gap:8px}
+  .mt .gc-desc{font-size:14.5px;line-height:1.55}
+  .mt-row{break-inside:avoid}
+  .mt-row h4{font-size:13.5px}
+  .mt-place{font-size:11.5px}
+  .mt-skills{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px 14px}
+  .mt-skill{break-inside:avoid}
+  .mt-skill-top{font-size:12.5px}
+  .mt-skill .gc-desc{font-size:13.5px}
+  .mt-mat{padding:10px 24px 12px;background:none!important;box-shadow:none}
+  .mt-mat-title{margin:6px auto 18px;break-after:avoid}
+  .mt-mat-title span{font-size:36px;padding:9px 26px 12px}
+  .mt-prints{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 16px}
+  .mt-print{break-inside:avoid;padding:6px 6px 8px;margin-block:8px;box-shadow:0 2px 3px rgba(0,0,0,.4),0 6px 10px rgba(0,0,0,.3)}
+  .mt-print:has(.media-missing),.mt-print:has(audio),.mt-print:has(video){display:none}
+  .mt-print figcaption b{font-size:11.5px}
+  .mt-print figcaption span{font-size:10.5px}
+  .mt-dd-arrow,.mt-dd-smile2,.mt-dd-star3{display:none}
+  /* A filter flattens everything inside it into a picture: no selectable text, no links, soft edges.
+     So on paper there are none, and each shadow is its own shape */
+  .mt,.mt *{filter:none!important}
+  .mt-bio-w::before,.mt-contact-w::before{content:"";position:absolute;inset:0;background:rgba(20,12,4,.34);clip-path:var(--clip);transform:translate(3px,5px)}
+  .mt .gc-paper{position:relative}
+  .mt-mat-title::before{content:"";position:absolute;inset:6px 2px -4px -2px;background:rgba(20,12,4,.3);clip-path:polygon(2% 9%,12% 0,29% 6%,47% 1%,66% 7%,84% 0,98% 8%,100% 44%,97% 92%,82% 100%,63% 93%,45% 100%,26% 92%,8% 98%,0 83%,2% 45%)}
+  .mt-mat-title{position:relative}
+  .mt-mat-title span{position:relative}
 }
 
 </style>
@@ -3867,7 +4018,7 @@ function mapRefresh() {
 function mapShow() {
   const host = $('#mapHost'); if (!host) return;
   const on = ui.route.page === 'map' && !ui.welcome, was = MAP.visible;
-  MAP.visible = on; host.hidden = !on; document.body.classList.toggle('on-map', on);
+  MAP.visible = on; host.hidden = !on; document.body.classList.toggle('on-map', on); document.body.classList.toggle('on-folio', ui.route.page === 'folio' && !ui.welcome);
   if (!on) { if (was && MAP.timer) mapFlush(); return; }
   if (!MAP.api) { mapMount(); return; }
   mapRefresh();
@@ -3881,28 +4032,74 @@ PAGES.map = () => `<div class="page-head map-head"><div><h1 class="page-title">�
 const levelDots = n => { n = clamp(parseInt(n, 10) || 0, 0, 5); return `<span class="dots" aria-label="سطح ${fa(n)} از ۵">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`; };
 const skillLevel = (r, s) => { const ex = r.skillExtras[s.id]; return ex && ex.level != null ? ex.level : Math.max(1, Math.round((s.p.mastery || 0) / 20)); };
 function starredWorks() { const o = []; allSkills().forEach(s => (s.p.artifacts || []).filter(a => a.starred).forEach(a => o.push(Object.assign({ skill: s }, a)))); return o.sort((a, b) => b.date.localeCompare(a.date)); }
+/* ========== Portfolio: a photomontage in three scenes. Grid paper with a clipboard, a cork board, a cutting mat.
+   It prints as colour A4 with live text and clickable contact links. Data and the editor don't change. ========== */
+const MT_DOODLE = {
+  star: (c = '#ffd400') => `<svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 5c3 9 6 15 9 18 5 1 11 2 17 3-5 5-9 9-12 12 1 6 2 11 3 17-6-3-11-6-17-8-5 3-10 6-17 9 2-7 3-13 4-18-4-4-8-8-13-13 7-1 13-2 18-3 3-5 5-11 8-17z" fill="${c}" stroke="#14141a" stroke-width="3.6" stroke-linejoin="round"/></svg>`,
+  smile: () => `<svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 5c15-1 25 11 25 25 0 15-12 25-26 25C15 55 5 44 5 30 6 16 16 6 30 5z" fill="#ffe14d" stroke="#14141a" stroke-width="3.6"/><path d="M21 21v8M39 20v9" stroke="#14141a" stroke-width="4.4" stroke-linecap="round"/><path d="M17 36c5 9 20 10 26-1" fill="none" stroke="#14141a" stroke-width="3.6" stroke-linecap="round"/></svg>`,
+  arrow: (c = '#d3142a') => `<svg viewBox="0 0 90 50" aria-hidden="true" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M84 12C62 39 38 41 9 30"/><path d="M23 16 8 30l17 11"/></svg>`,
+  ring: (c = '#d3142a') => `<svg viewBox="0 0 120 60" aria-hidden="true" fill="none" stroke="${c}" stroke-width="3.4" stroke-linecap="round"><path d="M18 34C10 14 52 4 84 8c30 4 32 24 8 34-28 11-68 9-77-6-5-10 8-21 30-27"/></svg>`
+};
+function mtCard(title, emoji, ink, body, cls = '') {
+  return `<article class="gcard mt-card ${cls}" style="--gc:${ink}"><header class="gc-head"><span class="gc-emoji" aria-hidden="true">${emoji}</span><h3 class="gc-title">${title}</h3></header><div class="gc-sheet"><span class="gc-back" aria-hidden="true"></span><span class="gc-pin" aria-hidden="true"></span><div class="gc-paper">${body}</div></div></article>`;
+}
+const mtRow = (period, head, place, text) => `<div class="mt-row">${period ? `<span class="gc-due">${esc(period)}</span>` : ''}<h4><mark>${esc(head)}</mark></h4>${place ? `<p class="mt-place">${esc(place)}</p>` : ''}${text ? `<p class="gc-desc">${esc(text)}</p>` : ''}</div>`;
 PAGES.folio = () => {
   const r = D.resume, works = starredWorks(), linked = r.skillIds.map(skillById).filter(Boolean);
-  const blank = !r.name && !r.bio && !r.headline;
+  const blank = !r.name && !r.bio && !r.headline, nm = skillName(r.name || '');
   const links = r.links.filter(l => l && (l.label || l.url));
+  const contact = [
+    r.email ? `<a class="ltr" href="mailto:${esc(r.email)}">${icon('mail')}<span>${esc(r.email)}</span></a>` : '',
+    r.phone ? `<a class="ltr" href="tel:${esc(toLatin(r.phone).replace(/[^\d+]/g, ''))}">${icon('phone')}<span>${esc(fa(r.phone))}</span></a>` : '',
+    r.location ? `<span class="mt-loc">${icon('pinMap')}<span>${esc(r.location)}</span></span>` : '',
+    ...links.map(l => { const u = safeUrl(l.url); return u ? `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${icon('link')}<span>${esc(l.label || l.url)}</span></a>` : `<span>${icon('link')}<span>${esc(l.label || l.url)}</span></span>`; })
+  ].join('');
+  const skills = linked.map(s => { const ex = r.skillExtras[s.id] || {}, w = (s.p.artifacts || []).filter(a => a.starred).length, h = totalMin(s.p), n = skillName(s.title); return `<div class="mt-skill"><div class="mt-skill-top"><mark>${esc(n.main)}</mark>${r.showLevels ? levelDots(skillLevel(r, s)) : ''}</div>${n.sub ? `<span class="mt-en">${esc(n.sub)}</span>` : ''}${ex.blurb ? `<p class="gc-desc">${esc(ex.blurb)}</p>` : ''}<p class="mt-place">${h ? `${fmtHours(h)} کار` : esc(skillName(s.domain.title).main)}${w ? ` · ${fa(w)} نمونه‌کار` : ''}</p></div>`; }).join('');
   return `<div class="page-head no-print"><div><h1 class="page-title">پورتفولیو</h1><p class="muted small">رزومه و کارهایی که بهشون ستاره زدی.</p></div><div class="row wrap"><button type="button" class="btn ghost" data-a="folio.print">${icon('print')} چاپ یا PDF</button><button type="button" class="btn pri" data-a="folio.edit">${icon('edit')} ویرایش رزومه</button></div></div>
-  <article class="dossier" id="resume">
-    <section class="sheetw"><span class="pushpin no-print"></span><div class="paper torn-a r-head-wrap"><div class="r-head"><div class="polaroid"><svg class="clip" viewBox="0 0 21 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M16 12v24a5.5 5.5 0 0 1-11 0V9a3.8 3.8 0 0 1 7.6 0v25a2 2 0 0 1-4 0V13"/></svg>${r.photoDataUrl ? `<img src="${r.photoDataUrl}" alt="عکس ${esc(r.name)}">` : `<div class="ph">عکست رو از ویرایش رزومه بچسبون</div>`}</div>
-      <div class="grow"><h2 class="r-name">${esc(r.name) || '<span class="muted">اسمت اینجا میاد</span>'}</h2>${r.headline ? `<p class="r-title">${esc(r.headline)}</p>` : ''}${r.bio ? `<p class="r-bio">${esc(r.bio)}</p>` : ''}
-      <div class="r-contacts">${r.location ? `<span>${icon('pinMap')} ${esc(r.location)}</span>` : ''}${r.email ? `<span class="ltr">${icon('mail')} ${esc(r.email)}</span>` : ''}${r.phone ? `<span class="ltr">${icon('phone')} ${esc(fa(r.phone))}</span>` : ''}${links.map(l => { const u = safeUrl(l.url); return u ? `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${icon('link')} ${esc(l.label || l.url)}</a>` : `<span>${icon('link')} ${esc(l.label || l.url)}</span>`; }).join('')}</div></div></div>
-    ${blank ? `<div class="empty no-print" style="padding:0"><p>رزومه‌ات هنوز خالیه.</p><button type="button" class="btn pri" data-a="folio.edit">${icon('edit')} شروع کن</button></div>` : ''}</div></section>
-    <div class="r-grid"><div class="r-col">
-      ${linked.length ? pastedSheet(1, 'مهارت‌ها', `<div class="r-skills">${linked.map(s => { const ex = r.skillExtras[s.id] || {}, w = (s.p.artifacts || []).filter(a => a.starred).length, h = totalMin(s.p); return `<div class="r-skill"><div class="row between" style="gap:6px"><b>${esc(s.title)}</b>${r.showLevels ? levelDots(skillLevel(r, s)) : ''}</div>${ex.blurb ? `<p class="r-blurb">${esc(ex.blurb)}</p>` : ''}<p class="r-meta">${h ? `${fmtHours(h)} کار ثبت‌شده` : esc(s.domain.title)}${w ? ` · ${fa(w)} نمونه‌کار` : ''}</p></div>`; }).join('')}</div>`, { ink: 'var(--blue)' }) : ''}
-      ${r.experience.length ? pastedSheet(0, 'سابقه‌ی کار', r.experience.map(e => `<div class="tl-item">${e.period ? `<small>${esc(e.period)}</small>` : ''}<b>${esc(e.role)}</b>${e.place ? `<span class="tl-place">${esc(e.place)}</span>` : ''}${e.desc ? `<p class="tl-desc">${esc(e.desc)}</p>` : ''}</div>`).join(''), { ink: 'var(--red)' }) : ''}
-    </div><div class="r-col">
-      ${r.education.length ? pastedSheet(2, 'تحصیلات', r.education.map(e => `<div class="tl-item">${e.period ? `<small>${esc(e.period)}</small>` : ''}<b>${esc(e.title)}</b>${e.place ? `<span class="tl-place">${esc(e.place)}</span>` : ''}${e.detail ? `<p class="tl-desc">${esc(e.detail)}</p>` : ''}</div>`).join(''), { ink: 'var(--green)' }) : ''}
-      ${r.softSkills.length ? pastedSheet(1, 'مهارت‌های نرم', `<div class="soft">${r.softSkills.map(s => `<span>${esc(s)}</span>`).join('')}</div>`, { ink: 'var(--amber)' }) : ''}
-      ${r.languages.length ? pastedSheet(0, 'زبان‌ها', r.languages.map(l => `<div class="lang-row"><span>${esc(l.name)}</span>${r.showLevels ? levelDots(l.level) : ''}</div>`).join(''), { ink: 'var(--blue)' }) : ''}
-    </div></div>
-    ${pastedSheet(2, 'نمونه‌کارها', works.length ? `<div class="works">${works.map(a => `<figure class="w-card" style="margin:0">${workMedia(a)}<b>${esc(a.name)}</b><figcaption>${esc(a.skill.title)}${a.notes ? ` · ${esc(a.notes)}` : ''}</figcaption></figure>`).join('')}</div>` : `<p class="hint no-print">هنوز به اثری ستاره نزدی. از «مهارت‌ها» › «مخزن آثار» ستاره بزن تا اینجا بیاد.</p>`, { ink: 'var(--red)' })}
+  <article class="mt" id="resume">
+    <section class="mt-hero">
+      <span class="mt-dd mt-dd-star1">${MT_DOODLE.star()}</span><span class="mt-dd mt-dd-smile">${MT_DOODLE.smile()}</span>
+      <div class="mt-hero-grid">
+        <div class="mt-idcol">
+          <div class="mt-clipboard"><span class="mt-clip" aria-hidden="true"></span><div class="mt-clip-sheet">${r.photoDataUrl ? `<img src="${r.photoDataUrl}" alt="عکس ${esc(r.name)}">` : `<div class="ph no-print">عکست رو از ویرایش رزومه بچسبون</div>`}</div></div>
+          <div class="mt-idtext"><h2 class="mt-name">${esc(nm.main) || '<span class="no-print">اسمت اینجا میاد</span>'}</h2>${nm.sub ? `<p class="mt-nick">${esc(nm.sub)}</p>` : ''}${r.headline ? `<p class="mt-headline">${esc(r.headline)}</p>` : ''}</div>
+        </div>
+        <div class="mt-aboutcol">
+          <p class="mt-hi" aria-hidden="true">سلام!</p>
+          ${r.bio ? `<div class="mt-bio-w"><p class="mt-bio">${esc(r.bio)}</p></div>` : ''}
+          ${contact ? `<div class="mt-contact-w"><div class="mt-contact">${contact}</div></div>` : ''}
+          ${blank ? `<div class="empty no-print" style="padding:0"><button type="button" class="btn pri" data-a="folio.edit">${icon('edit')} رزومه رو شروع کن</button></div>` : ''}
+        </div>
+      </div>
+    </section>
+    ${r.experience.length || r.education.length || r.languages.length || r.softSkills.length || linked.length ? `<section class="mt-board"><span class="mt-dd mt-dd-arrow">${MT_DOODLE.arrow()}</span><span class="mt-dd mt-dd-star2">${MT_DOODLE.star('#ff5a3c')}</span>
+      <div class="mt-cols"><div class="mt-col">
+        ${r.experience.length ? mtCard('سوابق کاری', '💼', '#d3142a', r.experience.map(e => mtRow(e.period, e.role, e.place, e.desc)).join('')) : ''}
+        ${r.softSkills.length ? mtCard('مهارت‌های نرم', '✨', '#8a1fc7', `<p class="mt-softs">${r.softSkills.map(s => `<mark>${esc(s)}</mark>`).join(' ')}</p>`) : ''}
+      </div><div class="mt-col">
+        ${r.education.length ? mtCard('تحصیلات', '🎓', '#1248d6', r.education.map(e => mtRow(e.period, e.title, e.place, e.detail)).join('')) : ''}
+        ${r.languages.length ? mtCard('زبان‌ها', '🗣️', '#e2560a', r.languages.map(l => `<div class="mt-lang"><mark>${esc(l.name)}</mark>${r.showLevels ? levelDots(l.level) : ''}</div>`).join('')) : ''}
+      </div></div>
+      ${linked.length ? mtCard('مهارت‌ها', '🛠️', '#0c8a4a', `<div class="mt-skills">${skills}</div>`, 'mt-wide') : ''}
+    </section>` : ''}
+    <section class="mt-mat"><span class="mt-dd mt-dd-star3">${MT_DOODLE.star('#ffd400')}</span><span class="mt-dd mt-dd-smile2">${MT_DOODLE.smile()}</span>
+      <h3 class="mt-mat-title"><span>نمونه‌کارها</span></h3>
+      ${works.length ? `<div class="mt-prints">${works.map(a => `<figure class="mt-print">${workMedia(a)}<figcaption><b>${esc(a.name)}</b><span>${esc(skillName(a.skill.title).main)}${a.notes ? ` · ${esc(a.notes)}` : ''}</span></figcaption></figure>`).join('')}</div>` : `<p class="mt-none no-print">هنوز به اثری ستاره نزدی. از «مهارت‌ها» › «مخزن آثار» ستاره بزن تا اینجا بیاد.</p>`}
+    </section>
   </article>`;
 };
-A['folio.print'] = () => { const t = document.title; document.title = D.resume.name || 'resume'; window.print(); document.title = t; };
+/* Printing waits for every picture and font, otherwise blank frames can end up in the PDF */
+A['folio.print'] = async () => {
+  const root = $('#resume'), t = document.title;
+  toast('دارم صفحه رو برای چاپ آماده می‌کنم…');
+  const imgs = root ? $$('img', root) : [];
+  imgs.forEach(i => { i.loading = 'eager'; });
+  await Promise.race([Promise.all(imgs.map(i => (i.decode ? i.decode().catch(() => {}) : Promise.resolve()))), new Promise(r => setTimeout(r, 6000))]);
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  document.title = D.resume.name || 'resume';
+  window.print();
+  document.title = t;
+};
 const repRow = {
   link: (v = {}) => `<div class="repeat-row grid2" data-row="link"><div class="field"><label>عنوان</label><input data-k="label" value="${esc(v.label || '')}" placeholder="Behance"></div><div class="field"><label>آدرس</label><input class="ltr" data-k="url" value="${esc(v.url || '')}" placeholder="https://..."></div><button type="button" class="icon-btn sm danger" data-a="rep.del" aria-label="حذف ردیف">${icon('x')}</button></div>`,
   lang: (v = {}) => `<div class="repeat-row grid2" data-row="lang"><div class="field"><label>زبان</label><input data-k="name" value="${esc(v.name || '')}"></div><div class="field"><label>سطح</label><select data-k="level">${[1, 2, 3, 4, 5].map(n => `<option value="${n}" ${(+v.level || 3) === n ? 'selected' : ''}>${fa(n)} از ۵</option>`).join('')}</select></div><button type="button" class="icon-btn sm danger" data-a="rep.del" aria-label="حذف ردیف">${icon('x')}</button></div>`,

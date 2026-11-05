@@ -1354,7 +1354,8 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 .sc-prog{display:flex;align-items:center;gap:8px;margin-top:auto;padding:5px 13px 11px}
 .sc-prog .pencil-bar{flex:1;min-width:0}
 .sc-prog b{flex:none;font-size:12.5px;font-weight:800;color:var(--t-body)}
-/* The tree: a stack of paper tabs */
+/* The tree: a stack of paper tabs. On the page's right-to-left layout its scrollbar sits on the left, so the air goes there */
+.tree{padding-left:12px}
 .tree-d{border-radius:3px;background-image:linear-gradient(90deg,transparent calc(100% - 13px),rgba(200,36,50,.3) calc(100% - 13px),rgba(200,36,50,.3) calc(100% - 12px),transparent calc(100% - 12px))}
 .tree-d>.tree-row-w:first-child{background:color-mix(in srgb,var(--dc) 30%,var(--card));padding-bottom:5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),91% calc(100% - 8px),83% calc(100% - 2px),74% calc(100% - 6px),66% calc(100% - 1px),57% calc(100% - 7px),47% calc(100% - 3px),39% calc(100% - 7px),30% calc(100% - 1px),21% calc(100% - 6px),12% calc(100% - 2px),5% calc(100% - 7px),0 calc(100% - 3px))}
 .tree-h,.tree-h:hover,.tree-h.on{background:transparent}
@@ -1367,6 +1368,7 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 .tree-r.on{box-shadow:inset -4px 0 0 var(--dc)}
 @media (max-width:860px){
   .sk-sheets{gap:34px}
+  .tree{padding-left:2px}
   .sk-sheet .paper{padding:56px 11px 22px}
   .sk-sheet .sheet-label{font-size:22px;max-width:calc(100% - 118px)}
   .sk-link small{display:none}

@@ -20,7 +20,7 @@
 /* Mikhak (c) Amin Abedi, SIL Open Font License 1.1, https://github.com/aminabedi68/Mikhak */
 /* Layout concept: an Iranian ring-bound school notebook on a desk. Spine + red margin on the right,
    cardstock divider tabs on the left edge. Objects keep their real-world roles: tasks are written on ruled
-   lines, the board is a legal pad, notes are post-its, goals are index cards, money is a ledger and receipt,
+   lines, the board is a legal pad, notes are post-its, goals are index cards,
    the day's score is a teacher's grade out of 20 in red pen. */
 :root{
   --desk:#b79c74; --desk-2:#a78b63;
@@ -397,22 +397,6 @@ input[type=range]{width:100%;accent-color:var(--blue)}
 .index-card h4{font-weight:800;font-size:15.5px;line-height:1.55;min-height:26px}
 .overdue{color:var(--red);font-weight:800}
 
-/* Finance */
-.money-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:26px;align-items:start}
-.receipt{position:relative;background:#fffef8;color:#26241f;padding:16px 15px 20px;box-shadow:2px 5px 13px var(--shadow);--c:#fffef8;font-variant-numeric:tabular-nums}
-:root[data-theme="dark"] .receipt{background:#e9e4d2;--c:#e9e4d2}
-.receipt::after{content:"";position:absolute;inset-inline:0;bottom:-8px;height:8px;background:linear-gradient(135deg,var(--c) 50%,transparent 50%) 0 0/12px 8px,linear-gradient(-135deg,var(--c) 50%,transparent 50%) 0 0/12px 8px}
-.rc-t{text-align:center;font-family:var(--f-display);font-size:20px}
-.rc-l{display:flex;justify-content:space-between;gap:9px;padding:3px 0;font-size:14px;border-bottom:1px dotted #a39c88}
-.rc-l b{font-weight:800;white-space:nowrap}
-.rc-big{display:flex;justify-content:space-between;align-items:baseline;gap:9px;margin-top:9px;padding-top:7px;border-top:2px dashed #6b655a;font-size:14.5px;font-weight:800}
-.rc-big b{font-family:var(--f-display);font-weight:400;font-size:24px;white-space:nowrap}
-.rc-in{color:#1e6b40}.rc-out{color:#a93a1c}
-.ledger{width:100%;border-collapse:collapse;font-size:14px}
-.ledger th{font-size:13px;color:var(--ink-3);text-align:right;padding:4px 7px;border-bottom:3px double var(--ink-2);white-space:nowrap;font-weight:700}
-.ledger td{padding:7px;border-bottom:1px solid var(--rule);vertical-align:middle}
-.ledger .num{white-space:nowrap;font-weight:800;font-variant-numeric:tabular-nums;text-align:left}
-.ledger .in{color:var(--green)} .ledger .out{color:var(--red)}
 .tagpick{display:flex;flex-wrap:wrap;gap:4px}
 .tagpick button{border:1px solid var(--line-2);background:transparent;border-radius:var(--sk);font-size:13px;font-weight:600;padding:0 9px;min-height:27px;cursor:pointer}
 .tagpick button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -791,8 +775,6 @@ kbd{border:0;background:var(--paper-2);border-radius:6px}
 .set-card{border-radius:var(--r-m);box-shadow:var(--soft-1);padding:18px}
 .set-card .h-sec{box-shadow:none;background:var(--paper-2);transform:none}
 .kv{padding:6px 0;border-color:var(--rule)}
-.ledger td{padding:10px 7px}
-.ledger th{border-bottom:2px solid var(--line-2)}
 .folder b{font-weight:900}
 .wk-head{font-weight:800}
 
@@ -927,7 +909,6 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 /* ---------- Responsive ---------- */
 @media (max-width:1180px){
   .desk-grid,.day-grid{grid-template-columns:minmax(0,1fr)}
-  .money-grid{grid-template-columns:minmax(0,1fr)}
   .col-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
 }
 @media (max-width:860px){
@@ -959,7 +940,6 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 @media (max-width:440px){
   .grid2,.grid3{grid-template-columns:minmax(0,1fr)}
   .r-skills{grid-template-columns:minmax(0,1fr)}
-  .ledger .hide-s{display:none}
 }
 @media (pointer:coarse){
   .icon-btn.sm{width:38px;height:38px}
@@ -1232,7 +1212,6 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
   /* Forms in a sheet: the date takes a full line, the two times share one */
   .dlg .grid3{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dlg .grid3>.field:first-child{grid-column:1/-1}
-  [data-a="money.tag"]{min-height:38px;padding-inline:12px}
   .notice+.desk-seg{margin-top:12px}
   .wk-hint{display:none}
 }
@@ -1692,7 +1671,6 @@ function fmtMin(m) { m = Math.round(m || 0); if (m < 60) return `${fa(m)} دقی
 function fmtHours(m) { m = Math.round(m || 0); if (m < 60) return `${fa(m)} د`; const h = m / 60; return `${fa(String(Math.round(h * 10) / 10).replace('.', '٫'))} ساعت`; }
 function fmtClock(s) { s = Math.max(0, Math.floor(s)); const h = idiv(s, 3600), m = idiv(s % 3600, 60), x = s % 60; return fa(h > 0 ? `${h}:${pad2(m)}:${pad2(x)}` : `${pad2(m)}:${pad2(x)}`); }
 function fmtNum(n) { return Math.round(Number(n) || 0).toLocaleString('fa-IR'); }
-const fmtMoney = n => fmtNum(n) + ' تومان';
 const hhmm = t => { if (!t || String(t).indexOf(':') < 0) return null; const [h, m] = String(t).split(':').map(Number); return isNaN(h) || isNaN(m) ? null : h * 60 + m; };
 const words = t => { const s = String(t || '').trim(); return s ? s.split(/\s+/).length : 0; };
 
@@ -1723,7 +1701,7 @@ function emptyData() {
 }
 let D = emptyData();
 const S = { rev: 0, dirty: false, saving: false, saveTimer: 0, readOnly: false, lastSaved: 0, error: null, snapDay: null, loaded: false };
-const ui = { route: { page: 'desk' }, notesFolder: null, notesQ: '', calMonth: null, dayView: null, weekAnchor: null, skillTab: 'time', moneyPeriod: 'month', moneyType: 'all', moneyQ: '', installEvt: null, moneyDraftType: 'expense' };
+const ui = { route: { page: 'desk' }, notesFolder: null, notesQ: '', calMonth: null, dayView: null, weekAnchor: null, skillTab: 'time', installEvt: null };
 const todayStr = () => dateToStr(new Date(nowMs() - ((D.settings && D.settings.dayEndHour) || 0) * 3600e3));
 
 /* Never throws. Bad rows go to quarantine instead of breaking the whole notebook. */
@@ -1847,6 +1825,7 @@ function sanitizeData(raw) {
   if (obj(raw.dayBoard)) out.dayBoard = { date: isDate(raw.dayBoard.date) ? String(raw.dayBoard.date).slice(0, 10) : null, text: String(raw.dayBoard.text || '') };
   if (obj(raw.boardLog)) Object.keys(raw.boardLog).forEach(k => { if (isDate(k)) out.boardLog[k] = String(raw.boardLog[k] || ''); });
   if (obj(raw.seriesSkips)) out.seriesSkips = raw.seriesSkips;
+  /* the money page is gone, but this data is kept untouched: in the notebook, in backups and in sync */
   const f = obj(raw.finance) ? raw.finance : {};
   out.finance.transactions = list(f.transactions, 'finance', t => ({
     id: t.id || uid(), type: t.type === 'income' ? 'income' : 'expense', amount: Math.max(0, Number(t.amount) || 0), date: day(t.date), desc: String(t.desc || ''),
@@ -2452,7 +2431,7 @@ A.go = el => go(el.dataset.to);
 const TABS = [
   { id: 'desk', label: 'میز کار', ic: 'desk' }, { id: 'day', label: 'روز', ic: 'sun' }, { id: 'week', label: 'هفته', ic: 'week' },
   { id: 'skills', label: 'مهارت‌ها', ic: 'tree' }, { id: 'notes', label: 'یادداشت‌ها', ic: 'note' }, { id: 'goals', label: 'اهداف', ic: 'target' },
-  { id: 'money', label: 'مالی', ic: 'money' }, { id: 'map', label: 'مایندمپ', ic: 'map' }, { id: 'folio', label: 'پورتفولیو', ic: 'clip' }, { id: 'book', label: 'پشتیبان', ic: 'box' }
+  { id: 'map', label: 'مایندمپ', ic: 'map' }, { id: 'folio', label: 'پورتفولیو', ic: 'clip' }, { id: 'book', label: 'پشتیبان', ic: 'box' }
 ];
 const go = hash => { if (location.hash.slice(1) === hash) applyRoute(); else location.hash = hash; };
 function applyRoute() {
@@ -2999,7 +2978,6 @@ A['search.open'] = () => {
     D.dailyNotes.forEach(n => { const p = noteParts(n).plain; if (has(n.title) || has(p) || has(n.category)) o.push({ ic: 'note', t: n.title || p.slice(0, 70) || 'یادداشت تصویری', sub: 'یادداشت · ' + jShort(n.date), note: n.id }); });
     const seen = new Set();
     D.dailyTasks.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach(t => { const k = t.seriesId || t.id; if ((has(t.title) || has(t.desc)) && !seen.has(k)) { seen.add(k); o.push({ ic: 'check', t: t.title, sub: 'تسک · ' + jShort(t.date), go: `day/${t.date}` }); } });
-    D.finance.transactions.forEach(t => { if (has(t.desc) || t.tags.some(has)) o.push({ ic: 'money', t: t.desc || t.tags.join(' '), sub: fmtMoney(t.amount) + ' · ' + jShort(t.date), go: 'money' }); });
     res.innerHTML = o.length ? o.slice(0, 40).map(r => `<button type="button" data-go="${esc(r.go || '')}" data-note="${esc(r.note || '')}">${icon(r.ic)}<span class="grow truncate">${esc(r.t)}</span><span class="small muted">${esc(r.sub)}</span></button>`).join('') : `<p class="hint">چیزی پیدا نشد.</p>`;
   };
   inp.addEventListener('input', run); run();
@@ -3823,84 +3801,6 @@ A['goal.save'] = el => {
 };
 A['goal.del'] = el => { const before = D.goals.slice(); D.goals = D.goals.filter(g => g.id !== el.dataset.id); commit(true); undoToast('هدف پاک شد.', () => { D.goals = before; }); };
 
-/* ========== Money: ledger + receipt. "This month" follows the Jalali calendar ========== */
-const txTotals = l => { let income = 0, expense = 0; l.forEach(t => { if (t.type === 'income') income += t.amount; else expense += t.amount; }); return { income, expense, balance: income - expense }; };
-const parseTags = s => Array.from(new Set(String(s || '').split(/[\s,،]+/).map(p => p.trim()).filter(Boolean).map(p => '#' + p.replace(/^#+/, '')).filter(p => p.length > 1)));
-const recentTags = () => { const o = []; D.finance.transactions.forEach(t => t.tags.forEach(x => { if (!o.includes(x)) o.push(x); })); return o.length ? o.slice(0, 10) : ['#خوراک', '#رفت‌وآمد', '#خانه', '#تفریح']; };
-function moneyCoach(month, today, m) {
-  const all = D.finance.transactions; if (!all.length) return ['هنوز چیزی ثبت نکردی. از همین امروز خرج و دخلت رو با هشتگ بنویس تا الگوها معلوم بشن.'];
-  const lines = [], budget = D.finance.monthlyBudget;
-  if (budget) { const p = Math.round(m.expense / budget * 100); lines.push(p >= 100 ? `بودجه‌ی ماه تموم شده (${fa(p)}٪). تا اول ماه بعد روی خرج‌های غیرضروری سخت بگیر.` : p >= 80 ? `${fa(p)}٪ بودجه‌ی ماه مصرف شده؛ نزدیک سقفی. خرج‌های بزرگ رو عقب بنداز.` : p >= 50 ? `${fa(p)}٪ بودجه‌ی ماه مصرف شده. هنوز جا داری.` : `بودجه‌ی ماه آرومه (${fa(p)}٪ مصرف).`); }
-  else lines.push('یه سقف ماهانه بذار تا تحلیل دقیق‌تر بشه.');
-  const tagMap = {}; all.filter(t => jKey(t.date) === month && t.type === 'expense').forEach(t => (t.tags.length ? t.tags : ['#بدون‌برچسب']).forEach(x => { tagMap[x] = (tagMap[x] || 0) + t.amount; }));
-  const top = Object.entries(tagMap).sort((a, b) => b[1] - a[1])[0];
-  if (top && m.expense) { const sh = Math.round(top[1] / m.expense * 100); lines.push(`بیشترین خرج ماه: ${top[0]} با ${fa(sh)}٪.${sh >= 40 ? ' این هفته محدودش کن.' : ''}`); }
-  if (m.income === 0 && m.expense > 0) lines.push('این ماه فقط خرج ثبت شده؛ اگه درآمدی داشتی با نوع «دخل» ثبتش کن.');
-  else if (m.balance < 0) lines.push('مانده‌ی ماه منفیه. اولویت با هزینه‌های ضروریه.');
-  let logged = 0; for (let i = 0; i < 7; i++) if (all.some(t => t.date === shiftDay(today, -i))) logged++;
-  if (logged <= 2) lines.push('ثبت‌هات پراکنده‌ست. هر شب دو دقیقه کافیه.');
-  return lines;
-}
-PAGES.money = () => {
-  const today = todayStr(), month = jKey(today), all = D.finance.transactions;
-  const m = txTotals(all.filter(t => jKey(t.date) === month)), d = txTotals(all.filter(t => t.date === today));
-  const budget = D.finance.monthlyBudget, pct = budget ? Math.round(m.expense / budget * 100) : null;
-  let list = all.slice();
-  if (ui.moneyPeriod === 'today') list = list.filter(t => t.date === today);
-  else if (ui.moneyPeriod === 'week') { const f = shiftDay(today, -6); list = list.filter(t => t.date >= f && t.date <= today); }
-  else if (ui.moneyPeriod === 'month') list = list.filter(t => jKey(t.date) === month);
-  if (ui.moneyType !== 'all') list = list.filter(t => t.type === ui.moneyType);
-  const q = ui.moneyQ.trim().toLowerCase().replace(/^#/, '');
-  if (q) list = list.filter(t => t.tags.some(x => x.toLowerCase().includes(q)) || t.desc.toLowerCase().includes(q));
-  list.sort((a, b) => b.date.localeCompare(a.date) || String(b.createdAt).localeCompare(String(a.createdAt)));
-  const tj = jOf(today), tagMap = {};
-  all.filter(t => jKey(t.date) === month && t.type === 'expense').forEach(t => (t.tags.length ? t.tags : ['#بدون‌برچسب']).forEach(x => { tagMap[x] = (tagMap[x] || 0) + t.amount; }));
-  const tagRows = Object.entries(tagMap).sort((a, b) => b[1] - a[1]).slice(0, 6), maxTag = tagRows.length ? tagRows[0][1] : 1;
-  const type = ui.moneyDraftType;
-  return `<div class="page-head"><h1 class="page-title">پول من</h1><p class="muted small">${J_MONTHS[tj.jm - 1]} ${fa(tj.jy)}</p></div>
-  <div class="money-grid"><aside class="stack" style="gap:24px">
-    <section class="receipt" aria-label="خلاصه‌ی ماه"><div class="rc-t">رسید ${J_MONTHS[tj.jm - 1]}</div>
-      <div class="rc-l"><span>دخل ماه</span><b class="rc-in">${fmtNum(m.income)}</b></div><div class="rc-l"><span>خرج ماه</span><b class="rc-out">${fmtNum(m.expense)}</b></div><div class="rc-l"><span>دخل امروز</span><b>${fmtNum(d.income)}</b></div><div class="rc-l"><span>خرج امروز</span><b>${fmtNum(d.expense)}</b></div>
-      <div class="rc-big"><span>مانده</span><b class="${m.balance < 0 ? 'rc-out' : 'rc-in'}">${fmtNum(m.balance)}</b></div><div style="text-align:center;font-size:12.5px;margin-top:2px">مبالغ به تومان</div>
-      ${budget ? `<div style="margin-top:10px"><div class="pencil-bar" style="border-color:#6b655a"><i style="width:${Math.min(100, pct)}%;--bc:${pct >= 90 ? '#a93a1c' : pct >= 70 ? '#b07a12' : '#1e6b40'}"></i></div><div style="font-size:12.5px;margin-top:3px">${fa(pct)}٪ از بودجه‌ی ${fmtNum(budget)}</div></div>` : ''}
-    </section>
-    <section class="panel"><h2 class="h-sec">${icon('note')} تحلیل</h2><div class="analysis">${moneyCoach(month, today, m).map(l => `<p>${esc(l)}</p>`).join('')}</div></section>
-    ${tagRows.length ? `<section class="panel" style="gap:6px"><h2 class="h-sec">خرج به تفکیک هشتگ</h2>${tagRows.map(([k, v]) => `<div class="wk-row" style="grid-template-columns:82px 1fr auto"><span class="truncate small">${esc(k)}</span><div class="pencil-bar"><i style="width:${Math.round(v / maxTag * 100)}%;--bc:var(--red)"></i></div><span class="small tnum">${fmtNum(v)}</span></div>`).join('')}</section>` : ''}
-    <section class="field panel" style="gap:4px"><label for="fiBudget">سقف خرج ماهانه (تومان)</label><input id="fiBudget" data-nokeep inputmode="numeric" value="${budget ? fmtNum(budget) : ''}" data-ch="money.budget" placeholder="مثلاً ۲۰٬۰۰۰٬۰۰۰"></section>
-  </aside>
-  <div class="stack" style="gap:18px;min-width:0">
-    <section class="scrap stack" style="gap:9px" aria-label="ثبت سریع">
-      <div class="row wrap"><div class="seg" role="group" aria-label="نوع"><button type="button" class="${type === 'expense' ? 'on' : ''}" data-a="money.type" data-t="expense">خرج</button><button type="button" class="${type === 'income' ? 'on' : ''}" data-a="money.type" data-t="income">دخل</button></div>
-      <input class="inp amount grow" id="fiAmt" inputmode="numeric" autocomplete="off" data-enter="money.add" data-in="money.fmt" placeholder="مبلغ به تومان" aria-label="مبلغ" style="min-width:150px"><button type="button" class="btn pri" data-a="money.add">${icon('plus')} ثبت</button></div>
-      <div class="grid3"><div class="field"><label for="fiTags">هشتگ‌ها</label><input id="fiTags" data-enter="money.add" data-in="money.tags" placeholder="#خوراک"></div><div class="field"><label for="fiDesc">توضیح</label><input id="fiDesc" data-enter="money.add"></div><div class="field"><label>تاریخ</label>${dateField('fiDate', today)}</div></div>
-      <div class="tagpick" id="fiQuick">${quickTags()}</div></section>
-    <section class="panel"><div class="row wrap between"><h2 class="h-sec">${icon('money')} دفتر دخل و خرج</h2><div class="row wrap"><select class="inp" style="width:auto" id="fiP" data-nokeep data-ch="money.filter" data-k="moneyPeriod" aria-label="بازه">${[['today', 'امروز'], ['week', '۷ روز'], ['month', 'این ماه'], ['all', 'همه']].map(([k, l]) => `<option value="${k}" ${ui.moneyPeriod === k ? 'selected' : ''}>${l}</option>`).join('')}</select><select class="inp" style="width:auto" id="fiT" data-nokeep data-ch="money.filter" data-k="moneyType" aria-label="نوع">${[['all', 'خرج و دخل'], ['expense', 'فقط خرج'], ['income', 'فقط دخل']].map(([k, l]) => `<option value="${k}" ${ui.moneyType === k ? 'selected' : ''}>${l}</option>`).join('')}</select><input class="inp" style="width:140px" id="fiQ" data-in="money.q" value="${esc(ui.moneyQ)}" placeholder="جستجو" aria-label="جستجو"></div></div>
-      ${list.length ? `<div style="overflow-x:auto"><table class="ledger"><thead><tr><th>تاریخ</th><th>شرح</th><th style="text-align:left">مبلغ</th><th><span class="sr">عملیات</span></th></tr></thead><tbody>${list.slice(0, 200).map(t => `<tr><td style="white-space:nowrap">${jShort(t.date)}</td><td style="min-width:120px">${esc(t.desc)} <span class="small muted">${t.tags.map(esc).join(' ')}</span></td><td class="num ${t.type === 'income' ? 'in' : 'out'}"><span dir="ltr">${t.type === 'income' ? '+' : '−'}${fmtNum(t.amount)}</span></td><td style="white-space:nowrap;width:1%"><button type="button" class="icon-btn sm" data-a="money.edit" data-id="${t.id}" aria-label="ویرایش">${icon('edit')}</button><button type="button" class="icon-btn sm danger" data-a="money.del" data-id="${t.id}" aria-label="حذف">${icon('trash')}</button></td></tr>`).join('')}</tbody></table></div>` : emptyBox('money', 'تو این بازه چیزی ثبت نشده.')}</section>
-  </div></div>`;
-};
-function quickTags() { const sel = parseTags(($('#fiTags') || {}).value || '').map(x => x.toLowerCase()); return recentTags().map(t => `<button type="button" class="${sel.includes(t.toLowerCase()) ? 'on' : ''}" data-a="money.tag" data-t="${esc(t)}">${esc(t)}</button>`).join(''); }
-const parseAmount = s => { const n = parseFloat(toLatin(s).replace(/[^\d.]/g, '')); return isNaN(n) ? 0 : n; };
-A['money.type'] = el => { ui.moneyDraftType = el.dataset.t; render(); };
-A['money.tag'] = el => { const i = $('#fiTags'), cur = parseTags(i.value), t = el.dataset.t, has = cur.some(x => x.toLowerCase() === t.toLowerCase()); i.value = (has ? cur.filter(x => x.toLowerCase() !== t.toLowerCase()) : cur.concat(t)).join(' '); $('#fiQuick').innerHTML = quickTags(); };
-IN['money.tags'] = () => { const q = $('#fiQuick'); if (q) q.innerHTML = quickTags(); };
-IN['money.fmt'] = el => { const n = parseAmount(el.value); el.value = n ? fmtNum(n) : ''; };
-IN['money.q'] = el => { ui.moneyQ = el.value; render(); };
-CH['money.filter'] = el => { ui[el.dataset.k] = el.value; render(); };
-CH['money.budget'] = el => { const n = parseAmount(el.value); D.finance.monthlyBudget = n > 0 ? n : null; commit(true); toast('سقف ماهانه ذخیره شد.'); };
-A['money.add'] = () => {
-  const a = parseAmount($('#fiAmt').value); if (!a) { toast('مبلغ رو بنویس.', 'err'); $('#fiAmt').focus(); return; }
-  D.finance.transactions.unshift({ id: uid(), type: ui.moneyDraftType, amount: a, date: $('#fiDate').value || todayStr(), desc: $('#fiDesc').value.trim(), tags: parseTags($('#fiTags').value), createdAt: new Date(nowMs()).toISOString() });
-  $('#fiAmt').value = ''; $('#fiDesc').value = '';
-  commit(true); const f = $('#fiAmt'); if (f) f.focus();
-  toast(`${ui.moneyDraftType === 'income' ? 'دخل' : 'خرج'} ${fmtMoney(a)} ثبت شد.`);
-};
-A['money.del'] = el => { const before = D.finance.transactions.slice(); D.finance.transactions = before.filter(t => t.id !== el.dataset.id); commit(true); undoToast('پاک شد.', () => { D.finance.transactions = before; }); };
-A['money.edit'] = el => {
-  const t = D.finance.transactions.find(x => x.id === el.dataset.id); if (!t) return;
-  const d = sheet({ title: 'ویرایش تراکنش', size: 's', body: `<div class="field"><label for="feT">نوع</label><select id="feT"><option value="expense" ${t.type === 'expense' ? 'selected' : ''}>خرج</option><option value="income" ${t.type === 'income' ? 'selected' : ''}>دخل</option></select></div><div class="field"><label for="feA">مبلغ</label><input id="feA" inputmode="numeric" value="${fmtNum(t.amount)}" data-in="money.fmt"></div><div class="field"><label>تاریخ</label>${dateField('feD', t.date)}</div><div class="field"><label for="feG">هشتگ‌ها</label><input id="feG" value="${esc(t.tags.join(' '))}"></div><div class="field"><label for="feN">توضیح</label><input id="feN" value="${esc(t.desc)}"></div>`, foot: `<button type="button" class="btn ghost" data-a="dlg.close">انصراف</button><button type="button" class="btn pri" id="feS">ذخیره</button>` });
-  $('#feS', d).onclick = () => { const a = parseAmount($('#feA', d).value); if (!a) { toast('مبلغ رو بنویس.', 'err'); return; } Object.assign(t, { type: $('#feT', d).value, amount: a, date: $('#feD', d).value, tags: parseTags($('#feG', d).value), desc: $('#feN', d).value.trim() }); d.close(); commit(true); };
-};
-
 /* ========== Mind map: Excalidraw (MIT), self-hosted in vendor/ and loaded only when this page is first opened ==========
    It lives in #mapHost, outside #page, so re-rendering the planner never destroys a drawing in progress.
    The scene is stored as D.mapDoc and synced as its own file, map.json. The old PNG in D.whiteboardData is never
@@ -4607,7 +4507,7 @@ A['sync.off'] = async () => { if (!await confirmBox('اتصال این دستگ�
 /* ========== Backup + settings ========== */
 PAGES.book = () => {
   const s = D.settings, last = D.meta.lastBackupAt;
-  const counts = [['حوزه', D.domains.length], ['مهارت', allSkills().length], ['تسک', D.dailyTasks.length], ['یادداشت', D.dailyNotes.length], ['هدف', D.goals.length], ['تراکنش', D.finance.transactions.length]];
+  const counts = [['حوزه', D.domains.length], ['مهارت', allSkills().length], ['تسک', D.dailyTasks.length], ['یادداشت', D.dailyNotes.length], ['هدف', D.goals.length]];
   const http = /^https?:/.test(location.protocol);
   return `<div class="page-head"><div><h1 class="page-title">پشتیبان و تنظیمات</h1><p class="muted small">این دفتر فقط تو همین مرورگر زندگی می‌کنه؛ پس پشتیبانش مهمه.</p></div></div>
   <div class="set-grid"><div class="stack" style="gap:24px">

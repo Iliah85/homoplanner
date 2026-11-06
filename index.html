@@ -4144,7 +4144,9 @@ const LK_KINDS = {
   mastery: { label: 'درصد تسلط', skill: true, unit: '٪', def: 50, tiers: [25, 50, 75, 100], line: (n, s) => `تسلط ${n}٪ روی ${s}`, trophy: null, sticker: '🧠' },
   words: { label: 'لغت تو «لغات زبان»', skill: false, unit: 'لغت', def: 50, tiers: [25, 100, 500, 2000], line: n => `${n} لغت تو دفتر زبان`, trophy: 'globe', sticker: '🗣️' },
   goodDays: { label: 'روز خوب پشت‌هم', skill: false, unit: 'روز خوب', def: 7, tiers: [3, 7, 21, 60], line: n => `${n} روز خوب پشت‌هم`, trophy: 'flame', sticker: '🔥' },
-  allHours: { label: 'کل ساعت‌های ثبت‌شده', skill: false, unit: 'ساعت', def: 100, tiers: [25, 100, 500, 2000], line: n => `${n} ساعت کار ثبت‌شده`, trophy: 'cup', sticker: '🏆' }
+  allHours: { label: 'کل ساعت‌های ثبت‌شده', skill: false, unit: 'ساعت', def: 100, tiers: [25, 100, 500, 2000], line: n => `${n} ساعت کار ثبت‌شده`, trophy: 'cup', sticker: '🏆' },
+  /* made from the goals tab, never picked from the list of templates */
+  goal: { label: 'هدف', skill: false, hidden: true, unit: '٪', def: 100, tiers: [], line: () => '', trophy: null, sticker: '🎯' }
 };
 const LK_LEVELS = { 1: 'آسون', 2: 'متوسط', 3: 'سخت', 4: 'افسانه‌ای' };
 const LK_RANKS = [[0, 'تازه‌وارد'], [50, 'شاگرد زرنگ'], [150, 'مبصر کلاس'], [400, 'شاگرد اول'], [800, 'المپیادی'], [1500, 'افسانه‌ی مدرسه']];
@@ -4173,6 +4175,7 @@ function lkValue(a) {
     case 'words': return langWords().length;
     case 'goodDays': return computeStreak();
     case 'allHours': return allSkills().reduce((m, x) => m + totalMin(x.p), 0) / 60;
+    case 'goal': { const g = D.goals.find(x => x.id === a.goalId); return g ? goalProgress(g) : 0; }
     default: return 0;
   }
 }
@@ -4181,7 +4184,7 @@ function lkState(a) {
   return { hand, target, val, pct: clamp(Math.floor(val / target * 100), 0, 100), open: !!a.unlockedAt && !!a.celebrated, pending: !!a.unlockedAt && !a.celebrated, met: val >= target };
 }
 function lkPoints(a) {
-  if (a.mode === 'hand') return LK_POINTS[clamp((a.level || 2) - 1, 0, 3)];
+  if (a.mode === 'hand' || a.kind === 'goal') return LK_POINTS[clamp((a.level || 2) - 1, 0, 3)];
   const k = LK_KINDS[a.kind]; if (!k) return LK_POINTS[0];
   const i = k.tiers.findIndex(t => (a.target || 1) <= t);
   return LK_POINTS[i < 0 ? 4 : i];
@@ -4229,7 +4232,7 @@ function lkPaper(a, st) {
   const k = LK_KINDS[a.kind], title = String(a.title || '').trim() || 'متن کاغذ';
   const tilt = ['-1.4deg', '1.1deg', '-.7deg', '1.6deg'][(a.no || 0) % 4], near = !st.open && !st.pending && !st.hand && st.pct >= 75 && st.pct < 100;
   const foot = st.hand ? `<span class="lk-pnum">با دست باز می‌شه · ${LK_LEVELS[a.level || 2]}</span>`
-    : `<span class="lk-pbar"><i style="width:${st.pct}%"></i></span><span class="lk-pnum tnum">${lkNum(Math.min(st.val, st.target))} از ${fa(st.target)} ${k ? k.unit : ''}</span>`;
+    : `<span class="lk-pbar"><i style="width:${st.pct}%"></i></span><span class="lk-pnum tnum">${a.kind === 'goal' ? `پیشرفت هدف: ${fa(st.pct)}٪` : `${lkNum(Math.min(st.val, st.target))} از ${fa(st.target)} ${k ? k.unit : ''}`}</span>`;
   return `<span class="lk-paperw" style="--tilt:${tilt}"><span class="lk-tape"></span>${near ? '<span class="lk-near">نزدیکه!</span>' : ''}<span class="lk-paper"><span class="lk-ptitle ${title.length > 34 ? 'long' : ''}">${esc(title)}</span>${foot}</span><span class="lk-pts tnum">+${fa(lkPoints(a))}</span></span>`;
 }
 function lkDoorHtml(a, st) {
@@ -4326,15 +4329,15 @@ async function lkCelebrate() {
 A['lk.open'] = el => {
   const a = lkFind(el.dataset.id); if (!a) return;
   const st = lkState(a), open = !!a.unlockedAt, k = LK_KINDS[a.kind], sk = a.skillId ? skillById(a.skillId) : null;
-  const left = st.target - st.val;
+  const left = st.target - st.val, goal = a.kind === 'goal' ? D.goals.find(x => x.id === a.goalId) : null;
   const status = open ? `از ${jMid(dateToStr(new Date(a.unlockedAt)))} بازه.${!st.hand && !st.met ? ' عددهاش الان کمتر از هدفه؛ اگه اشتباهی ثبت شده بود، می‌تونی دوباره قفلش کنی.' : ''}`
-    : st.hand ? 'این یکی رو کسی چک نمی‌کنه؛ هر وقت واقعاً رسیدی خودت بازش کن.' : `${lkNum(left)} ${k ? k.unit : ''} مونده تا باز شدن.`;
+    : st.hand ? 'این یکی رو کسی چک نمی‌کنه؛ هر وقت واقعاً رسیدی خودت بازش کن.' : a.kind === 'goal' ? (goal ? `هدف باید به ۱۰۰٪ برسه؛ ${fa(st.pct)}٪ جلو رفتی.` : 'هدفش پاک شده، پس این کمد دیگه خودش باز نمی‌شه.') : `${lkNum(left)} ${k ? k.unit : ''} مونده تا باز شدن.`;
   const canLock = open && (st.hand || !st.met);
   sheet({
     size: 's', cls: 'lk-dt', title: open ? 'کمد باز' : 'کمد قفل',
     body: `<div class="lk-dt-art lk-c-${LK_COLORS[a.color] ? a.color : 'red'} ${open ? 'open' : ''}">${open ? lkTrophy(a.trophy) : LK_PADLOCK}</div><h3 class="lk-dt-t">${esc(a.title)}</h3>
-    ${st.hand ? '' : `<div class="lk-dt-bar"><i style="width:${st.pct}%"></i></div><p class="tnum lk-dt-n">${lkNum(st.val)} از ${fa(st.target)} ${k ? k.unit : ''}</p>`}
-    <p class="muted small">${status}</p><p class="small lk-dt-meta"><b class="tnum">+${fa(lkPoints(a))} امتیاز</b>${sk ? ` · ${esc(skillName(sk.title).main)}` : a.skillId ? ' · مهارتش پاک شده' : ''}</p>`,
+    ${st.hand ? '' : `<div class="lk-dt-bar"><i style="width:${st.pct}%"></i></div><p class="tnum lk-dt-n">${a.kind === 'goal' ? `${fa(st.pct)}٪` : `${lkNum(st.val)} از ${fa(st.target)} ${k ? k.unit : ''}`}</p>`}
+    <p class="muted small">${status}</p><p class="small lk-dt-meta"><b class="tnum">+${fa(lkPoints(a))} امتیاز</b>${sk ? ` · ${esc(skillName(sk.title).main)}` : a.skillId ? ' · مهارتش پاک شده' : ''}${goal ? ` · هدف: ${esc(lkGoalName(goal))}` : ''}</p>`,
     foot: `<button type="button" class="icon-btn danger" data-a="lk.del" data-id="${a.id}" data-close aria-label="حذف کمد" title="حذف">${icon('trash')}</button><button type="button" class="btn ghost" data-a="lk.edit" data-id="${a.id}" data-close>${icon('edit')} ویرایش</button>${st.hand && !open ? `<button type="button" class="btn pri" data-a="lk.win" data-id="${a.id}" data-close>رسیدم، بازش کن</button>` : ''}${canLock ? `<button type="button" class="btn ghost" data-a="lk.relock" data-id="${a.id}" data-close>${icon('lock')} دوباره قفلش کن</button>` : ''}`
   });
 };
@@ -4361,7 +4364,7 @@ function lkGuessTrophy(kind, title) {
   if (/فتوشاپ|طراحی|گرافیک|نقاشی|photoshop|illustrator|design/i.test(t)) return 'brush';
   if (/باشگاه|بدنسازی|ورزش|gym/i.test(t)) return 'dumbbell';
   if (/زبان|انگلیسی|english/i.test(t)) return 'globe';
-  return 'crown';
+  return kind === 'goal' ? 'cup' : 'crown';
 }
 function lkGuessStickers(kind, skill) {
   const out = [], guess = skill ? GOAL_GUESS.find(([re]) => re.test(skill.title)) : null, dom = skill && String(skill.domain.icon || '').match(EMOJI_G);
@@ -4371,10 +4374,27 @@ function lkGuessStickers(kind, skill) {
 }
 const lkSkillLabel = id => { const s = skillById(id); return s ? skillName(s.title).main : '(مهارت)'; };
 const lkLine = f => { const k = LK_KINDS[f.kind]; return k ? k.line(fa(f.target || 0), lkSkillLabel(f.skillId)) : ''; };
+const lkGoalName = g => goalFace(g, D.goals.indexOf(g)).main;
+/* a goal gets one locker while that locker is still locked */
+const lkGoalChoices = keep => D.goals.filter(g => g.id === keep || !lkAll().some(a => a.kind === 'goal' && a.goalId === g.id));
+function lkGoalApply(f) {
+  const g = D.goals.find(x => x.id === f.goalId); if (!g) return;
+  const face = goalFace(g, D.goals.indexOf(g));
+  f.level = 5 - clamp(g.importance || 2, 1, 4);
+  if (!f.titleTouched) f.title = face.main;
+  if (!f.trophyTouched) f.trophy = lkGuessTrophy('goal', g.title);
+  if (!f.stickersTouched) f.stickers = [...new Set([face.emoji, LK_KINDS.goal.sticker])];
+}
 const lkNextNo = () => lkAll().reduce((m, a) => Math.max(m, a.no || 0), 100) + 1;
 function lkFreshForm(tab) {
   const s = allSkills().slice().sort((x, y) => totalMin(y.p) - totalMin(x.p))[0];
   const f = { id: null, tab, kind: 'hours', skillId: s ? s.id : '', target: LK_KINDS.hours.def, color: 'red', level: 2, picked: {} };
+  if (tab === 'goal') {
+    const g = lkGoalChoices()[0];
+    Object.assign(f, { kind: 'goal', skillId: '', target: 100, goalId: g ? g.id : '', title: '', trophy: 'cup', stickers: [LK_KINDS.goal.sticker] });
+    lkGoalApply(f);
+    return f;
+  }
   f.title = tab === 'hand' ? '' : lkLine(f);
   f.trophy = tab === 'hand' ? 'cup' : lkGuessTrophy(f.kind, s && s.title);
   f.stickers = tab === 'hand' ? [] : lkGuessStickers(f.kind, s);
@@ -4400,10 +4420,21 @@ function lkSuggest() {
 }
 function lkKindFields(f) {
   const k = LK_KINDS[f.kind];
-  return `<div class="field"><span class="lbl">هدف از چه جنسیه؟</span><div class="lk-kinds" role="radiogroup">${Object.keys(LK_KINDS).map(id => `<label class="lk-kind"><input type="radio" name="lfK" value="${id}" ${f.kind === id ? 'checked' : ''}><span>${LK_KINDS[id].label}</span></label>`).join('')}</div></div>
+  return `<div class="field"><span class="lbl">هدف از چه جنسیه؟</span><div class="lk-kinds" role="radiogroup">${Object.keys(LK_KINDS).filter(id => !LK_KINDS[id].hidden).map(id => `<label class="lk-kind"><input type="radio" name="lfK" value="${id}" ${f.kind === id ? 'checked' : ''}><span>${LK_KINDS[id].label}</span></label>`).join('')}</div></div>
   <div class="lk-f-row"><div class="field" id="lfSkW" ${k.skill ? '' : 'hidden'}><label for="lfS">مهارت</label><select id="lfS">${skillOptions(f.skillId, 'انتخاب کن')}</select></div>
   <div class="field"><label for="lfN">چند تا؟ <span id="lfU" class="muted">${k.unit}</span></label><input id="lfN" class="tnum" type="number" inputmode="numeric" min="1" ${f.kind === 'mastery' ? 'max="100"' : ''} value="${f.target}"></div></div>
   <div class="field"><label for="lfT">متن روی کاغذ</label><input id="lfT" maxlength="70" value="${esc(f.title)}" autocomplete="off"></div>`;
+}
+function lkGoalNote(f) {
+  const g = D.goals.find(x => x.id === f.goalId); if (!g) return '';
+  const p = goalProgress(g), linked = (g.skillIds || []).length;
+  return p >= 100 ? 'این هدف همین الان ۱۰۰٪ه؛ ذخیره که کنی، کمد باز می‌شه.' : `الان ${fa(p)}٪ه و تو ۱۰۰٪ باز می‌شه.${linked ? ' پیشرفتش از تسلط مهارت‌های وصل‌شده میاد.' : ' پیشرفتش رو از صفحه‌ی اهداف جلو می‌بری.'}`;
+}
+function lkGoalFields(f) {
+  const opts = lkGoalChoices(f.id ? f.goalId : undefined);
+  return `<div class="field"><label for="lfG">کدوم هدف؟</label><select id="lfG">${opts.map(g => `<option value="${g.id}" ${g.id === f.goalId ? 'selected' : ''}>${esc(lkGoalName(g))}</option>`).join('')}${f.id && !D.goals.some(g => g.id === f.goalId) ? '<option value="" selected>هدفش پاک شده</option>' : ''}</select><p class="hint" id="lfGN">${lkGoalNote(f)}</p></div>
+  <div class="field"><label for="lfT">متن روی کاغذ</label><input id="lfT" maxlength="70" value="${esc(f.title)}" autocomplete="off"></div>
+  <p class="hint">امتیازش از اهمیت هدف میاد: <b class="tnum">+${fa(LK_POINTS[clamp(f.level - 1, 0, 3)])}</b></p>`;
 }
 function lkHandFields(f) {
   return `<div class="field"><label for="lfT">هدفت چیه؟</label><input id="lfT" maxlength="70" value="${esc(f.title)}" placeholder="مثلاً: اولین آهنگم رو منتشر کنم" autocomplete="off"></div>
@@ -4414,7 +4445,7 @@ function lkHandFields(f) {
 function lkLooks(f) {
   return `<div class="field"><span class="lbl">جایزه‌ی توی کمد</span><div class="lk-trs" role="radiogroup">${Object.keys(LK_TROPHIES).map(t => `<label class="lk-tr" title="${LK_TROPHIES[t]}"><input type="radio" name="lfTr" value="${t}" ${f.trophy === t ? 'checked' : ''} aria-label="${LK_TROPHIES[t]}"><span>${lkTrophy(t)}</span></label>`).join('')}</div></div>
   <div class="field"><span class="lbl">رنگ کمد</span><div class="lk-colors" role="radiogroup">${Object.keys(LK_COLORS).map(c => `<label class="lk-color lk-c-${c}" title="${LK_COLORS[c]}"><input type="radio" name="lfC" value="${c}" ${f.color === c ? 'checked' : ''} aria-label="${LK_COLORS[c]}"><span></span></label>`).join('')}</div></div>
-  <div class="field"><span class="lbl">استیکرها <span class="muted small tnum" id="lfStN">${fa(f.stickers.length)} از ${fa(LK_MAX_STICKERS)}</span></span><div class="lk-stickers">${LK_EMOJI.map(e => `<button type="button" class="lk-sticker ${f.stickers.includes(e) ? 'on' : ''}" data-a="lk.sticker" data-e="${e}" aria-pressed="${f.stickers.includes(e)}">${e}</button>`).join('')}</div></div>`;
+  <div class="field"><span class="lbl">استیکرها <span class="muted small tnum" id="lfStN">${fa(f.stickers.length)} از ${fa(LK_MAX_STICKERS)}</span></span><div class="lk-stickers">${[...new Set([...f.stickers, ...LK_EMOJI])].map(e => `<button type="button" class="lk-sticker ${f.stickers.includes(e) ? 'on' : ''}" data-a="lk.sticker" data-e="${e}" aria-pressed="${f.stickers.includes(e)}">${e}</button>`).join('')}</div></div>`;
 }
 function lkAutoBody(f) {
   const rows = lkSuggest();
@@ -4428,13 +4459,14 @@ function lkAutoBody(f) {
 }
 function lkFormBody(f) {
   if (f.tab === 'auto') return lkAutoBody(f);
-  const fields = f.tab === 'hand' ? lkHandFields(f) : lkKindFields(f);
+  if (f.tab === 'goal' && !f.id && !lkGoalChoices().length) return `<p class="hint">${D.goals.length ? 'برای همه‌ی هدف‌هات کمد ساختی.' : 'هنوز هدفی نداری. اول از صفحه‌ی اهداف یکی بنویس.'}</p>`;
+  const fields = f.tab === 'hand' ? lkHandFields(f) : f.tab === 'goal' ? lkGoalFields(f) : lkKindFields(f);
   return `<div class="lk-f"><div class="lk-f-prev"><div class="lk-f-door" id="lkPrev"></div></div><div class="lk-f-main">${fields}${lkLooks(f)}</div></div>`;
 }
 function lkPaintPrev(d) {
   const f = ui.lkF, host = $('#lkPrev', d); if (!host) return;
-  const row = { title: f.title, kind: f.kind, target: f.target, mode: f.tab === 'hand' ? 'hand' : 'auto', level: f.level, color: f.color, trophy: f.trophy, stickers: f.stickers, no: f.no || lkNextNo() };
-  const st = { hand: f.tab === 'hand', target: Math.max(1, +f.target || 1), val: 0, pct: 0, open: false, pending: false };
+  const row = { title: f.title, kind: f.kind, target: f.target, skillId: f.skillId, goalId: f.goalId, mode: f.tab === 'hand' ? 'hand' : 'auto', level: f.level, color: f.color, trophy: f.trophy, stickers: f.stickers, no: f.no || lkNextNo() };
+  const st = lkState(row);
   host.innerHTML = `<span class="lk lk-static lk-c-${f.color}" aria-hidden="true"><span class="lk-in"></span>${lkDoorHtml(row, st)}</span>`;
 }
 function lkPaintForm(d) {
@@ -4446,10 +4478,10 @@ function lkPaintForm(d) {
 }
 function lkOpenForm(id, tab) {
   const a = id ? lkFind(id) : null;
-  ui.lkF = a ? { id: a.id, no: a.no, tab: a.mode === 'hand' ? 'hand' : 'tpl', kind: a.kind || 'hours', skillId: a.skillId || '', target: a.target || 1, title: a.title, level: a.level || 2, trophy: a.trophy || 'cup', color: LK_COLORS[a.color] ? a.color : 'red', stickers: (a.stickers || []).slice(), titleTouched: true, trophyTouched: true, stickersTouched: true, picked: {} } : lkFreshForm(tab || 'tpl');
+  ui.lkF = a ? { id: a.id, no: a.no, tab: a.mode === 'hand' ? 'hand' : a.kind === 'goal' ? 'goal' : 'tpl', kind: a.kind || 'hours', goalId: a.goalId || '', skillId: a.skillId || '', target: a.target || 1, title: a.title, level: a.level || 2, trophy: a.trophy || 'cup', color: LK_COLORS[a.color] ? a.color : 'red', stickers: (a.stickers || []).slice(), titleTouched: true, trophyTouched: true, stickersTouched: true, picked: {} } : lkFreshForm(tab || 'tpl');
   const d = sheet({
     title: a ? 'ویرایش کمد' : 'کمد جدید', size: 'l', cls: 'lk-dlg',
-    body: `${a ? '' : `<div class="subtabs lk-ftabs" role="tablist"><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="tpl">تمپلیت آماده</button><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="auto">از روی مهارت‌هام</button><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="hand">خودم می‌نویسم</button></div>`}<div id="lkBody" data-in="lk.form"></div>`,
+    body: `${a ? '' : `<div class="subtabs lk-ftabs" role="tablist"><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="tpl">تمپلیت</button><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="auto">مهارت‌هام</button><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="goal">اهدافم</button><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="hand">خودم</button></div>`}<div id="lkBody" data-in="lk.form"></div>`,
     foot: `<button type="button" class="btn ghost" data-a="dlg.close">انصراف</button><button type="button" class="btn pri lk-save" data-a="lk.save">ذخیره</button>`
   });
   lkPaintForm(d);
@@ -4470,6 +4502,7 @@ A['lk.sticker'] = el => {
 IN['lk.form'] = (host, e) => {
   const d = host.closest('dialog'), f = ui.lkF, t = e.target;
   if (t.name === 'lfA') { f.picked[t.value] = t.checked; return; }
+  if (t.id === 'lfG') { f.goalId = t.value; lkGoalApply(f); lkPaintForm(d); const again = $('#lfG', d); if (again) again.focus(); return; }
   if (t.id === 'lfT') { f.title = t.value; f.titleTouched = true; }
   if (t.id === 'lfN') f.target = parseInt(toLatin(t.value), 10) || 0;
   if (t.id === 'lfS') f.skillId = t.value;
@@ -4502,15 +4535,17 @@ A['lk.save'] = el => {
     return;
   }
   const hand = f.tab === 'hand', k = LK_KINDS[f.kind], title = String(f.title || '').trim();
+  const fromGoal = f.tab === 'goal';
+  if (fromGoal && !f.id && !D.goals.some(g => g.id === f.goalId)) { toast('اول یه هدف انتخاب کن.', 'err'); return; }
   if (!title) { toast('متن روی کاغذ رو بنویس.', 'err'); return; }
-  if (!hand) {
+  if (!hand && !fromGoal) {
     if (k.skill && !skillById(f.skillId)) { toast('یه مهارت انتخاب کن.', 'err'); return; }
     if (!(f.target >= 1) || (f.kind === 'mastery' && f.target > 100)) { toast(f.kind === 'mastery' ? 'تسلط باید بین ۱ تا ۱۰۰ باشه.' : 'عدد هدف رو درست بنویس.', 'err'); return; }
   }
   const row = f.id ? lkFind(f.id) : { id: uid(), no: lkNextNo(), createdAt: iso };
   if (!row) { d.close(); return; }
   Object.assign(row, { mode: hand ? 'hand' : 'auto', title, trophy: f.trophy, color: f.color, stickers: f.stickers.slice(0, LK_MAX_STICKERS), updatedAt: iso, skillId: hand ? (f.skillId || null) : (k.skill ? f.skillId : null) });
-  if (hand) { row.level = f.level; delete row.kind; delete row.target; } else { row.kind = f.kind; row.target = f.target; delete row.level; }
+  if (hand) { row.level = f.level; delete row.kind; delete row.target; delete row.goalId; } else if (fromGoal) { row.kind = 'goal'; row.goalId = f.goalId; row.target = 100; row.level = f.level; row.skillId = null; } else { row.kind = f.kind; row.target = f.target; delete row.level; delete row.goalId; }
   if (!f.id) D.settings.lockers.push(row);
   d.close(); commit(true); toast('کمد ذخیره شد.');
 };

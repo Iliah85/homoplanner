@@ -1508,6 +1508,180 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
   .lang-out{font-size:19px}
 }
 
+/* Achievements: a bank of school lockers. Everything keeps its own colours, so dark mode leaves the metal and paper alone */
+.lk-defs{position:absolute;width:0;height:0;overflow:hidden}
+.lk-c-red{--lk:#c8232c;--lk-l:#e6484b;--lk-d:#8e1319;--lk-dd:#4f090d}
+.lk-c-orange{--lk:#d94c14;--lk-l:#f26d2e;--lk-d:#a8360a;--lk-dd:#5e1d04}
+.lk-c-blue{--lk:#2e5f92;--lk-l:#4c82b8;--lk-d:#1f4469;--lk-dd:#102639}
+.lk-c-green{--lk:#1f8a63;--lk-l:#3cab83;--lk-d:#136449;--lk-dd:#0a3527}
+.lk-c-purple{--lk:#6d3bb0;--lk-l:#8d5ece;--lk-d:#4e2585;--lk-dd:#2a1249}
+.lk-c-mustard{--lk:#d99a12;--lk-l:#f2bc3f;--lk-d:#a87208;--lk-dd:#5c3e02}
+.lk-add{--lk:#67717e;--lk-l:#88929f;--lk-d:#49525d;--lk-dd:#262b32}
+.lk-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.lk-title{margin:0;display:flex;align-items:center;gap:0;font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.25}
+.lk-cut{display:inline-block;padding:2px 17px 8px;color:#fff;box-shadow:0 3px 6px rgba(10,15,35,.45);clip-path:polygon(0 7%,4% 0,98% 4%,100% 91%,95% 100%,2% 95%)}
+.lk-cut.a{background:#d3142a;transform:rotate(-3deg);z-index:1}
+.lk-cut.b{background:#fff;color:#1248d6;transform:rotate(1.6deg) translateX(7px)}
+.lk-intro{position:relative;max-width:560px;margin:6px auto 24px;padding:24px 22px 20px;text-align:center;background:#fffefa;color:#1d2740;transform:rotate(-.6deg);box-shadow:0 3px 9px rgba(10,15,35,.4)}
+.lk-intro p{margin:0 0 14px;font-weight:800;font-size:16px;line-height:1.8}
+.lk-score{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr) minmax(0,.7fr) minmax(0,1.1fr) minmax(0,1.5fr);gap:12px;align-items:stretch;margin-bottom:24px}
+.lk-sc{display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:0;padding:11px 14px 13px;border:0;font:inherit;text-align:start;color:#14141a;background:#fff;box-shadow:0 3px 7px rgba(10,15,35,.42);clip-path:polygon(0 3%,99% 0,100% 96%,2% 100%)}
+.lk-sc b{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1.3}
+.lk-sc small{font-size:12px;font-weight:700;line-height:1.5;opacity:.82}
+.lk-sc-k{font-size:12px;font-weight:800;opacity:.75}
+.lk-sc-rank{background:#c9f23b;transform:rotate(-1deg)}
+.lk-sc-bar{display:block;height:7px;margin:2px 0;background:rgba(20,20,26,.2);border-radius:4px;overflow:hidden}
+.lk-sc-bar i{display:block;height:100%;background:#14141a;border-radius:4px}
+.lk-sc-pts{align-items:center;background:#1248d6;color:#fff;transform:rotate(1.3deg)}
+.lk-sc-pts b,.lk-sc-open b{font-size:32px}
+.lk-sc-pts span,.lk-sc-open span{font-size:13px;font-weight:800}
+.lk-sc-open{align-items:center;background:#d3142a;color:#fff;transform:rotate(-1.4deg)}
+.lk-sc-open b small{font-size:15px;font-family:var(--f-body);font-weight:800;opacity:1}
+.lk-sc-month{background:#fff6c4;transform:rotate(.7deg)}
+.lk-sc-next{cursor:pointer;background:#fff;transform:rotate(-.6deg);transition:transform .15s}
+.lk-sc-next b{display:block;font-size:20px;color:#1248d6}
+.lk-sc-next:hover{transform:rotate(0) scale(1.02)}
+.lk-sc-next:focus-visible{outline:3px solid #ffd23f;outline-offset:2px}
+.lk-hall{position:relative;overflow:hidden;padding:30px 18px 0;border-radius:var(--r-m);background:linear-gradient(180deg,#f3ecdb 0,#e7dec8 100%);box-shadow:0 4px 12px rgba(10,15,35,.4),inset 0 0 0 1px rgba(255,255,255,.4)}
+.lk-cap{height:13px;background:linear-gradient(180deg,#59606b,#2c3038);border-radius:3px 3px 0 0;box-shadow:0 2px 3px rgba(0,0,0,.4);position:relative;z-index:1}
+.lk-bank{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));row-gap:9px;background:#22252b}
+.lk-base{height:19px;background:linear-gradient(180deg,#2c3038,#14161a);position:relative;z-index:1}
+.lk-floor{height:48px;margin:0 -18px;background:linear-gradient(180deg,rgba(20,18,12,.34),transparent 16px),repeating-conic-gradient(#d6cfbd 0 25%,#f6f2e7 0 50%) 0 0/34px 34px;border-top:3px solid #4c4638}
+.lk{position:relative;display:block;width:100%;height:396px;padding:0;border:0;margin:0;font:inherit;color:inherit;background:var(--lk-d);perspective:1400px;perspective-origin:50% 50%;cursor:pointer;text-align:center;box-shadow:inset 1px 0 0 rgba(255,255,255,.14),inset -1px 0 0 rgba(0,0,0,.4)}
+.lk-blank,.lk-static{cursor:default}
+.lk:focus-visible{outline:3px solid #ffd23f;outline-offset:-3px;z-index:3}
+.lk.is-open{z-index:2}
+.lk-door{position:absolute;inset:5px;display:block;overflow:hidden;transform-origin:100% 50%;transition:transform 1.05s cubic-bezier(.24,1.2,.42,1),filter .8s;background:linear-gradient(100deg,var(--lk-l) 0,var(--lk) 26%,var(--lk) 62%,var(--lk-d) 100%);border-radius:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 0 0 0 4px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.5)}
+.lk-door::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(118deg,rgba(255,255,255,.2) 0,rgba(255,255,255,0) 34%,rgba(255,255,255,.08) 58%,rgba(255,255,255,0) 72%)}
+.lk.is-open .lk-door{transform:rotateY(76deg);overflow:visible;filter:brightness(.92)}
+.lk.is-open:hover .lk-door{transform:rotateY(71deg)}
+.lk-plate{position:absolute;top:10px;left:50%;width:50px;height:19px;margin-left:-25px;font-size:11.5px;font-weight:900;line-height:19px;color:#2b2e33;background:linear-gradient(180deg,#f5f6f7,#b9bdc3);border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.6)}
+.lk-vents{position:absolute;top:36px;left:21%;right:21%;height:30px;background:repeating-linear-gradient(180deg,rgba(0,0,0,.5) 0 3px,rgba(255,255,255,.2) 3px 4px,transparent 4px 9px);border-radius:2px}
+.lk-vents.low{top:auto;bottom:13px;height:37px}
+.lk-handle{position:absolute;top:67%;left:12px;width:25px;height:52px;background:linear-gradient(95deg,#f4f5f6 0,#aeb2b9 45%,#e8e9eb 70%,#8f949b 100%);border-radius:7px 7px 4px 4px;box-shadow:0 2px 4px rgba(0,0,0,.55),inset 0 1px 0 #fff}
+.lk-handle::after{content:"";position:absolute;top:10px;left:50%;width:9px;height:18px;margin-left:-4.5px;border-radius:4px;background:#4b4f56;box-shadow:inset 0 1px 2px #000}
+.lk-lock{position:absolute;top:calc(67% + 34px);left:9px;width:31px;z-index:2;transform-origin:50% 0;filter:drop-shadow(0 3px 2px rgba(0,0,0,.5))}
+.lk-lock svg{display:block;width:100%;height:auto}
+.lk:hover .lk-lock{animation:lk-wiggle .55s ease-in-out}
+.lk.is-open .lk-lock{display:none}
+.lk.is-unlocking .lk-lock{animation:lk-drop .56s ease-in forwards}
+@keyframes lk-wiggle{20%{transform:rotate(11deg)}45%{transform:rotate(-9deg)}70%{transform:rotate(5deg)}}
+@keyframes lk-drop{0%{transform:rotate(0)}18%{transform:rotate(16deg)}36%{transform:rotate(-14deg)}55%{transform:translateY(0) rotate(4deg);opacity:1}100%{transform:translateY(190px) rotate(38deg);opacity:0}}
+.lk-paperw{position:absolute;top:74px;left:9%;right:9%;height:calc(67% - 82px);min-height:0;display:block;transform:rotate(var(--tilt,-1deg));filter:drop-shadow(0 2px 3px rgba(20,8,8,.45))}
+.lk-paper{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:7px;width:100%;height:100%;padding:13px 21px 11px 9px;color:#1d2740;background:#fffefa linear-gradient(transparent 0 calc(100% - 1px),rgba(58,102,186,.1) 0) 0 0/100% 24px;-webkit-mask:radial-gradient(circle at center,transparent 3.4px,#000 4px) right top/13px 15px repeat-y,linear-gradient(#000,#000) left top/calc(100% - 13px) 100% no-repeat;mask:radial-gradient(circle at center,transparent 3.4px,#000 4px) right top/13px 15px repeat-y,linear-gradient(#000,#000) left top/calc(100% - 13px) 100% no-repeat}
+.lk-ptitle{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;font-family:var(--f-display);font-size:19px;line-height:1.45;word-spacing:.12em;color:#121a33;overflow-wrap:anywhere}
+.lk-ptitle.long{font-size:16px;-webkit-line-clamp:5}
+.lk-pbar{display:block;height:7px;background:#dfe2e8;border-radius:4px;overflow:hidden;flex:none}
+.lk-pbar i{display:block;height:100%;background:#d3142a;border-radius:4px}
+.lk-pnum{font-size:11.5px;font-weight:800;line-height:1.4;color:#414c66}
+.lk-tape{position:absolute;top:-9px;left:50%;width:62px;height:20px;margin-left:-31px;z-index:1;background:rgba(246,233,168,.88);box-shadow:0 1px 2px rgba(0,0,0,.2);transform:rotate(-4deg);clip-path:polygon(0 0,4% 18%,0 36%,4% 54%,0 72%,4% 100%,96% 100%,100% 78%,96% 58%,100% 38%,96% 20%,100% 0)}
+.lk-pts{position:absolute;bottom:-7px;left:-5px;z-index:1;padding:1px 7px 2px;font-size:11.5px;font-weight:900;color:#fff;background:#1248d6;border-radius:3px;transform:rotate(-5deg);box-shadow:0 1px 2px rgba(0,0,0,.35)}
+.lk-near{position:absolute;top:-7px;right:-7px;z-index:2;padding:1px 7px 2px;font-size:11.5px;font-weight:900;color:#14141a;background:#ffd23f;transform:rotate(5deg);box-shadow:0 1px 2px rgba(0,0,0,.35)}
+.lk-st{position:absolute;font-size:27px;line-height:1;z-index:1;filter:drop-shadow(1.4px 0 #fff) drop-shadow(-1.4px 0 #fff) drop-shadow(0 1.4px #fff) drop-shadow(0 -1.4px #fff) drop-shadow(0 2px 2px rgba(0,0,0,.4))}
+.lk-st-0{top:calc(67% + 3px);right:13%;transform:rotate(9deg)}
+.lk-st-1{top:calc(67% + 16px);left:39%;font-size:23px;transform:rotate(-8deg)}
+.lk-st-2{top:calc(67% + 41px);right:29%;font-size:22px;transform:rotate(-5deg)}
+.lk-st-3{top:7px;right:8px;font-size:22px;transform:rotate(7deg)}
+.lk-in{position:absolute;inset:5px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:7px;padding:6px 60px 12px 7px;overflow:hidden;background:radial-gradient(ellipse 72% 34% at 42% 54%,rgba(255,214,97,.3),transparent 72%),linear-gradient(180deg,rgba(0,0,0,.34) 0,transparent 26%,rgba(0,0,0,.28) 100%),linear-gradient(90deg,rgba(0,0,0,.2),transparent 18%,transparent 56%,rgba(0,0,0,.62) 100%),var(--lk-dd);box-shadow:inset 0 0 12px rgba(0,0,0,.7)}
+.lk-blank .lk-in,.lk-add .lk-in{background:var(--lk-dd)}
+.lk-shelf{position:absolute;top:13%;left:0;right:0;height:7px;background:linear-gradient(180deg,var(--lk-d),var(--lk-dd));box-shadow:0 5px 7px rgba(0,0,0,.55)}
+.lk-hooks{position:absolute;top:calc(13% + 7px);left:6%;right:32%;height:18px;background:radial-gradient(circle at 50% 13px,transparent 3px,#b9bdc3 3px,#b9bdc3 4.4px,transparent 4.6px) 0 0/25px 18px repeat-x}
+.lk-tro{position:relative;display:block;width:100%;max-width:108px;flex:none;opacity:0;transition:opacity .4s .25s;filter:drop-shadow(0 4px 6px rgba(0,0,0,.6))}
+.lk-tro-svg{display:block;width:100%;height:auto}
+.lk.is-open .lk-tro{opacity:1}
+.lk-spark{position:absolute;width:13px;height:13px;background:#fff8d6;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);animation:lk-spark 2.2s ease-in-out infinite;opacity:0}
+.lk-spark.s1{top:4%;right:6%}
+.lk-spark.s2{top:34%;left:0;animation-delay:.7s;width:9px;height:9px}
+.lk-spark.s3{top:15%;left:16%;animation-delay:1.35s;width:8px;height:8px}
+@keyframes lk-spark{0%,100%{opacity:0;transform:scale(.4)}45%{opacity:1;transform:scale(1) rotate(30deg)}}
+.lk-tag{display:flex;flex-direction:column;gap:2px;width:100%;padding:5px 6px 6px;color:#1d2740;background:#fffefa;box-shadow:0 2px 3px rgba(0,0,0,.5);transform:rotate(-1deg);opacity:0;transition:opacity .4s .35s}
+.lk.is-open .lk-tag{opacity:1}
+.lk-tag b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;font-size:12px;font-weight:800;line-height:1.45;overflow-wrap:anywhere}
+.lk-tag small{font-size:10.5px;font-weight:800;color:#b3121f}
+.lk-add .lk-paper{align-items:center;text-align:center;padding-inline:8px 18px}
+.lk-add .lk-ptitle{font-size:20px}
+.lk-plus{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;color:#fff;background:#1248d6}
+.lk-plus .ic{width:21px;height:21px}
+.lk-add:hover .lk-paperw{transform:rotate(0) scale(1.03)}
+.lk-conf{position:absolute;top:44%;left:42%;width:0;height:0;z-index:4;pointer-events:none}
+.lk-conf i{position:absolute;width:8px;height:12px;animation:lk-conf 1.45s cubic-bezier(.16,.8,.4,1) forwards}
+@keyframes lk-conf{0%{transform:translate(0,0) rotate(0);opacity:1}72%{opacity:1}100%{transform:translate(var(--x),calc(var(--y) + 90px)) rotate(var(--r));opacity:0}}
+.lk-win .dlg-body{text-align:center}
+.lk-win-top{display:flex;justify-content:center;margin:2px 0 8px;font-family:var(--f-display);font-size:37px;line-height:1.25}
+.lk-win-art{display:flex;justify-content:center;gap:4px;margin:0 auto 8px;filter:drop-shadow(0 6px 8px rgba(120,80,0,.45))}
+.lk-win-art svg{display:block;width:118px;height:auto;animation:lk-pop .55s cubic-bezier(.3,1.5,.5,1)}
+@keyframes lk-pop{from{transform:scale(.4) rotate(-9deg)}to{transform:scale(1)}}
+.lk-win h3{margin:0 0 4px;font-size:18px;font-weight:900;line-height:1.6}
+.lk-win-pts{margin:0 0 3px;font-family:var(--f-display);font-size:25px;color:#b3121f}
+.lk-win .dlg-foot{justify-content:center}
+.lk-dt-art{display:flex;justify-content:center;align-items:center;width:102px;height:124px;margin:0 auto 11px;padding:13px;border-radius:var(--r-s);background:linear-gradient(100deg,var(--lk-l),var(--lk) 45%,var(--lk-d));box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.lk-dt-art.open{background:radial-gradient(ellipse 72% 55% at 50% 52%,rgba(255,214,97,.42),transparent 75%),var(--lk-dd)}
+.lk-dt-art svg{display:block;width:100%;max-height:100%}
+.lk-dt-art:not(.open) svg{width:60%}
+.lk-dt-t{margin:0 0 8px;text-align:center;font-size:18px;font-weight:900;line-height:1.6}
+.lk-dt-bar{height:9px;background:var(--paper-3);border-radius:5px;overflow:hidden}
+.lk-dt-bar i{display:block;height:100%;background:#d3142a;border-radius:5px}
+.lk-dt-n{margin:6px 0 5px;text-align:center;font-weight:800}
+.lk-dt .muted,.lk-dt-meta{margin:3px 0;text-align:center;line-height:1.75}
+.lk-dt .dlg-foot{flex-wrap:wrap}
+.lk-ftabs{margin-inline:auto;flex:none;overflow:visible}
+.lk-dlg #lkBody{flex:none}
+.lk-f{display:grid;grid-template-columns:186px minmax(0,1fr);gap:18px;align-items:start}
+.lk-f-prev{position:sticky;top:0}
+.lk-f-door .lk{height:372px;border-radius:3px;overflow:hidden}
+.lk-f-main{min-width:0}
+.lk-f-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px}
+.lk-f-row [hidden]+.field{grid-column:1/-1}
+.lk-kinds{display:flex;flex-wrap:wrap;gap:6px}
+.lk-kind{cursor:pointer}
+.lk-kind input,.lk-tr input,.lk-color input{position:absolute;opacity:0;width:1px;height:1px}
+.lk-kind span{display:inline-block;padding:5px 11px;font-size:13px;font-weight:700;border-radius:var(--r-s);background:var(--paper-3);color:var(--ink-2);line-height:1.6}
+.lk-kind input:checked+span{background:#1248d6;color:#fff}
+.lk-kind input:focus-visible+span,.lk-tr input:focus-visible+span,.lk-color input:focus-visible+span{outline:3px solid #ffb703;outline-offset:1px}
+.lk-trs{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px}
+.lk-tr{cursor:pointer}
+.lk-tr span{display:block;padding:5px;border-radius:var(--r-s);background:#2d2a26}
+.lk-tr svg{display:block;width:100%;height:auto}
+.lk-tr input:checked+span{box-shadow:0 0 0 3px #1248d6,0 0 0 5px #fff}
+.lk-colors{display:flex;flex-wrap:wrap;gap:9px}
+.lk-color{cursor:pointer}
+.lk-color span{display:block;width:34px;height:34px;border-radius:7px;background:linear-gradient(110deg,var(--lk-l),var(--lk-d))}
+.lk-color input:checked+span{box-shadow:0 0 0 2px #fff,0 0 0 4px #1248d6}
+.lk-stickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(39px,1fr));gap:4px;max-height:176px;overflow:auto;padding:3px}
+.lk-sticker{height:39px;padding:0;font-size:21px;line-height:1;border:0;border-radius:var(--r-s);background:var(--paper-2);cursor:pointer}
+.lk-sticker.on{background:#ffd23f;box-shadow:0 0 0 2px #14141a}
+.lk-sugs{display:flex;flex-direction:column;gap:7px}
+.lk-sug{display:flex;align-items:center;gap:11px;padding:7px 11px;border-radius:var(--r-s);background:var(--paper-2);cursor:pointer}
+.lk-sug input{flex:none;width:19px;height:19px}
+.lk-sug-tr{flex:none;width:38px;padding:3px;border-radius:6px;background:#2d2a26}
+.lk-sug-tr svg{display:block;width:100%;height:auto}
+.lk-sug .grow{display:flex;flex-direction:column;gap:1px;min-width:0}
+.lk-sug b{font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.lk-sug small{font-size:12px}
+@media screen and (max-width:860px){
+  .lk-head{margin-bottom:15px}
+  .lk-title{font-size:35px}
+  .lk-head .btn{min-height:44px}
+  .lk-score{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:19px}
+  .lk-sc-rank,.lk-sc-month,.lk-sc-next{grid-column:1/-1}
+  .lk-hall{padding:20px 7px 0;margin-inline:-4px}
+  .lk-bank{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lk-floor{margin-inline:-7px;height:34px;background-size:auto,26px 26px}
+  .lk{height:372px}
+  .lk-paperw{left:6%;right:6%}
+  .lk-paper{padding:12px 19px 10px 7px}
+  .lk-ptitle{font-size:17px}
+  .lk-ptitle.long{font-size:14.5px}
+  .lk-in{padding-right:48px}
+  .lk-f{grid-template-columns:minmax(0,1fr)}
+  .lk-f-prev{position:static;display:flex;justify-content:center;height:230px}
+  .lk-f-door{width:170px;flex:none;transform:scale(.62);transform-origin:50% 0}
+  .lk-f-door .lk{height:372px}
+  .lk-f-row{grid-template-columns:minmax(0,1fr);gap:0}
+  .lk-kind span{padding:7px 11px}
+  .lk-sticker{height:43px}
+}
+
 /* Mind map board */
 #mapHost{position:relative;z-index:1;height:calc(100vh - 225px);min-height:460px;border-radius:var(--r-m);overflow:hidden;background:#fff;color:#1b1b1f;box-shadow:var(--soft-2)}
 #mapHost[hidden]{display:none}
@@ -1636,7 +1810,7 @@ dialog.lb::backdrop{background:#070a10}
 </style>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-desk" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.7-8.95A6 6 0 0 1 17.8 8.1 5 5 0 0 1 17 18z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol><symbol id="i-week" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4M9 10v11M15 10v11"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol><symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 21v-7M12 14 7 10M12 14l5-4"/><circle cx="12" cy="6" r="3"/><circle cx="6" cy="9" r="2.2"/><circle cx="18" cy="9" r="2.2"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h6"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol><symbol id="i-money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1.5"/><circle cx="12" cy="12.5" r="2.6"/><path d="M6.5 9.5v.01M17.5 15.5v.01"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="m6.6 7.3 3.3 3M17.4 7.3l-3.3 3M6.6 16.7l3.3-3M17.4 16.7l-3.3-3"/></symbol><symbol id="i-clip" viewBox="0 0 24 24"><path d="m20 11-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v9l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v9"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 13 4.5 5L19.5 6"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8"/></symbol><symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h7V3M8 21v-7h8v7"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M8 5 3 10l5 5"/><path d="M3 10h11a6 6 0 0 1 0 12h-3"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 5 5 5-5 5"/><path d="M21 10H10a6 6 0 0 0 0 12h3"/></symbol><symbol id="i-chevR" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol><symbol id="i-chevL" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-starF" viewBox="0 0 24 24"><path fill="currentColor" d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-lang" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.200 3 3.200 15 0 18M12 3c-3.200 3-3.200 15 0 18"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.800v2.400M12 18.800v2.400M2.800 12h2.400M18.800 12h2.400M5.500 5.500l1.700 1.700M16.800 16.800l1.700 1.700M5.500 18.500l1.700-1.700M16.800 7.200l1.700-1.700"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></symbol><symbol id="i-heading" viewBox="0 0 24 24"><path d="M6 5v14M18 5v14M6 12h12"/></symbol><symbol id="i-quote" viewBox="0 0 24 24"><path d="M10 7H6a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3M20 7h-4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3"/></symbol><symbol id="i-listNum" viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10M4 5l1.5-1v5M3.5 14.5c.5-1 2.5-1 2.5.5 0 1.2-2.5 2-2.5 3.5h2.8"/></symbol><symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.1"/><circle cx="12" cy="12" r="1.1"/><circle cx="19" cy="12" r="1.1"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol><symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r=".9"/><circle cx="15" cy="6" r=".9"/><circle cx="9" cy="12" r=".9"/><circle cx="15" cy="12" r=".9"/><circle cx="9" cy="18" r=".9"/><circle cx="15" cy="18" r=".9"/></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 1-3 0-6 1-10z"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v5M12 17.8v.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 8l5-5 5 5M4 20h16"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></symbol><symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol><symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H4v-7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7h-3"/><rect x="7" y="14" width="10" height="7"/></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3 7 9 7 9-7"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol><symbol id="i-pinMap" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></symbol><symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></symbol><symbol id="i-mountain" viewBox="0 0 24 24"><path d="m2 20 7-12 4 6 2-3 7 9z"/></symbol><symbol id="i-bold" viewBox="0 0 24 24"><path d="M7 4h6a4 4 0 0 1 0 8H7zM7 12h7a4 4 0 0 1 0 8H7z"/></symbol><symbol id="i-marker" viewBox="0 0 24 24"><path d="m14 4 6 6-9 9H6l-1-1v-5z"/><path d="M4 21h9"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6v.01M4.5 12v.01M4.5 18v.01"/></symbol><symbol id="i-alignR" viewBox="0 0 24 24"><path d="M4 6h16M9 12h11M6 18h14"/></symbol><symbol id="i-alignC" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M5 18h14"/></symbol><symbol id="i-alignL" viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h14"/></symbol><symbol id="i-eraser" viewBox="0 0 24 24"><path d="m8 20-5-5L14 4l7 7-9 9z"/><path d="M8 20h13M9 9l7 7"/></symbol><symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20c2-1 4-1 6-3L20 7l-3-3L7 14c-2 2-2 4-3 6z"/></symbol><symbol id="i-text" viewBox="0 0 24 24"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></symbol><symbol id="i-rect" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12"/></symbol><symbol id="i-pill" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/></symbol><symbol id="i-ellipse" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6.5"/></symbol><symbol id="i-diamond" viewBox="0 0 24 24"><path d="M12 3 21 12 12 21 3 12z"/></symbol><symbol id="i-line" viewBox="0 0 24 24"><path d="M5 19 19 5"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M10 5h9v9"/></symbol></svg>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-desk" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.7-8.95A6 6 0 0 1 17.8 8.1 5 5 0 0 1 17 18z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol><symbol id="i-week" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4M9 10v11M15 10v11"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol><symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 21v-7M12 14 7 10M12 14l5-4"/><circle cx="12" cy="6" r="3"/><circle cx="6" cy="9" r="2.2"/><circle cx="18" cy="9" r="2.2"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h6"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol><symbol id="i-money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1.5"/><circle cx="12" cy="12.5" r="2.6"/><path d="M6.5 9.5v.01M17.5 15.5v.01"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="m6.6 7.3 3.3 3M17.4 7.3l-3.3 3M6.6 16.7l3.3-3M17.4 16.7l-3.3-3"/></symbol><symbol id="i-clip" viewBox="0 0 24 24"><path d="m20 11-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v9l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v9"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 13 4.5 5L19.5 6"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8"/></symbol><symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h7V3M8 21v-7h8v7"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M8 5 3 10l5 5"/><path d="M3 10h11a6 6 0 0 1 0 12h-3"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 5 5 5-5 5"/><path d="M21 10H10a6 6 0 0 0 0 12h3"/></symbol><symbol id="i-chevR" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol><symbol id="i-chevL" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-starF" viewBox="0 0 24 24"><path fill="currentColor" d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1.1 6.5L12 17.7 6.4 20.8l1.1-6.5L3 9.8l6.2-.9z"/></symbol><symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-lang" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.200 3 3.200 15 0 18M12 3c-3.200 3-3.200 15 0 18"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.800v2.400M12 18.800v2.400M2.800 12h2.400M18.800 12h2.400M5.500 5.500l1.700 1.700M16.800 16.800l1.700 1.700M5.500 18.500l1.700-1.700M16.800 7.200l1.700-1.700"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0zM8 6H4c0 4 2 6 4.500 6M16 6h4c0 4-2 6-4.500 6M12 14v4M8 21h8l-1-3H9z"/></symbol><symbol id="i-heading" viewBox="0 0 24 24"><path d="M6 5v14M18 5v14M6 12h12"/></symbol><symbol id="i-quote" viewBox="0 0 24 24"><path d="M10 7H6a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3M20 7h-4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3v1a3 3 0 0 1-3 3"/></symbol><symbol id="i-listNum" viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10M4 5l1.5-1v5M3.5 14.5c.5-1 2.5-1 2.5.5 0 1.2-2.5 2-2.5 3.5h2.8"/></symbol><symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.1"/><circle cx="12" cy="12" r="1.1"/><circle cx="19" cy="12" r="1.1"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol><symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r=".9"/><circle cx="15" cy="6" r=".9"/><circle cx="9" cy="12" r=".9"/><circle cx="15" cy="12" r=".9"/><circle cx="9" cy="18" r=".9"/><circle cx="15" cy="18" r=".9"/></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 1-3 0-6 1-10z"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v5M12 17.8v.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 8l5-5 5 5M4 20h16"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></symbol><symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol><symbol id="i-print" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H4v-7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7h-3"/><rect x="7" y="14" width="10" height="7"/></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3 7 9 7 9-7"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol><symbol id="i-pinMap" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></symbol><symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></symbol><symbol id="i-mountain" viewBox="0 0 24 24"><path d="m2 20 7-12 4 6 2-3 7 9z"/></symbol><symbol id="i-bold" viewBox="0 0 24 24"><path d="M7 4h6a4 4 0 0 1 0 8H7zM7 12h7a4 4 0 0 1 0 8H7z"/></symbol><symbol id="i-marker" viewBox="0 0 24 24"><path d="m14 4 6 6-9 9H6l-1-1v-5z"/><path d="M4 21h9"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6v.01M4.5 12v.01M4.5 18v.01"/></symbol><symbol id="i-alignR" viewBox="0 0 24 24"><path d="M4 6h16M9 12h11M6 18h14"/></symbol><symbol id="i-alignC" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M5 18h14"/></symbol><symbol id="i-alignL" viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h14"/></symbol><symbol id="i-eraser" viewBox="0 0 24 24"><path d="m8 20-5-5L14 4l7 7-9 9z"/><path d="M8 20h13M9 9l7 7"/></symbol><symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20c2-1 4-1 6-3L20 7l-3-3L7 14c-2 2-2 4-3 6z"/></symbol><symbol id="i-text" viewBox="0 0 24 24"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></symbol><symbol id="i-rect" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12"/></symbol><symbol id="i-pill" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/></symbol><symbol id="i-ellipse" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6.5"/></symbol><symbol id="i-diamond" viewBox="0 0 24 24"><path d="M12 3 21 12 12 21 3 12z"/></symbol><symbol id="i-line" viewBox="0 0 24 24"><path d="M5 19 19 5"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M10 5h9v9"/></symbol></svg>
 <div class="book">
   <div class="sheet">
     <div class="rings" aria-hidden="true"></div>
@@ -1900,6 +2074,12 @@ function sanitizeData(raw) {
   }
   if (obj(raw.settings)) Object.assign(out.settings, raw.settings);
   out.settings.dayEndHour = clamp(parseInt(out.settings.dayEndHour, 10) || 0, 0, 6);
+  /* achievements live inside settings; see 078-lockers.js for why. Nothing is stored until the first locker exists */
+  if (Array.isArray(out.settings.lockers)) out.settings.lockers = list(out.settings.lockers, 'lockers', a => Object.assign({}, a, {
+    id: a.id || uid(), title: String(a.title || 'بدون عنوان'), mode: a.mode === 'hand' ? 'hand' : 'auto', no: parseInt(a.no, 10) || 0, target: a.mode === 'hand' ? undefined : Math.max(1, parseInt(a.target, 10) || 1),
+    skillId: a.skillId || null, stickers: Array.isArray(a.stickers) ? a.stickers.map(String).slice(0, 4) : [], unlockedAt: a.unlockedAt || null, celebrated: !!a.celebrated
+  }));
+  else delete out.settings.lockers;
   if (obj(raw.timer)) Object.assign(out.timer, raw.timer);
   if (obj(raw.meta)) Object.assign(out.meta, raw.meta);
   out.meta.version = 5; out.meta.seriesRepaired = true;
@@ -1946,6 +2126,7 @@ function commit(rerender = true) {
   clearTimeout(S.saveTimer);
   S.saveTimer = setTimeout(flushSave, 260);
   paintSaveStamp();
+  if (typeof lkCheck === 'function') lkCheck();
   if (typeof syncTouch === 'function') syncTouch();
   if (rerender && typeof render === 'function') render();
 }
@@ -2479,7 +2660,7 @@ A.go = el => go(el.dataset.to);
 /* ========== Router + shell ========== */
 const TABS = [
   { id: 'desk', label: 'میز کار', ic: 'desk' }, { id: 'day', label: 'روز', ic: 'sun' }, { id: 'week', label: 'هفته', ic: 'week' },
-  { id: 'skills', label: 'مهارت‌ها', ic: 'tree' }, { id: 'notes', label: 'یادداشت‌ها', ic: 'note' }, { id: 'goals', label: 'اهداف', ic: 'target' }, { id: 'lang', label: 'زبان', ic: 'lang' },
+  { id: 'skills', label: 'مهارت‌ها', ic: 'tree' }, { id: 'notes', label: 'یادداشت‌ها', ic: 'note' }, { id: 'goals', label: 'اهداف', ic: 'target' }, { id: 'lockers', label: 'دستاوردها', ic: 'trophy' }, { id: 'lang', label: 'زبان', ic: 'lang' },
   { id: 'map', label: 'مایندمپ', ic: 'map' }, { id: 'folio', label: 'پورتفولیو', ic: 'clip' }, { id: 'book', label: 'پشتیبان', ic: 'box' }
 ];
 const go = hash => { if (location.hash.slice(1) === hash) applyRoute(); else location.hash = hash; };
@@ -3024,6 +3205,7 @@ A['search.open'] = () => {
     allSkills().forEach(s => { if (has(s.title)) o.push({ ic: 'tree', t: s.title, sub: 'مهارت · ' + s.domain.title, go: `skills/s/${s.id}` }); });
     D.domains.forEach(x => { if (has(x.title)) o.push({ ic: 'tree', t: x.title, sub: 'حوزه', go: `skills/d/${x.id}` }); });
     D.goals.forEach(g => { if (has(g.title) || has(g.desc)) o.push({ ic: 'target', t: g.title, sub: 'هدف', go: 'goals' }); });
+    lkAll().forEach(a => { if (has(a.title)) o.push({ ic: 'trophy', t: a.title, sub: 'دستاورد', go: 'lockers' }); });
     D.dailyNotes.forEach(n => { const p = noteParts(n).plain; if (has(n.title) || has(p) || has(n.category)) o.push({ ic: 'note', t: n.title || p.slice(0, 70) || 'یادداشت تصویری', sub: 'یادداشت · ' + jShort(n.date), note: n.id }); });
     const seen = new Set();
     D.dailyTasks.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach(t => { const k = t.seriesId || t.id; if ((has(t.title) || has(t.desc)) && !seen.has(k)) { seen.add(k); o.push({ ic: 'check', t: t.title, sub: 'تسک · ' + jShort(t.date), go: `day/${t.date}` }); } });
@@ -3943,6 +4125,396 @@ A['lang.saveSettings'] = el => {
   const d = el.closest('dialog'), v = $('#lsSkill', d).value;
   if (v) D.settings.langSkillId = v; else delete D.settings.langSkillId;
   d.close(); commit(true);
+};
+
+/* ========== Achievements: a row of school lockers. Each door holds a goal; reaching it opens the door onto a golden trophy ==========
+   The rows live in D.settings.lockers on purpose. sanitizeData drops top-level keys it doesn't know, so a phone still running an
+   older cached build would pull a new top-level list, drop it and push the deletion. Unknown keys inside settings survive there. */
+const LK_COLORS = { red: 'قرمز', orange: 'نارنجی', blue: 'آبی', green: 'سبز', purple: 'بنفش', mustard: 'خردلی' };
+const LK_EMOJI = ['🎧', '🎵', '🎸', '🎹', '🎤', '🎨', '🖌️', '🖼️', '📷', '🎬', '💻', '⌨️', '🧠', '📚', '📖', '✏️', '📝', '🎓', '🗣️', '🌍', '🏋️', '💪', '🏃', '⚽', '🔥', '⚡', '⭐', '🌟', '💎', '👑', '🏆', '🎯', '🚀', '💡', '🛠️', '⚙️', '🕒', '📅', '✅', '💯', '☕', '🍕', '😎', '🤘', '👊', '🦾', '🐉', '🌈'];
+const LK_MAX_STICKERS = 4;
+const LK_TROPHIES = { cup: 'جام', clock: 'ساعت', flame: 'شعله', star: 'ستاره', medal: 'مدال', book: 'کتاب', note: 'موسیقی', brush: 'قلم‌مو', dumbbell: 'دمبل', globe: 'کره', crown: 'تاج' };
+/* tiers: the target at or below which a goal is worth 10, 25, 50 and 100 points. Anything above the last one is worth 200 */
+const LK_POINTS = [10, 25, 50, 100, 200];
+const LK_KINDS = {
+  hours: { label: 'ساعت روی یه مهارت', skill: true, unit: 'ساعت', def: 10, tiers: [5, 25, 100, 500], line: (n, s) => `ثبت ${n} ساعت در ${s}`, trophy: 'clock', sticker: '🕒' },
+  streak: { label: 'روز پشت‌هم روی یه مهارت', skill: true, unit: 'روز پشت‌هم', def: 7, tiers: [3, 7, 21, 60], line: (n, s) => `${n} روز پشت‌هم ${s}`, trophy: 'flame', sticker: '🔥' },
+  days: { label: 'روزهای کار روی یه مهارت', skill: true, unit: 'روز', def: 30, tiers: [7, 30, 100, 365], line: (n, s) => `${n} روز کار روی ${s}`, trophy: 'medal', sticker: '📅' },
+  tasks: { label: 'تسک انجام‌شده', skill: true, unit: 'تسک', def: 20, tiers: [10, 50, 200, 500], line: (n, s) => `${n} تسک انجام‌شده برای ${s}`, trophy: 'star', sticker: '✅' },
+  notes: { label: 'یادداشت برای یه مهارت', skill: true, unit: 'یادداشت', def: 10, tiers: [5, 20, 50, 200], line: (n, s) => `${n} یادداشت برای ${s}`, trophy: 'book', sticker: '📝' },
+  works: { label: 'نمونه‌کار', skill: true, unit: 'نمونه‌کار', def: 3, tiers: [3, 10, 30, 100], line: (n, s) => `${n} نمونه‌کار از ${s}`, trophy: null, sticker: '💎' },
+  mastery: { label: 'درصد تسلط', skill: true, unit: '٪', def: 50, tiers: [25, 50, 75, 100], line: (n, s) => `تسلط ${n}٪ روی ${s}`, trophy: null, sticker: '🧠' },
+  words: { label: 'لغت تو «لغات زبان»', skill: false, unit: 'لغت', def: 50, tiers: [25, 100, 500, 2000], line: n => `${n} لغت تو دفتر زبان`, trophy: 'globe', sticker: '🗣️' },
+  goodDays: { label: 'روز خوب پشت‌هم', skill: false, unit: 'روز خوب', def: 7, tiers: [3, 7, 21, 60], line: n => `${n} روز خوب پشت‌هم`, trophy: 'flame', sticker: '🔥' },
+  allHours: { label: 'کل ساعت‌های ثبت‌شده', skill: false, unit: 'ساعت', def: 100, tiers: [25, 100, 500, 2000], line: n => `${n} ساعت کار ثبت‌شده`, trophy: 'cup', sticker: '🏆' }
+};
+const LK_LEVELS = { 1: 'آسون', 2: 'متوسط', 3: 'سخت', 4: 'افسانه‌ای' };
+const LK_RANKS = [[0, 'تازه‌وارد'], [50, 'شاگرد زرنگ'], [150, 'مبصر کلاس'], [400, 'شاگرد اول'], [800, 'المپیادی'], [1500, 'افسانه‌ی مدرسه']];
+const lkAll = () => (D.settings && Array.isArray(D.settings.lockers) ? D.settings.lockers : []);
+const lkFind = id => lkAll().find(a => a.id === id) || null;
+const lkCalm = () => matchMedia('(prefers-reduced-motion:reduce)').matches;
+const lkWait = ms => new Promise(r => setTimeout(r, lkCalm() ? 0 : ms));
+const lkNum = v => fa(Math.floor(v * 10) / 10).replace('.', '٫');
+
+/* ---------- how far along a locker is: always read from what's really logged in the planner ---------- */
+function lkBestRun(dates) {
+  let best = 0, run = 0, prev = null;
+  [...new Set(dates)].sort().forEach(x => { run = prev && shiftDay(prev, 1) === x ? run + 1 : 1; best = Math.max(best, run); prev = x; });
+  return best;
+}
+function lkValue(a) {
+  const s = a.skillId ? skillById(a.skillId) : null, logs = s ? s.p.timeLogs || [] : [];
+  switch (a.kind) {
+    case 'hours': return s ? totalMin(s.p) / 60 : 0;
+    case 'days': return new Set(logs.map(l => l.date)).size;
+    case 'streak': return lkBestRun(logs.map(l => l.date));
+    case 'tasks': return s ? D.dailyTasks.filter(t => t.done && t.skillId === s.id).length : 0;
+    case 'notes': return s ? D.dailyNotes.filter(n => n.skillId === s.id).length : 0;
+    case 'works': return s ? (s.p.artifacts || []).length : 0;
+    case 'mastery': return s ? s.p.mastery || 0 : 0;
+    case 'words': return langWords().length;
+    case 'goodDays': return computeStreak();
+    case 'allHours': return allSkills().reduce((m, x) => m + totalMin(x.p), 0) / 60;
+    default: return 0;
+  }
+}
+function lkState(a) {
+  const hand = a.mode === 'hand', target = hand ? 1 : Math.max(1, a.target || 1), val = hand ? (a.unlockedAt ? 1 : 0) : lkValue(a);
+  return { hand, target, val, pct: clamp(Math.floor(val / target * 100), 0, 100), open: !!a.unlockedAt && !!a.celebrated, pending: !!a.unlockedAt && !a.celebrated, met: val >= target };
+}
+function lkPoints(a) {
+  if (a.mode === 'hand') return LK_POINTS[clamp((a.level || 2) - 1, 0, 3)];
+  const k = LK_KINDS[a.kind]; if (!k) return LK_POINTS[0];
+  const i = k.tiers.findIndex(t => (a.target || 1) <= t);
+  return LK_POINTS[i < 0 ? 4 : i];
+}
+const lkTotal = () => lkAll().reduce((s, a) => s + (a.unlockedAt ? lkPoints(a) : 0), 0);
+const lkRankOf = pts => { let i = 0; LK_RANKS.forEach((r, n) => { if (pts >= r[0]) i = n; }); return { i, name: LK_RANKS[i][1], next: LK_RANKS[i + 1] || null, from: LK_RANKS[i][0] }; };
+function lkMonths() {
+  const key = j => j.jy * 12 + j.jm, cur = key(jOf(todayStr())); let now = 0, last = 0;
+  lkAll().forEach(a => {
+    if (!a.unlockedAt) return;
+    const k = key(jOf(dateToStr(new Date(a.unlockedAt))));
+    if (k === cur) now += lkPoints(a); else if (k === cur - 1) last += lkPoints(a);
+  });
+  return { now, last };
+}
+/* An opened locker stays open: only the owner can lock it again. Called from every commit */
+function lkCheck() {
+  if (S.readOnly) return [];
+  const fresh = lkAll().filter(a => a.mode !== 'hand' && !a.unlockedAt && lkValue(a) >= Math.max(1, a.target || 1));
+  fresh.forEach(a => { a.unlockedAt = new Date(nowMs()).toISOString(); a.celebrated = false; });
+  if (fresh.length && ui.route.page !== 'lockers') toast(`🏆 قفل «${fresh[0].title}» باز شد!`, 'ok', 9000, { label: 'ببینم', fn: () => go('lockers') });
+  return fresh;
+}
+
+/* ---------- drawings: all ours, no images ---------- */
+const LK_DEFS = `<svg class="lk-defs" width="0" height="0" aria-hidden="true"><defs><linearGradient id="lkGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3a6"/><stop offset=".28" stop-color="#f9cd4b"/><stop offset=".55" stop-color="#d0920f"/><stop offset=".76" stop-color="#ffe27a"/><stop offset="1" stop-color="#a86d06"/></linearGradient><linearGradient id="lkWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a4a24"/><stop offset="1" stop-color="#3a200e"/></linearGradient></defs></svg>`;
+const LK_SHAPES = {
+  cup: `<path d="M45 58h10v24c0 6 6 10 12 16H33c6-6 12-10 12-16z" fill="url(#lkGold)"/><path d="M29 19H15c0 17 7 25 17 27M71 19h14c0 17-7 25-17 27" fill="none" stroke="url(#lkGold)" stroke-width="5.500" stroke-linecap="round"/><path d="M27 10h46v22c0 19-10 31-23 31S27 51 27 32z" fill="url(#lkGold)"/><path d="M35 15h6v17c0 9 3 15 6 20-8-3-12-11-12-20z" fill="#fff" opacity=".5"/>`,
+  clock: `<path d="M44 72h12l5 26H39z" fill="url(#lkGold)"/><rect x="45" y="3" width="10" height="9" rx="2" fill="url(#lkGold)"/><circle cx="50" cy="42" r="33" fill="url(#lkGold)"/><circle cx="50" cy="42" r="25" fill="#fff8dc"/><path d="M50 21v5M50 58v5M29 42h5M66 42h5" stroke="#7a5206" stroke-width="3" stroke-linecap="round"/><path d="M50 42V27M50 42l11 7" stroke="#3f2a03" stroke-width="3.500" stroke-linecap="round"/><circle cx="50" cy="42" r="3" fill="#3f2a03"/><path d="M26 28a29 29 0 0 1 16-11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".75"/>`,
+  flame: `<path d="M50 4c5 19 29 29 29 58 0 20-14 36-29 36S21 82 21 62c0-13 7-21 14-27 0 10 5 16 10 16 5-14-1-31 5-47z" fill="url(#lkGold)"/><path d="M50 49c3 9 13 13 13 25 0 9-6 15-13 15s-13-6-13-15c0-6 3-10 7-12 0 4 2 6 4 6 2-6 0-13 2-19z" fill="#fff4b8"/>`,
+  star: `<path d="M45 62h10v36H45z" fill="url(#lkGold)"/><path d="M50 3l12 27 29 3-22 20 7 29-26-15-26 15 7-29L9 33l29-3z" fill="url(#lkGold)" stroke="#a86d06" stroke-width="1.500" stroke-linejoin="round"/><path d="M50 13l-8 20-19 2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>`,
+  medal: `<path d="M31 2h16l12 38H44z" fill="#d3142a"/><path d="M69 2H53L41 40h15z" fill="#1248d6"/><circle cx="50" cy="63" r="31" fill="url(#lkGold)"/><circle cx="50" cy="63" r="23" fill="none" stroke="#a86d06" stroke-width="2"/><path d="M50 46l5.500 11 12 1.500-9 8.500 2.500 12-11-6-11 6 2.500-12-9-8.500 12-1.500z" fill="#fff4b8"/>`,
+  book: `<path d="M44 80h12v18H44z" fill="url(#lkGold)"/><path d="M50 26C39 17 24 15 8 17v60c16-2 31 1 42 9 11-8 26-11 42-9V17c-16-2-31 0-42 9z" fill="url(#lkGold)"/><path d="M50 26v60" stroke="#8a5a06" stroke-width="2.500"/><path d="M18 31c9 0 16 2 23 6M18 45c9 0 16 2 23 6M18 59c9 0 16 2 23 6M82 31c-9 0-16 2-23 6M82 45c-9 0-16 2-23 6M82 59c-9 0-16 2-23 6" fill="none" stroke="#8a5a06" stroke-width="2.200" stroke-linecap="round"/>`,
+  note: `<path d="M46 84h10v14H46z" fill="url(#lkGold)"/><path d="M36 22l44-11v58a13 11 0 1 1-8-10V29l-28 7v42a13 11 0 1 1-8-10z" fill="url(#lkGold)" stroke="#a86d06" stroke-width="1.200"/><path d="M41 26l34-9" stroke="#fff" stroke-width="2.500" stroke-linecap="round" opacity=".7"/>`,
+  brush: `<path d="M44 86h12v12H44z" fill="url(#lkGold)"/><path d="M73 5l11 7-30 44-11-7z" fill="url(#lkGold)"/><path d="M43 49l11 7-4 7-12-8z" fill="#d8dce2"/><path d="M38 55c-9 4-13 12-13 24 0 4 0 8-3 12 11 0 24-4 28-17 2-5 0-8-1-12z" fill="url(#lkGold)" stroke="#a86d06" stroke-width="1.200"/><path d="M34 66c-2 4-3 8-3 13" fill="none" stroke="#fff" stroke-width="2.500" stroke-linecap="round" opacity=".75"/>`,
+  dumbbell: `<path d="M44 58h12v40H44z" fill="url(#lkGold)"/><rect x="6" y="39" width="88" height="10" rx="3" fill="url(#lkGold)"/><rect x="13" y="19" width="12" height="50" rx="3" fill="url(#lkGold)" stroke="#a86d06"/><rect x="26" y="26" width="9" height="36" rx="2.500" fill="url(#lkGold)" stroke="#a86d06"/><rect x="75" y="19" width="12" height="50" rx="3" fill="url(#lkGold)" stroke="#a86d06"/><rect x="65" y="26" width="9" height="36" rx="2.500" fill="url(#lkGold)" stroke="#a86d06"/>`,
+  globe: `<path d="M15 66a41 41 0 0 0 70 0" fill="none" stroke="url(#lkGold)" stroke-width="5" stroke-linecap="round"/><path d="M45 84h10v14H45z" fill="url(#lkGold)"/><circle cx="50" cy="42" r="33" fill="url(#lkGold)"/><path d="M17 42h66M50 9c17 19 17 47 0 66M50 9C33 28 33 56 50 75M23 24h54M23 60h54" fill="none" stroke="#8a5a06" stroke-width="2"/>`,
+  crown: `<path d="M44 84h12v14H44z" fill="url(#lkGold)"/><path d="M13 70L6 22l24 18L50 5l20 35 24-18-7 48z" fill="url(#lkGold)" stroke="#a86d06" stroke-width="1.500" stroke-linejoin="round"/><rect x="13" y="70" width="74" height="14" rx="2.500" fill="url(#lkGold)" stroke="#a86d06"/><circle cx="50" cy="77" r="4" fill="#d3142a"/><circle cx="29" cy="77" r="3" fill="#1248d6"/><circle cx="71" cy="77" r="3" fill="#1248d6"/><path d="M50 15L37 41" stroke="#fff" stroke-width="2.500" stroke-linecap="round" opacity=".7"/>`
+};
+const lkTrophy = name => `<svg class="lk-tro-svg" viewBox="0 0 100 120" aria-hidden="true">${LK_SHAPES[name] || LK_SHAPES.cup}<rect x="31" y="97" width="38" height="6" rx="1.500" fill="url(#lkGold)"/><rect x="23" y="103" width="54" height="14" rx="2" fill="url(#lkWood)"/><rect x="40" y="106.500" width="20" height="7" rx="1" fill="url(#lkGold)"/></svg>`;
+const LK_PADLOCK = `<svg viewBox="0 0 40 58" aria-hidden="true"><path d="M11 25V13a9 9 0 0 1 18 0v12" fill="none" stroke="#c4c8ce" stroke-width="4.500"/><path d="M12.500 22V13a7.500 7.500 0 0 1 8-7.400" fill="none" stroke="#fff" stroke-width="1.200" opacity=".8"/><circle cx="20" cy="38" r="17" fill="#2a2d33" stroke="#9ea3aa" stroke-width="2.500"/><circle cx="20" cy="38" r="11.500" fill="#14161a" stroke="#e6e8eb" stroke-width="1"/><path d="M20 28v3M20 45v3M10 38h3M27 38h3M13 31l2 2M25 43l2 2M13 45l2-2M25 33l2-2" stroke="#fff" stroke-width="1.300"/><circle cx="20" cy="38" r="3.500" fill="#c4c8ce"/></svg>`;
+
+/* ---------- one locker ---------- */
+function lkPaper(a, st) {
+  const k = LK_KINDS[a.kind], title = String(a.title || '').trim() || 'متن کاغذ';
+  const tilt = ['-1.4deg', '1.1deg', '-.7deg', '1.6deg'][(a.no || 0) % 4], near = !st.open && !st.pending && !st.hand && st.pct >= 75 && st.pct < 100;
+  const foot = st.hand ? `<span class="lk-pnum">با دست باز می‌شه · ${LK_LEVELS[a.level || 2]}</span>`
+    : `<span class="lk-pbar"><i style="width:${st.pct}%"></i></span><span class="lk-pnum tnum">${lkNum(Math.min(st.val, st.target))} از ${fa(st.target)} ${k ? k.unit : ''}</span>`;
+  return `<span class="lk-paperw" style="--tilt:${tilt}"><span class="lk-tape"></span>${near ? '<span class="lk-near">نزدیکه!</span>' : ''}<span class="lk-paper"><span class="lk-ptitle ${title.length > 34 ? 'long' : ''}">${esc(title)}</span>${foot}</span><span class="lk-pts tnum">+${fa(lkPoints(a))}</span></span>`;
+}
+function lkDoorHtml(a, st) {
+  return `<span class="lk-door"><span class="lk-plate tnum">${fa(a.no || 0)}</span><span class="lk-vents"></span>${lkPaper(a, st)}<span class="lk-handle"></span><span class="lk-lock">${LK_PADLOCK}</span>${(a.stickers || []).slice(0, LK_MAX_STICKERS).map((e, i) => `<span class="lk-st lk-st-${i}">${esc(e)}</span>`).join('')}<span class="lk-vents low"></span></span>`;
+}
+const lkInterior = a => `<span class="lk-in"><span class="lk-shelf"></span><span class="lk-hooks"></span><span class="lk-tro">${lkTrophy(a.trophy)}<i class="lk-spark s1"></i><i class="lk-spark s2"></i><i class="lk-spark s3"></i></span><span class="lk-tag"><b>${esc(a.title || '')}</b><small class="tnum">+${fa(lkPoints(a))} · ${a.unlockedAt ? jShort(dateToStr(new Date(a.unlockedAt))) : ''}</small></span></span>`;
+function lkCard(a) {
+  const st = lkState(a);
+  const say = `${a.title}. ${st.open || st.pending ? 'باز شده' : st.hand ? 'قفل، با دست باز می‌شه' : `قفل، ${fa(st.pct)} درصد`}`;
+  return `<button type="button" class="lk lk-c-${LK_COLORS[a.color] ? a.color : 'red'} ${st.open ? 'is-open' : ''} ${st.pending ? 'is-pending' : ''}" data-a="lk.open" data-id="${a.id}" aria-label="${esc(say)}">${lkInterior(a)}${lkDoorHtml(a, st)}</button>`;
+}
+const LK_BLANK = c => `<span class="lk lk-blank lk-c-${c}" aria-hidden="true"><span class="lk-in"></span><span class="lk-door"><span class="lk-plate"></span><span class="lk-vents"></span><span class="lk-handle"></span><span class="lk-vents low"></span></span></span>`;
+const lkAddCard = () => `<button type="button" class="lk lk-add" data-a="lk.new" aria-label="کمد جدید"><span class="lk-in"></span><span class="lk-door"><span class="lk-plate">+</span><span class="lk-vents"></span><span class="lk-paperw" style="--tilt:-1deg"><span class="lk-tape"></span><span class="lk-paper"><span class="lk-plus">${icon('plus')}</span><span class="lk-ptitle">کمد جدید</span></span></span><span class="lk-handle"></span><span class="lk-vents low"></span></span></button>`;
+
+/* ---------- the page ---------- */
+function lkScore() {
+  const list = lkAll(), pts = lkTotal(), rank = lkRankOf(pts), open = list.filter(a => a.unlockedAt).length, mon = lkMonths();
+  const toNext = rank.next ? rank.next[0] - pts : 0, span = rank.next ? rank.next[0] - rank.from : 1;
+  const race = mon.now > mon.last && mon.last > 0 ? 'از ماه قبل جلو زدی' : mon.now === mon.last && mon.now > 0 ? 'مساوی ماه قبل' : mon.now < mon.last ? `${fa(mon.last - mon.now)} امتیاز تا رکورد ماه قبل` : mon.now > 0 ? 'ماه قبل هیچی نداشتی' : 'این ماه هنوز هیچی باز نکردی';
+  const close = list.filter(a => !a.unlockedAt && a.mode !== 'hand').map(a => [a, lkState(a).pct]).sort((x, y) => y[1] - x[1])[0];
+  return `<section class="lk-score" aria-label="امتیاز">
+    <div class="lk-sc lk-sc-rank"><span class="lk-sc-k">رتبه‌ات</span><b>${rank.name}</b><span class="lk-sc-bar"><i style="width:${rank.next ? clamp(Math.round((pts - rank.from) / span * 100), 0, 100) : 100}%"></i></span><small class="tnum">${rank.next ? `${fa(toNext)} امتیاز تا «${rank.next[1]}»` : 'بالاتر از این نداریم'}</small></div>
+    <div class="lk-sc lk-sc-pts"><b class="tnum">${fa(pts)}</b><span>امتیاز</span></div>
+    <div class="lk-sc lk-sc-open"><b class="tnum">${fa(open)}<small> از ${fa(list.length)}</small></b><span>کمد باز</span></div>
+    <div class="lk-sc lk-sc-month"><span class="lk-sc-k">این ماه</span><b class="tnum">+${fa(mon.now)}</b><small>${race}</small></div>
+    ${close ? `<button type="button" class="lk-sc lk-sc-next" data-a="lk.open" data-id="${close[0].id}"><span class="lk-sc-k">نزدیک‌ترین کمد · ${fa(close[1])}٪</span><b class="truncate">${esc(close[0].title)}</b></button>` : ''}
+  </section>`;
+}
+PAGES.lockers = () => {
+  lkCheck();
+  const list = lkAll();
+  return `${LK_DEFS}<div class="lk-head"><h1 class="lk-title"><span class="lk-cut a">دست</span> <span class="lk-cut b">آوردها</span></h1><button type="button" class="btn pri" data-a="lk.new">${icon('plus')} کمد جدید</button></div>
+  ${list.length ? lkScore() : `<div class="lk-intro"><span class="lk-tape"></span><p>هر کمد یه هدفه و قفله. به هدف که برسی، قفل می‌افته و جامش رو می‌بینی.</p><button type="button" class="btn pri" data-a="lk.new" data-tab="auto">از روی مهارت‌هام بساز</button></div>`}
+  <div class="lk-hall"><div class="lk-cap"></div><div class="lk-bank" id="lkBank">${list.map(lkCard).join('')}${lkAddCard()}</div><div class="lk-base"></div><div class="lk-floor"></div></div>`;
+};
+/* Empty doors finish the last row, so the bank always reads as a solid wall of lockers */
+let lkWatch = null;
+function lkFill() {
+  const bank = $('#lkBank'); if (!bank) return;
+  const cols = getComputedStyle(bank).gridTemplateColumns.split(' ').length || 1;
+  $$('.lk-blank', bank).forEach(e => e.remove());
+  const n = bank.children.length, need = n < cols ? cols - n : (cols - n % cols) % cols;
+  const tone = (lkAll()[0] && LK_COLORS[lkAll()[0].color]) ? lkAll()[0].color : 'red';
+  bank.insertAdjacentHTML('beforeend', LK_BLANK(tone).repeat(need));
+}
+AFTER.lockers = () => {
+  if (lkWatch) { lkWatch.disconnect(); lkWatch = null; }
+  const bank = $('#lkBank'); if (!bank) return;
+  lkFill();
+  let w = bank.clientWidth;
+  if (window.ResizeObserver) { lkWatch = new ResizeObserver(() => { if (bank.clientWidth !== w) { w = bank.clientWidth; lkFill(); } }); lkWatch.observe(bank); }
+  lkCelebrate();
+};
+
+/* ---------- the moment a door opens ---------- */
+function lkConfetti(el) {
+  if (lkCalm()) return;
+  const inks = ['#ffd23f', '#d3142a', '#1248d6', '#17b26a', '#fff', '#ff7a1a'], box = document.createElement('span');
+  box.className = 'lk-conf'; box.setAttribute('aria-hidden', 'true');
+  for (let i = 0; i < 26; i++) {
+    const p = document.createElement('i'), ang = (i / 26) * Math.PI * 2, far = 70 + (i * 37) % 90;
+    p.style.cssText = `--x:${Math.round(Math.cos(ang) * far)}px;--y:${Math.round(Math.sin(ang) * far - 40)}px;--r:${(i * 83) % 360}deg;background:${inks[i % inks.length]};animation-delay:${(i % 5) * 18}ms`;
+    box.append(p);
+  }
+  el.append(box); setTimeout(() => box.remove(), 1700);
+}
+let lkBusy = false;
+async function lkCelebrate() {
+  const list = lkAll().filter(a => a.unlockedAt && !a.celebrated);
+  if (!list.length || lkBusy || S.readOnly) return;
+  lkBusy = true;
+  list.forEach(a => { a.celebrated = true; }); commit(false);
+  for (const a of list) {
+    const el = $(`.lk[data-id="${CSS.escape(a.id)}"]`); if (!el || !el.isConnected) continue;
+    el.classList.remove('is-open'); el.classList.add('is-pending');
+    if (!lkCalm()) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    await lkWait(420);
+    el.classList.add('is-unlocking'); await lkWait(560);
+    el.classList.remove('is-pending', 'is-unlocking'); el.classList.add('is-open');
+    lkConfetti(el); await lkWait(950);
+  }
+  lkBusy = false;
+  if (ui.route.page !== 'lockers' || $('dialog[open]')) return;
+  const pts = list.reduce((s, a) => s + lkPoints(a), 0), one = list.length === 1 ? list[0] : null;
+  sheet({
+    size: 's', cls: 'lk-win', head: false,
+    body: `<p class="lk-win-top"><span class="lk-cut a">باز</span> <span class="lk-cut b">شد!</span></p><div class="lk-win-art">${one ? lkTrophy(one.trophy) : list.slice(0, 3).map(a => lkTrophy(a.trophy)).join('')}</div>
+    <h3>${one ? esc(one.title) : `${fa(list.length)} تا کمد با هم باز شدن`}</h3><p class="lk-win-pts tnum">+${fa(pts)} امتیاز</p><p class="muted small">رتبه‌ات الان: ${lkRankOf(lkTotal()).name}</p>`,
+    foot: `<button type="button" class="btn pri" data-a="dlg.close">بریم کمد بعدی</button>`
+  });
+}
+
+/* ---------- details ---------- */
+A['lk.open'] = el => {
+  const a = lkFind(el.dataset.id); if (!a) return;
+  const st = lkState(a), open = !!a.unlockedAt, k = LK_KINDS[a.kind], sk = a.skillId ? skillById(a.skillId) : null;
+  const left = st.target - st.val;
+  const status = open ? `از ${jMid(dateToStr(new Date(a.unlockedAt)))} بازه.${!st.hand && !st.met ? ' عددهاش الان کمتر از هدفه؛ اگه اشتباهی ثبت شده بود، می‌تونی دوباره قفلش کنی.' : ''}`
+    : st.hand ? 'این یکی رو کسی چک نمی‌کنه؛ هر وقت واقعاً رسیدی خودت بازش کن.' : `${lkNum(left)} ${k ? k.unit : ''} مونده تا باز شدن.`;
+  const canLock = open && (st.hand || !st.met);
+  sheet({
+    size: 's', cls: 'lk-dt', title: open ? 'کمد باز' : 'کمد قفل',
+    body: `<div class="lk-dt-art lk-c-${LK_COLORS[a.color] ? a.color : 'red'} ${open ? 'open' : ''}">${open ? lkTrophy(a.trophy) : LK_PADLOCK}</div><h3 class="lk-dt-t">${esc(a.title)}</h3>
+    ${st.hand ? '' : `<div class="lk-dt-bar"><i style="width:${st.pct}%"></i></div><p class="tnum lk-dt-n">${lkNum(st.val)} از ${fa(st.target)} ${k ? k.unit : ''}</p>`}
+    <p class="muted small">${status}</p><p class="small lk-dt-meta"><b class="tnum">+${fa(lkPoints(a))} امتیاز</b>${sk ? ` · ${esc(skillName(sk.title).main)}` : a.skillId ? ' · مهارتش پاک شده' : ''}</p>`,
+    foot: `<button type="button" class="icon-btn danger" data-a="lk.del" data-id="${a.id}" data-close aria-label="حذف کمد" title="حذف">${icon('trash')}</button><button type="button" class="btn ghost" data-a="lk.edit" data-id="${a.id}" data-close>${icon('edit')} ویرایش</button>${st.hand && !open ? `<button type="button" class="btn pri" data-a="lk.win" data-id="${a.id}" data-close>رسیدم، بازش کن</button>` : ''}${canLock ? `<button type="button" class="btn ghost" data-a="lk.relock" data-id="${a.id}" data-close>${icon('lock')} دوباره قفلش کن</button>` : ''}`
+  });
+};
+A['lk.win'] = async el => {
+  const id = el.dataset.id;
+  const yes = await confirmBox('واقعاً رسیدی؟', 'این کمد رو فقط خودت باز می‌کنی و کسی چکش نمی‌کنه. اگه هنوز نرسیدی، فقط امتیاز الکی به خودت دادی.', 'آره، رسیدم', false);
+  const a = lkFind(id); if (!yes || !a) return;
+  a.unlockedAt = new Date(nowMs()).toISOString(); a.celebrated = false; a.updatedAt = a.unlockedAt;
+  commit(true);
+};
+A['lk.relock'] = el => { const a = lkFind(el.dataset.id); if (!a) return; a.unlockedAt = null; a.celebrated = false; a.updatedAt = new Date(nowMs()).toISOString(); commit(true); toast('کمد دوباره قفل شد.'); };
+A['lk.del'] = el => {
+  const before = lkAll().slice();
+  D.settings.lockers = before.filter(a => a.id !== el.dataset.id);
+  commit(true);
+  undoToast('کمد پاک شد.', () => { D.settings.lockers = before; });
+};
+
+/* ---------- making one: ready template, built from your skills, or written by hand ---------- */
+function lkGuessTrophy(kind, title) {
+  const k = LK_KINDS[kind]; if (k && k.trophy) return k.trophy;
+  const t = String(title || '');
+  if (/موسیقی|آهنگ|میکس|گیتار|fl studio|music/i.test(t)) return 'note';
+  if (/فتوشاپ|طراحی|گرافیک|نقاشی|photoshop|illustrator|design/i.test(t)) return 'brush';
+  if (/باشگاه|بدنسازی|ورزش|gym/i.test(t)) return 'dumbbell';
+  if (/زبان|انگلیسی|english/i.test(t)) return 'globe';
+  return 'crown';
+}
+function lkGuessStickers(kind, skill) {
+  const out = [], guess = skill ? GOAL_GUESS.find(([re]) => re.test(skill.title)) : null, dom = skill && String(skill.domain.icon || '').match(EMOJI_G);
+  if (guess) out.push(guess[1]); else if (dom) out.push(dom[0]);
+  if (LK_KINDS[kind]) out.push(LK_KINDS[kind].sticker);
+  return [...new Set(out)];
+}
+const lkSkillLabel = id => { const s = skillById(id); return s ? skillName(s.title).main : '(مهارت)'; };
+const lkLine = f => { const k = LK_KINDS[f.kind]; return k ? k.line(fa(f.target || 0), lkSkillLabel(f.skillId)) : ''; };
+const lkNextNo = () => lkAll().reduce((m, a) => Math.max(m, a.no || 0), 100) + 1;
+function lkFreshForm(tab) {
+  const s = allSkills().slice().sort((x, y) => totalMin(y.p) - totalMin(x.p))[0];
+  const f = { id: null, tab, kind: 'hours', skillId: s ? s.id : '', target: LK_KINDS.hours.def, color: 'red', level: 2, picked: {} };
+  f.title = tab === 'hand' ? '' : lkLine(f);
+  f.trophy = tab === 'hand' ? 'cup' : lkGuessTrophy(f.kind, s && s.title);
+  f.stickers = tab === 'hand' ? [] : lkGuessStickers(f.kind, s);
+  return f;
+}
+function lkSuggest() {
+  const ladders = { hours: [5, 10, 25, 50, 100, 200, 500, 1000], streak: [3, 7, 14, 30, 60, 100], days: [7, 15, 30, 60, 100, 200, 365] };
+  const taken = new Set(lkAll().filter(a => !a.unlockedAt).map(a => `${a.kind}|${a.skillId || ''}`)), out = [];
+  const add = (kind, skill, val, ladder) => {
+    if (taken.has(`${kind}|${skill ? skill.id : ''}`)) return;
+    const target = ladder.find(n => n > val); if (!target) return;
+    out.push({ key: `${kind}|${skill ? skill.id : ''}|${target}`, kind, skillId: skill ? skill.id : null, target, title: LK_KINDS[kind].line(fa(target), skill ? skillName(skill.title).main : ''), val, skill });
+  };
+  allSkills().slice().sort((x, y) => totalMin(y.p) - totalMin(x.p)).slice(0, 6).forEach(s => {
+    const logs = s.p.timeLogs || [];
+    add('hours', s, totalMin(s.p) / 60, ladders.hours);
+    if (logs.length) { add('streak', s, lkBestRun(logs.map(l => l.date)), ladders.streak); add('days', s, new Set(logs.map(l => l.date)).size, ladders.days); }
+  });
+  add('allHours', null, allSkills().reduce((m, x) => m + totalMin(x.p), 0) / 60, [25, 50, 100, 250, 500, 1000, 2000]);
+  add('goodDays', null, computeStreak(), [3, 7, 14, 30, 60]);
+  if (langWords().length) add('words', null, langWords().length, [25, 50, 100, 250, 500, 1000]);
+  return out;
+}
+function lkKindFields(f) {
+  const k = LK_KINDS[f.kind];
+  return `<div class="field"><span class="lbl">هدف از چه جنسیه؟</span><div class="lk-kinds" role="radiogroup">${Object.keys(LK_KINDS).map(id => `<label class="lk-kind"><input type="radio" name="lfK" value="${id}" ${f.kind === id ? 'checked' : ''}><span>${LK_KINDS[id].label}</span></label>`).join('')}</div></div>
+  <div class="lk-f-row"><div class="field" id="lfSkW" ${k.skill ? '' : 'hidden'}><label for="lfS">مهارت</label><select id="lfS">${skillOptions(f.skillId, 'انتخاب کن')}</select></div>
+  <div class="field"><label for="lfN">چند تا؟ <span id="lfU" class="muted">${k.unit}</span></label><input id="lfN" class="tnum" type="number" inputmode="numeric" min="1" ${f.kind === 'mastery' ? 'max="100"' : ''} value="${f.target}"></div></div>
+  <div class="field"><label for="lfT">متن روی کاغذ</label><input id="lfT" maxlength="70" value="${esc(f.title)}" autocomplete="off"></div>`;
+}
+function lkHandFields(f) {
+  return `<div class="field"><label for="lfT">هدفت چیه؟</label><input id="lfT" maxlength="70" value="${esc(f.title)}" placeholder="مثلاً: اولین آهنگم رو منتشر کنم" autocomplete="off"></div>
+  <div class="lk-f-row"><div class="field"><label for="lfS">مهارت (اختیاری)</label><select id="lfS">${skillOptions(f.skillId, 'هیچ‌کدوم')}</select></div>
+  <div class="field"><span class="lbl">چقدر سخته؟</span><div class="lk-kinds" role="radiogroup">${[1, 2, 3, 4].map(n => `<label class="lk-kind"><input type="radio" name="lfL" value="${n}" ${+f.level === n ? 'checked' : ''}><span>${LK_LEVELS[n]} · ${fa(LK_POINTS[n - 1])}</span></label>`).join('')}</div></div></div>
+  <p class="hint">این یکی خودکار چک نمی‌شه؛ خودت بازش می‌کنی.</p>`;
+}
+function lkLooks(f) {
+  return `<div class="field"><span class="lbl">جایزه‌ی توی کمد</span><div class="lk-trs" role="radiogroup">${Object.keys(LK_TROPHIES).map(t => `<label class="lk-tr" title="${LK_TROPHIES[t]}"><input type="radio" name="lfTr" value="${t}" ${f.trophy === t ? 'checked' : ''} aria-label="${LK_TROPHIES[t]}"><span>${lkTrophy(t)}</span></label>`).join('')}</div></div>
+  <div class="field"><span class="lbl">رنگ کمد</span><div class="lk-colors" role="radiogroup">${Object.keys(LK_COLORS).map(c => `<label class="lk-color lk-c-${c}" title="${LK_COLORS[c]}"><input type="radio" name="lfC" value="${c}" ${f.color === c ? 'checked' : ''} aria-label="${LK_COLORS[c]}"><span></span></label>`).join('')}</div></div>
+  <div class="field"><span class="lbl">استیکرها <span class="muted small tnum" id="lfStN">${fa(f.stickers.length)} از ${fa(LK_MAX_STICKERS)}</span></span><div class="lk-stickers">${LK_EMOJI.map(e => `<button type="button" class="lk-sticker ${f.stickers.includes(e) ? 'on' : ''}" data-a="lk.sticker" data-e="${e}" aria-pressed="${f.stickers.includes(e)}">${e}</button>`).join('')}</div></div>`;
+}
+function lkAutoBody(f) {
+  const rows = lkSuggest();
+  if (!rows.length) return `<p class="hint">پیشنهاد تازه‌ای ندارم: یا هنوز مهارتی نساختی، یا برای همه‌شون یه کمد قفل داری.</p>`;
+  const seen = new Set();
+  return `<p class="hint">از رو چیزی که واقعاً ثبت کردی، هر کدوم یه پله بالاتر از جاییه که الان هستی.</p><div class="lk-sugs">${rows.map(r => {
+    const first = !seen.has(r.skillId || r.kind); seen.add(r.skillId || r.kind);
+    const on = f.picked[r.key] !== undefined ? f.picked[r.key] : first && r.kind === 'hours';
+    return `<label class="lk-sug"><input type="checkbox" name="lfA" value="${esc(r.key)}" ${on ? 'checked' : ''}><span class="lk-sug-tr">${lkTrophy(lkGuessTrophy(r.kind, r.skill && r.skill.title))}</span><span class="grow"><b>${esc(r.title)}</b><small class="tnum muted">الان ${lkNum(r.val)} · +${fa(lkPoints({ kind: r.kind, target: r.target }))}</small></span></label>`;
+  }).join('')}</div>`;
+}
+function lkFormBody(f) {
+  if (f.tab === 'auto') return lkAutoBody(f);
+  const fields = f.tab === 'hand' ? lkHandFields(f) : lkKindFields(f);
+  return `<div class="lk-f"><div class="lk-f-prev"><div class="lk-f-door" id="lkPrev"></div></div><div class="lk-f-main">${fields}${lkLooks(f)}</div></div>`;
+}
+function lkPaintPrev(d) {
+  const f = ui.lkF, host = $('#lkPrev', d); if (!host) return;
+  const row = { title: f.title, kind: f.kind, target: f.target, mode: f.tab === 'hand' ? 'hand' : 'auto', level: f.level, color: f.color, trophy: f.trophy, stickers: f.stickers, no: f.no || lkNextNo() };
+  const st = { hand: f.tab === 'hand', target: Math.max(1, +f.target || 1), val: 0, pct: 0, open: false, pending: false };
+  host.innerHTML = `<span class="lk lk-static lk-c-${f.color}" aria-hidden="true"><span class="lk-in"></span>${lkDoorHtml(row, st)}</span>`;
+}
+function lkPaintForm(d) {
+  const f = ui.lkF;
+  $$('.lk-ftab', d).forEach(b => { const on = b.dataset.tab === f.tab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  $('#lkBody', d).innerHTML = lkFormBody(f);
+  $('.lk-save', d).textContent = f.tab === 'auto' ? 'بساز' : 'ذخیره';
+  lkPaintPrev(d);
+}
+function lkOpenForm(id, tab) {
+  const a = id ? lkFind(id) : null;
+  ui.lkF = a ? { id: a.id, no: a.no, tab: a.mode === 'hand' ? 'hand' : 'tpl', kind: a.kind || 'hours', skillId: a.skillId || '', target: a.target || 1, title: a.title, level: a.level || 2, trophy: a.trophy || 'cup', color: LK_COLORS[a.color] ? a.color : 'red', stickers: (a.stickers || []).slice(), titleTouched: true, trophyTouched: true, stickersTouched: true, picked: {} } : lkFreshForm(tab || 'tpl');
+  const d = sheet({
+    title: a ? 'ویرایش کمد' : 'کمد جدید', size: 'l', cls: 'lk-dlg',
+    body: `${a ? '' : `<div class="subtabs lk-ftabs" role="tablist"><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="tpl">تمپلیت آماده</button><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="auto">از روی مهارت‌هام</button><button type="button" class="lk-ftab" role="tab" data-a="lk.tab" data-tab="hand">خودم می‌نویسم</button></div>`}<div id="lkBody" data-in="lk.form"></div>`,
+    foot: `<button type="button" class="btn ghost" data-a="dlg.close">انصراف</button><button type="button" class="btn pri lk-save" data-a="lk.save">ذخیره</button>`
+  });
+  lkPaintForm(d);
+}
+A['lk.new'] = el => lkOpenForm(null, el.dataset.tab);
+A['lk.edit'] = el => lkOpenForm(el.dataset.id);
+A['lk.tab'] = el => { const d = el.closest('dialog'); ui.lkF = lkFreshForm(el.dataset.tab); lkPaintForm(d); };
+A['lk.sticker'] = el => {
+  const d = el.closest('dialog'), f = ui.lkF, e = el.dataset.e, i = f.stickers.indexOf(e);
+  if (i >= 0) f.stickers.splice(i, 1);
+  else if (f.stickers.length >= LK_MAX_STICKERS) { toast(`هر در حداکثر ${fa(LK_MAX_STICKERS)} تا استیکر می‌گیره.`, 'err'); return; }
+  else f.stickers.push(e);
+  f.stickersTouched = true;
+  el.classList.toggle('on', i < 0); el.setAttribute('aria-pressed', i < 0);
+  $('#lfStN', d).textContent = `${fa(f.stickers.length)} از ${fa(LK_MAX_STICKERS)}`;
+  lkPaintPrev(d);
+};
+IN['lk.form'] = (host, e) => {
+  const d = host.closest('dialog'), f = ui.lkF, t = e.target;
+  if (t.name === 'lfA') { f.picked[t.value] = t.checked; return; }
+  if (t.id === 'lfT') { f.title = t.value; f.titleTouched = true; }
+  if (t.id === 'lfN') f.target = parseInt(toLatin(t.value), 10) || 0;
+  if (t.id === 'lfS') f.skillId = t.value;
+  if (t.name === 'lfL') f.level = +t.value;
+  if (t.name === 'lfC') f.color = t.value;
+  if (t.name === 'lfTr') { f.trophy = t.value; f.trophyTouched = true; }
+  if (t.name === 'lfK') {
+    f.kind = t.value; const k = LK_KINDS[f.kind];
+    f.target = k.def; $('#lfN', d).value = k.def; $('#lfN', d).max = f.kind === 'mastery' ? 100 : '';
+    $('#lfU', d).textContent = k.unit; $('#lfSkW', d).hidden = !k.skill;
+  }
+  if (f.tab === 'tpl' && (t.name === 'lfK' || t.id === 'lfS' || t.id === 'lfN')) {
+    const sk = skillById(f.skillId), need = LK_KINDS[f.kind].skill, skill = need ? sk : null;
+    if (!f.titleTouched) { f.title = lkLine(f); $('#lfT', d).value = f.title; }
+    if (!f.trophyTouched) { f.trophy = lkGuessTrophy(f.kind, skill && skill.title); const r = $(`input[name="lfTr"][value="${f.trophy}"]`, d); if (r) r.checked = true; }
+    if (!f.stickersTouched) { f.stickers = lkGuessStickers(f.kind, skill); $$('.lk-sticker', d).forEach(b => { const on = f.stickers.includes(b.dataset.e); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }); $('#lfStN', d).textContent = `${fa(f.stickers.length)} از ${fa(LK_MAX_STICKERS)}`; }
+  }
+  lkPaintPrev(d);
+};
+A['lk.save'] = el => {
+  const d = el.closest('dialog'), f = ui.lkF, iso = new Date(nowMs()).toISOString();
+  if (!Array.isArray(D.settings.lockers)) D.settings.lockers = [];
+  if (f.tab === 'auto') {
+    const rows = lkSuggest(), keys = $$('input[name="lfA"]:checked', d).map(x => x.value);
+    if (!keys.length) { toast('حداقل یکی رو انتخاب کن.', 'err'); return; }
+    rows.filter(r => keys.includes(r.key)).forEach(r => {
+      D.settings.lockers.push({ id: uid(), no: lkNextNo(), mode: 'auto', kind: r.kind, skillId: r.skillId, target: r.target, title: r.title, trophy: lkGuessTrophy(r.kind, r.skill && r.skill.title), color: 'red', stickers: lkGuessStickers(r.kind, r.skill), createdAt: iso, updatedAt: iso });
+    });
+    d.close(); commit(true); toast(`${fa(keys.length)} تا کمد ساخته شد.`);
+    return;
+  }
+  const hand = f.tab === 'hand', k = LK_KINDS[f.kind], title = String(f.title || '').trim();
+  if (!title) { toast('متن روی کاغذ رو بنویس.', 'err'); return; }
+  if (!hand) {
+    if (k.skill && !skillById(f.skillId)) { toast('یه مهارت انتخاب کن.', 'err'); return; }
+    if (!(f.target >= 1) || (f.kind === 'mastery' && f.target > 100)) { toast(f.kind === 'mastery' ? 'تسلط باید بین ۱ تا ۱۰۰ باشه.' : 'عدد هدف رو درست بنویس.', 'err'); return; }
+  }
+  const row = f.id ? lkFind(f.id) : { id: uid(), no: lkNextNo(), createdAt: iso };
+  if (!row) { d.close(); return; }
+  Object.assign(row, { mode: hand ? 'hand' : 'auto', title, trophy: f.trophy, color: f.color, stickers: f.stickers.slice(0, LK_MAX_STICKERS), updatedAt: iso, skillId: hand ? (f.skillId || null) : (k.skill ? f.skillId : null) });
+  if (hand) { row.level = f.level; delete row.kind; delete row.target; } else { row.kind = f.kind; row.target = f.target; delete row.level; }
+  if (!f.id) D.settings.lockers.push(row);
+  d.close(); commit(true); toast('کمد ذخیره شد.');
 };
 
 /* ========== Mind map: Excalidraw (MIT), self-hosted in vendor/ and loaded only when this page is first opened ==========

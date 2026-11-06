@@ -1519,9 +1519,7 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 .lk-add{--lk:#67717e;--lk-l:#88929f;--lk-d:#49525d;--lk-dd:#262b32}
 .lk-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
 .lk-title{margin:0;display:flex;align-items:center;gap:0;font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.25}
-.lk-cut{display:inline-block;padding:2px 17px 8px;color:#fff;box-shadow:0 3px 6px rgba(10,15,35,.45);clip-path:polygon(0 7%,4% 0,98% 4%,100% 91%,95% 100%,2% 95%)}
-.lk-cut.a{background:#d3142a;transform:rotate(-3deg);z-index:1}
-.lk-cut.b{background:#fff;color:#1248d6;transform:rotate(1.6deg) translateX(7px)}
+.lk-cut{display:inline-block;padding:2px 22px 8px;color:#fff;background:#d3142a;transform:rotate(-1.5deg);clip-path:polygon(0 7%,3% 0,98% 4%,100% 91%,97% 100%,2% 95%)}
 .lk-intro{position:relative;max-width:560px;margin:6px auto 24px;padding:24px 22px 20px;text-align:center;background:#fffefa;color:#1d2740;transform:rotate(-.6deg);box-shadow:0 3px 9px rgba(10,15,35,.4)}
 .lk-intro p{margin:0 0 14px;font-weight:800;font-size:16px;line-height:1.8}
 .lk-score{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr) minmax(0,.7fr) minmax(0,1.1fr) minmax(0,1.5fr);gap:12px;align-items:stretch;margin-bottom:24px}
@@ -1546,7 +1544,7 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
 .lk-cap{height:13px;background:linear-gradient(180deg,#59606b,#2c3038);border-radius:3px 3px 0 0;box-shadow:0 2px 3px rgba(0,0,0,.4);position:relative;z-index:1}
 .lk-bank{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));row-gap:9px;background:#22252b}
 .lk-base{height:19px;background:linear-gradient(180deg,#2c3038,#14161a);position:relative;z-index:1}
-.lk-floor{height:48px;margin:0 -18px;background:linear-gradient(180deg,rgba(20,18,12,.34),transparent 16px),repeating-conic-gradient(#d6cfbd 0 25%,#f6f2e7 0 50%) 0 0/34px 34px;border-top:3px solid #4c4638}
+.lk-floor{height:24px;margin:0 -18px;background:linear-gradient(180deg,rgba(20,18,12,.32),transparent 14px),#d8d0bd}
 .lk{position:relative;display:block;width:100%;height:396px;padding:0;border:0;margin:0;font:inherit;color:inherit;background:var(--lk-d);perspective:1400px;perspective-origin:50% 50%;cursor:pointer;text-align:center;box-shadow:inset 1px 0 0 rgba(255,255,255,.14),inset -1px 0 0 rgba(0,0,0,.4)}
 .lk-blank,.lk-static{cursor:default}
 .lk:focus-visible{outline:3px solid #ffd23f;outline-offset:-3px;z-index:3}
@@ -1666,7 +1664,7 @@ body{background-color:var(--room);background-image:url("data:image/svg+xml,%3Csv
   .lk-sc-rank,.lk-sc-month,.lk-sc-next{grid-column:1/-1}
   .lk-hall{padding:20px 7px 0;margin-inline:-4px}
   .lk-bank{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .lk-floor{margin-inline:-7px;height:34px;background-size:auto,26px 26px}
+  .lk-floor{margin-inline:-7px;height:18px}
   .lk{height:372px}
   .lk-paperw{left:6%;right:6%}
   .lk-paper{padding:12px 19px 10px 7px}
@@ -4263,7 +4261,7 @@ function lkScore() {
 PAGES.lockers = () => {
   lkCheck();
   const list = lkAll();
-  return `${LK_DEFS}<div class="lk-head"><h1 class="lk-title"><span class="lk-cut a">دست</span> <span class="lk-cut b">آوردها</span></h1><button type="button" class="btn pri" data-a="lk.new">${icon('plus')} کمد جدید</button></div>
+  return `${LK_DEFS}<div class="lk-head"><h1 class="lk-title"><span class="lk-cut">دستاوردها</span></h1><button type="button" class="btn pri" data-a="lk.new">${icon('plus')} کمد جدید</button></div>
   ${list.length ? lkScore() : `<div class="lk-intro"><span class="lk-tape"></span><p>هر کمد یه هدفه و قفله. به هدف که برسی، قفل می‌افته و جامش رو می‌بینی.</p><button type="button" class="btn pri" data-a="lk.new" data-tab="auto">از روی مهارت‌هام بساز</button></div>`}
   <div class="lk-hall"><div class="lk-cap"></div><div class="lk-bank" id="lkBank">${list.map(lkCard).join('')}${lkAddCard()}</div><div class="lk-base"></div><div class="lk-floor"></div></div>`;
 };
@@ -4318,7 +4316,7 @@ async function lkCelebrate() {
   const pts = list.reduce((s, a) => s + lkPoints(a), 0), one = list.length === 1 ? list[0] : null;
   sheet({
     size: 's', cls: 'lk-win', head: false,
-    body: `<p class="lk-win-top"><span class="lk-cut a">باز</span> <span class="lk-cut b">شد!</span></p><div class="lk-win-art">${one ? lkTrophy(one.trophy) : list.slice(0, 3).map(a => lkTrophy(a.trophy)).join('')}</div>
+    body: `<p class="lk-win-top"><span class="lk-cut">باز شد!</span></p><div class="lk-win-art">${one ? lkTrophy(one.trophy) : list.slice(0, 3).map(a => lkTrophy(a.trophy)).join('')}</div>
     <h3>${one ? esc(one.title) : `${fa(list.length)} تا کمد با هم باز شدن`}</h3><p class="lk-win-pts tnum">+${fa(pts)} امتیاز</p><p class="muted small">رتبه‌ات الان: ${lkRankOf(lkTotal()).name}</p>`,
     foot: `<button type="button" class="btn pri" data-a="dlg.close">بریم کمد بعدی</button>`
   });
